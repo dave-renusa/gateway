@@ -165,6 +165,8 @@
   .footer-mark span { color:var(--gold); }
   .footer-info { font-size:0.72rem;color:rgba(255,255,255,0.3);text-align:right;letter-spacing:0.04em; }
 
+  .loading { color:var(--text-light);font-style:italic;padding:24px;text-align:center;font-size:0.85rem; }
+
   @media (max-width:1100px) {
     .stats-row { grid-template-columns:repeat(3,1fr); }
     .sk-grid,.opp-grid,.council-grid,.media-grid { grid-template-columns:repeat(2,1fr); }
@@ -196,6 +198,7 @@
     <div class="header-right">
       <div class="header-badge">Fredericksburg, VA</div>
       <div class="header-meta">Penzance Development &nbsp;·&nbsp; City of Fredericksburg</div>
+      <div class="header-meta" id="last-updated"></div>
     </div>
     <div class="header-star">★</div>
   </div>
@@ -216,58 +219,12 @@
 
 <div class="main">
 
-  <!-- ========== OVERVIEW ========== -->
+  <!-- OVERVIEW -->
   <div id="tab-overview" class="tab-section active">
-
-    <div class="stats-row">
-      <div class="stat green-top">
-        <div class="stat-label">Supporters</div>
-        <div class="stat-num">39</div>
-        <div class="stat-sub">Business, Labor, Civic</div>
-      </div>
-      <div class="stat gold-top">
-        <div class="stat-label">Supportive Orgs</div>
-        <div class="stat-num">21</div>
-        <div class="stat-sub">Organizations on record</div>
-      </div>
-      <div class="stat red-top">
-        <div class="stat-label">Opposition Contacts</div>
-        <div class="stat-num">57</div>
-        <div class="stat-sub">Residents &amp; conservation</div>
-      </div>
-      <div class="stat red-top">
-        <div class="stat-label">Opposition Groups</div>
-        <div class="stat-num">9</div>
-        <div class="stat-sub">Organized advocacy orgs</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">Media Outlets</div>
-        <div class="stat-num">9</div>
-        <div class="stat-sub">Print, digital, TV, radio</div>
-      </div>
-    </div>
-
+    <div id="overview-stats" class="stats-row"><div class="loading">Loading data…</div></div>
     <div class="grid-2">
-      <!-- COUNCIL SNAPSHOT -->
-      <div class="card">
-        <div class="card-head"><div class="icon-circle">⚖</div><h3>City Council — Position Snapshot</h3></div>
-        <div class="card-body" style="padding:0">
-          <table class="tbl">
-            <thead><tr><th>Member</th><th>Role</th><th>Position Score</th><th>Key Influence</th></tr></thead>
-            <tbody>
-              <tr><td><strong>Charlie Frye</strong></td><td style="color:var(--text-light);font-size:0.78rem">Vice Mayor, Ward 4</td><td><span class="pill p-green">0.9 — Likely Yes</span></td><td><span class="pill p-navy">Labor</span></td></tr>
-              <tr><td><strong>Susanna Finn</strong></td><td style="color:var(--text-light);font-size:0.78rem">Ward 3</td><td><span class="pill p-green">0.51 — Leaning Yes</span></td><td><span class="pill p-navy">Labor</span></td></tr>
-              <tr><td><strong>Joy Crump</strong></td><td style="color:var(--text-light);font-size:0.78rem">Ward 2</td><td><span class="pill p-gold">0.5 — Persuadable</span></td><td><span class="pill p-navy">Labor</span> <span class="pill p-navy">Chamber</span></td></tr>
-              <tr><td><strong>Matt Rowe</strong></td><td style="color:var(--text-light);font-size:0.78rem">Ward 1</td><td><span class="pill p-amber">0.25 — Uncertain</span></td><td><span class="pill p-navy">Education</span> <span class="pill p-navy">Labor</span></td></tr>
-              <tr><td><strong>Jannan Holmes</strong></td><td style="color:var(--text-light);font-size:0.78rem">At-Large</td><td><span class="pill p-amber">0.25 — Uncertain</span></td><td><span class="pill p-navy">Education</span></td></tr>
-              <tr><td><strong>Will Mackintosh</strong></td><td style="color:var(--text-light);font-size:0.78rem">At-Large</td><td><span class="pill p-amber">0.05 — Skeptical</span></td><td><span class="pill p-navy">Labor</span></td></tr>
-              <tr><td><strong>Kerry Devine</strong></td><td style="color:var(--text-light);font-size:0.78rem">Mayor</td><td><span class="pill p-amber">0.05 — Skeptical</span></td><td><span class="pill p-navy">Education</span> <span class="pill p-navy">Chamber</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- KEY ISSUES -->
+      <div id="council-snapshot" class="card"><div class="loading">Loading…</div></div>
+      <!-- KEY ISSUES — editorial, stays static -->
       <div class="card">
         <div class="card-head"><div class="icon-circle">!</div><h3>Key Issues in Play</h3></div>
         <div class="card-body">
@@ -287,27 +244,8 @@
         </div>
       </div>
     </div>
-
-    <!-- PLANNING COMMISSION STATUS -->
-    <div class="card">
-      <div class="card-head"><div class="icon-circle">📋</div><h3>Planning Commission Status</h3><div class="chip-red">Recommended Denial</div></div>
-      <div class="card-body" style="padding:0">
-        <table class="tbl">
-          <thead><tr><th>Member</th><th>Role</th><th>Position</th><th>Key Notes</th></tr></thead>
-          <tbody>
-            <tr><td><strong>David Durham</strong></td><td style="color:var(--text-light);font-size:0.78rem">Chair</td><td><span class="pill p-grey">Neutral</span></td><td>City Planning contact: 540-372-1179</td></tr>
-            <tr><td><strong>Carey Whitehead</strong></td><td style="color:var(--text-light);font-size:0.78rem">Vice-Chair</td><td><span class="pill p-red">Opposed</span></td><td>Motioned to recommend denial; Comp Plan inconsistency</td></tr>
-            <tr><td><strong>Dugan Caswell</strong></td><td style="color:var(--text-light);font-size:0.78rem">Secretary</td><td><span class="pill p-red">Opposed</span></td><td>Detriments outweigh benefits; I-2 zoning proximity</td></tr>
-            <tr><td><strong>Thomas Johnson</strong></td><td style="color:var(--text-light);font-size:0.78rem">Member</td><td><span class="pill p-red">Opposed</span></td><td>EV charging station ownership uncertainties</td></tr>
-            <tr><td><strong>Mary-Margaret Marshall</strong></td><td style="color:var(--text-light);font-size:0.78rem">Member</td><td><span class="pill p-red">Opposed</span></td><td>Should be in Technology Overlay District; seconded denial</td></tr>
-            <tr><td><strong>Jane McDonald</strong></td><td style="color:var(--text-light);font-size:0.78rem">Member</td><td><span class="pill p-red">Opposed</span></td><td>Comp Plan goals, lacks I-95 connection</td></tr>
-            <tr><td><strong>Joseph Winterer</strong></td><td style="color:var(--text-light);font-size:0.78rem">Member</td><td><span class="pill p-red">Opposed</span></td><td>Chesapeake Bay Preservation Area concerns; mitigation focus</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- NEAREST ADDRESSES -->
+    <div id="planning-snapshot" class="card"><div class="loading">Loading…</div></div>
+    <!-- NEAREST ADDRESSES — static -->
     <div class="card">
       <div class="card-head"><div class="icon-circle">📍</div><h3>Addresses Closest to Site</h3></div>
       <div class="card-body">
@@ -320,680 +258,48 @@
         </div>
       </div>
     </div>
-
   </div>
 
-  <!-- ========== CITY COUNCIL ========== -->
+  <!-- CITY COUNCIL -->
   <div id="tab-council" class="tab-section">
-    <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
-      <div class="stat green-top"><div class="stat-label">Likely Yes</div><div class="stat-num">2</div><div class="stat-sub">Frye (0.9), Finn (0.51)</div></div>
-      <div class="stat amber-top"><div class="stat-label">Persuadable</div><div class="stat-num">3</div><div class="stat-sub">Crump, Rowe, Holmes</div></div>
-      <div class="stat red-top"><div class="stat-label">Skeptical</div><div class="stat-num">2</div><div class="stat-sub">Devine, Mackintosh</div></div>
-    </div>
-
-    <div class="council-grid">
-
-      <div class="council-card">
-        <div class="cc-name">Charlie Frye</div>
-        <div class="cc-title">Vice Mayor · Ward 4</div>
-        <div class="cc-bar-wrap"><div class="cc-bar" style="width:90%;background:var(--green)"></div></div>
-        <div class="cc-score"><span>Support Score</span><span style="color:var(--green)">0.9 — Likely Yes</span></div>
-        <div class="cc-influence"><span class="pill p-navy">Labor</span></div>
-        <div class="cc-notes">Would be influenced by employment opportunities and education funding. Member of the Teamsters Union.</div>
-      </div>
-
-      <div class="council-card">
-        <div class="cc-name">Susanna Finn</div>
-        <div class="cc-title">Ward 3</div>
-        <div class="cc-bar-wrap"><div class="cc-bar" style="width:51%;background:var(--green)"></div></div>
-        <div class="cc-score"><span>Support Score</span><span style="color:var(--green)">0.51 — Leaning Yes</span></div>
-        <div class="cc-influence"><span class="pill p-navy">Labor</span></div>
-        <div class="cc-notes">Workforce housing is a priority. Her district includes the project area.</div>
-      </div>
-
-      <div class="council-card">
-        <div class="cc-name">Joy Crump</div>
-        <div class="cc-title">Ward 2</div>
-        <div class="cc-bar-wrap"><div class="cc-bar" style="width:50%;background:var(--amber)"></div></div>
-        <div class="cc-score"><span>Support Score</span><span style="color:var(--amber)">0.5 — Persuadable</span></div>
-        <div class="cc-influence"><span class="pill p-navy">Labor</span><span class="pill p-navy">Chamber</span></div>
-        <div class="cc-notes">Understands business issues. Does not want to raise taxes. Key influencer: Susan Spears (Chamber) and Mary Katherine Greenlaw.</div>
-      </div>
-
-      <div class="council-card">
-        <div class="cc-name">Matt Rowe</div>
-        <div class="cc-title">Ward 1</div>
-        <div class="cc-bar-wrap"><div class="cc-bar" style="width:25%;background:var(--amber)"></div></div>
-        <div class="cc-score"><span>Support Score</span><span style="color:var(--amber)">0.25 — Uncertain</span></div>
-        <div class="cc-influence"><span class="pill p-navy">Education</span><span class="pill p-navy">Labor</span></div>
-        <div class="cc-notes">Active Democrat — can be influenced by local Democrats. Environmentalist attracted by education funding. Former school board member.</div>
-      </div>
-
-      <div class="council-card">
-        <div class="cc-name">Jannan Holmes</div>
-        <div class="cc-title">At-Large</div>
-        <div class="cc-bar-wrap"><div class="cc-bar" style="width:25%;background:var(--amber)"></div></div>
-        <div class="cc-score"><span>Support Score</span><span style="color:var(--amber)">0.25 — Uncertain</span></div>
-        <div class="cc-influence"><span class="pill p-navy">Education</span></div>
-        <div class="cc-notes">Former school board member — values educational funding. May follow Will Mackintosh's position.</div>
-      </div>
-
-      <div class="council-card">
-        <div class="cc-name">Will Mackintosh</div>
-        <div class="cc-title">At-Large</div>
-        <div class="cc-bar-wrap"><div class="cc-bar" style="width:5%;background:var(--red)"></div></div>
-        <div class="cc-score"><span>Support Score</span><span style="color:var(--red)">0.05 — Skeptical</span></div>
-        <div class="cc-influence"><span class="pill p-navy">Labor</span></div>
-        <div class="cc-notes">Unions can influence him. Water has been a major concern.</div>
-      </div>
-
-      <div class="council-card">
-        <div class="cc-name">Kerry Devine</div>
-        <div class="cc-title">Mayor</div>
-        <div class="cc-bar-wrap"><div class="cc-bar" style="width:5%;background:var(--red)"></div></div>
-        <div class="cc-score"><span>Support Score</span><span style="color:var(--red)">0.05 — Skeptical</span></div>
-        <div class="cc-influence"><span class="pill p-navy">Education</span><span class="pill p-navy">Chamber</span></div>
-        <div class="cc-notes">Could be influenced by education support and wastewater/school funding. Does not want to raise taxes. More persuadable if water recycling is addressed. Attended 3/23 dinner.</div>
-      </div>
-
-    </div>
+    <div id="council-stats" class="stats-row"><div class="loading">Loading…</div></div>
+    <div id="council-cards" class="council-grid"><div class="loading">Loading…</div></div>
   </div>
 
-  <!-- ========== PLANNING COMMISSION ========== -->
+  <!-- PLANNING COMMISSION -->
   <div id="tab-planning" class="tab-section">
-    <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
-      <div class="stat red-top"><div class="stat-label">Opposed</div><div class="stat-num">6</div><div class="stat-sub">Recommended denial</div></div>
-      <div class="stat"><div class="stat-label">Neutral</div><div class="stat-num">1</div><div class="stat-sub">Chair Durham</div></div>
-      <div class="stat gold-top"><div class="stat-label">Staff</div><div class="stat-num">4</div><div class="stat-sub">Director, Planner, Admin</div></div>
-    </div>
-
-    <div class="card">
-      <div class="card-head"><div class="icon-circle">📋</div><h3>Planning Commission — Full Detail</h3><div class="chip-red">Voted Denial</div></div>
-      <div class="card-body" style="padding:0">
-        <table class="tbl">
-          <thead><tr><th>Name</th><th>Title</th><th>Position</th><th>Hearing Notes</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><strong>David Durham</strong></td><td style="color:var(--text-light);font-size:0.78rem">Chair</td>
-              <td><span class="pill p-grey">Neutral</span></td>
-              <td>City Planning: 540-372-1179 · planning@fredericksburgva.gov</td>
-            </tr>
-            <tr>
-              <td><strong>Carey Whitehead</strong></td><td style="color:var(--text-light);font-size:0.78rem">Vice-Chair</td>
-              <td><span class="pill p-red">Opposed</span></td>
-              <td>Discussed car wash access impacts; weighed TOD and climate resilience policies; motioned to recommend denial based on Comprehensive Plan inconsistency.</td>
-            </tr>
-            <tr>
-              <td><strong>Dugan Caswell</strong></td><td style="color:var(--text-light);font-size:0.78rem">Secretary</td>
-              <td><span class="pill p-red">Opposed</span></td>
-              <td>Discussed I-2 zoning proximity to residential areas; stated detriments outweigh benefits; made motion finding project inconsistent with Comprehensive Plan.</td>
-            </tr>
-            <tr>
-              <td><strong>Thomas Johnson</strong></td><td style="color:var(--text-light);font-size:0.78rem">Member</td>
-              <td><span class="pill p-red">Opposed</span></td>
-              <td>Discussed EV charging station operations and ownership uncertainties.</td>
-            </tr>
-            <tr>
-              <td><strong>Mary-Margaret Marshall</strong></td><td style="color:var(--text-light);font-size:0.78rem">Member</td>
-              <td><span class="pill p-red">Opposed</span></td>
-              <td>Discussed powerline timelines; stated data centers should be in Technology Overlay District; seconded motions for inconsistency and denial.</td>
-            </tr>
-            <tr>
-              <td><strong>Jane McDonald</strong></td><td style="color:var(--text-light);font-size:0.78rem">Member</td>
-              <td><span class="pill p-red">Opposed</span></td>
-              <td>Raised questions on temporary bridging timeline and environmental impacts; commented on Comprehensive Plan goals and lack of I-95 connection.</td>
-            </tr>
-            <tr>
-              <td><strong>Joseph Winterer</strong></td><td style="color:var(--text-light);font-size:0.78rem">Member</td>
-              <td><span class="pill p-red">Opposed</span></td>
-              <td>Discussed Chesapeake Bay Preservation Area land bay conveyance; noted development inevitability but emphasized mitigation; addressed ROW dedications and setbacks.</td>
-            </tr>
-            <tr class="section-row"><td colspan="4">Staff</td></tr>
-            <tr><td><strong>Mike Craig</strong></td><td style="color:var(--text-light);font-size:0.78rem">Director</td><td>—</td><td>—</td></tr>
-            <tr><td><strong>Kate Schwartz</strong></td><td style="color:var(--text-light);font-size:0.78rem">Principal Planner</td><td>—</td><td>—</td></tr>
-            <tr><td><strong>Kelly Machen</strong></td><td style="color:var(--text-light);font-size:0.78rem">Zoning Administrator</td><td>—</td><td>—</td></tr>
-            <tr><td><strong>Tanagra Cafferky</strong></td><td style="color:var(--text-light);font-size:0.78rem">Admin Assistant</td><td>—</td><td>—</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div id="planning-stats" class="stats-row"><div class="loading">Loading…</div></div>
+    <div id="planning-card" class="card"><div class="loading">Loading…</div></div>
   </div>
 
-  <!-- ========== SUPPORTERS ========== -->
+  <!-- SUPPORTERS -->
   <div id="tab-supporters" class="tab-section">
-    <div class="stats-row" style="grid-template-columns:repeat(4,1fr)">
-      <div class="stat green-top"><div class="stat-label">Total Supporters</div><div class="stat-num">39</div></div>
-      <div class="stat gold-top"><div class="stat-label">Business</div><div class="stat-num">11</div></div>
-      <div class="stat"><div class="stat-label">Labor</div><div class="stat-num">12</div></div>
-      <div class="stat gold-top"><div class="stat-label">Economic Dev.</div><div class="stat-num">5</div></div>
-    </div>
-
-    <div class="sk-grid">
-
-      <div class="sk-sector-head"><div class="label">Business</div><div class="bar"></div><div class="count">11 contacts</div></div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Bruce Davis</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Chair of the Board · Mary Washington Healthcare</div>
-        <div class="sk-contact">📞 (703) 586-0395</div>
-        <div class="sk-contact">✉️ bdavis@germanna.edu</div>
-        <div class="sk-notes">Nov. 6 — Supports DC, willing to contact mayor and council.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Charles McDaniel</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Owner · Hilldrup Companies</div>
-        <div class="sk-contact">📞 (386) 427-5651</div>
-        <div class="sk-contact">✉️ Charles.McDaniel@hilldrup.com</div>
-        <div class="sk-notes">Nov. 10 — Strong support; offered to reach out to Crump and Frye. Ben Dendy only contact.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Dermaine Lewis</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Market President · Atlantic Union Bank</div>
-        <div class="sk-contact">📞 (540) 220-8459</div>
-        <div class="sk-contact">✉️ dermaine.lewis@atlanticunionbank.com</div>
-        <div class="sk-notes">Oct. 29 — Willing to advocate for economic development. Follow-up text sent 3/2 to schedule meeting.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Joe Wilson</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">CEO Emeritus · PermaTreat Inc.</div>
-        <div class="sk-contact">📞 (540) 370-4571</div>
-        <div class="sk-contact">✉️ jwilson@permatreat.com</div>
-        <div class="sk-notes">Oct. 29 — Willing to advocate.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Joel Griffin</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Founder &amp; CEO · Riphean</div>
-        <div class="sk-contact">✉️ jgriffin@ripheaninvestments.com</div>
-        <div class="sk-notes">Oct. 10 — Strong connections to most Council members; willing to advocate. Very active Democrat, works with labor. Ben Dendy only contact.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Richmond McDaniel</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Broker/Developer · Colliers</div>
-        <div class="sk-contact">📞 540-424-7286</div>
-        <div class="sk-contact">✉️ richmond.mcdaniel@colliers.com</div>
-        <div class="sk-notes">Nov. 19 — Strong support; provided additional stakeholder contacts; knows Frye well. Zoom scheduled 3/4.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Tommy Mitchell</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Developer</div>
-        <div class="sk-contact">📞 (540) 371-6805</div>
-        <div class="sk-contact">✉️ info@mitchellpropertiesfxbg.com</div>
-        <div class="sk-notes">Nov. 11 — Willing to contact Council.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Xavier Richardson</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Executive VP · Mary Washington Healthcare</div>
-        <div class="sk-contact">✉️ xrichardson@mwhc.com</div>
-        <div class="sk-notes">Oct. 23 — Strong connections with Council and Planning Commission. Placed a call to the Mayor. Met with DMD on 3/2; agreed to facilitate a meeting.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Cathy &amp; Tom Wack</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Board Member · Mary Washington Healthcare</div>
-        <div class="sk-notes">Nov. 19 — Cathy willing to contact Council. Tom ensuring no conflict of interest. Ben Dendy to follow up.</div>
-      </div>
-
-      <div class="sk-card no-contact">
-        <div class="sk-name">Neil Sullivan</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Retired Developer</div>
-        <div class="sk-contact">📞 (540) 371-0527</div>
-        <div class="sk-notes">Nov. 14 — Willing to contact Council.</div>
-      </div>
-
-      <div class="sk-card no-contact">
-        <div class="sk-name">Christopher Del Monte</div>
-        <div class="sk-sentiment"><span class="pill p-red">Concerned</span></div>
-        <div class="sk-contact">Owner · The Good Wash (Carwash)</div>
-        <div class="sk-contact" style="font-size:0.72rem;color:var(--red)">⚠ Business Impact — Monitor</div>
-        <div class="sk-notes">Raised concerns about carwash access loss and construction debris impacts. 2305 Plank Road.</div>
-      </div>
-
-      <div class="sk-sector-head"><div class="label">Economic Development</div><div class="bar"></div><div class="count">5 contacts</div></div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Curry Roberts</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">President · Fredericksburg Regional Alliance</div>
-        <div class="sk-contact">✉️ croberts@fredregion.com</div>
-        <div class="sk-notes">Oct. 6 — Appeared willing to advocate to council. Attended 3/23 dinner. Ben Dendy only contact.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Meredith Schatz</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Chair · Economic Development Authority</div>
-        <div class="sk-contact">📞 540-372-1216</div>
-        <div class="sk-contact">✉️ mschatz@eab.com</div>
-        <div class="sk-notes">Jan. 7 — Willing to contact council; not much residential development in the area. Ben Dendy only contact.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Susan Spears</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">CEO · Fredericksburg Regional Chamber</div>
-        <div class="sk-contact">📞 540-373-9400</div>
-        <div class="sk-contact">✉️ Susan@fxbgchamber.org</div>
-        <div class="sk-notes">Oct. 23 — Most influential with Joy Crump. "There is no other way for Fredericksburg to get what it needs." Ben Dendy only contact.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Ernisha Hall</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">President &amp; CEO · Black Chamber of Commerce</div>
-        <div class="sk-contact">📞 540-216-0021</div>
-        <div class="sk-contact">✉️ ernisha@vablackchamber.org</div>
-        <div class="sk-notes">Attended 3/23 dinner. Penzance reached out.</div>
-      </div>
-
-      <div class="sk-card no-contact">
-        <div class="sk-name">Tom Wack</div>
-        <div class="sk-sentiment"><span class="pill p-gold">Monitoring</span></div>
-        <div class="sk-contact">Economic Development Authority</div>
-        <div class="sk-notes">Nov. 19 — Ensuring no conflict of interest before engaging.</div>
-      </div>
-
-      <div class="sk-sector-head"><div class="label">Civic / Citizens</div><div class="bar"></div><div class="count">2 contacts</div></div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Mary Katherine Greenlaw</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Former Mayor · City of Fredericksburg</div>
-        <div class="sk-contact">📞 (540) 373-6105</div>
-        <div class="sk-notes">Nov. 6 — Knows Joy Crump and Mayor Devine; willing to advocate. Caution: out of political front. Ben Dendy only contact.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Lee Murray</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">City Resident / Public Commenter</div>
-        <div class="sk-contact">📞 (540) 847-4333</div>
-        <div class="sk-notes">Argues city is "foolish" to turn down tax revenue. Left VM 2/25.</div>
-      </div>
-
-      <div class="sk-sector-head"><div class="label">Labor</div><div class="bar"></div><div class="count">12 contacts</div></div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Don Slaiman</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Director Community Relations · IBEW Local 26</div>
-        <div class="sk-notes">Oct. 25 — Willing to advocate and mobilize. Membership doubled due to data centers. Can engage Josh Cole and Kevin Hughes. Ben Dendy only.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Jason Asher</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Political Director · Mid-Atlantic Pipe Trades</div>
-        <div class="sk-contact">📞 443-832-7017</div>
-        <div class="sk-contact">✉️ jascher@uanet.org</div>
-        <div class="sk-notes">Zoom scheduled 2/27. Email sent 2/20.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Sonia Luna</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Business Manager · LiUNA Local 572</div>
-        <div class="sk-contact">📞 703-398-2188</div>
-        <div class="sk-contact">✉️ svasquezluna@bwldc.org</div>
-        <div class="sk-notes">Recommended connection.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Marshall Brown</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Director · LiUNA LECET</div>
-        <div class="sk-contact">📞 703-476-7397</div>
-        <div class="sk-contact">✉️ mbrown@maliuna.org</div>
-        <div class="sk-notes">Zoom 2/25 held. Marshall, Don and Ginny going to talk soon.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">David Walrod</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">President · Fairfax County Federation of Teachers</div>
-        <div class="sk-contact">📞 703-451-6840</div>
-        <div class="sk-contact">✉️ dpwalrod@fcft.org</div>
-        <div class="sk-notes">Recommended connection.</div>
-      </div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Greg Strotman</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">IUOE Local 77</div>
-        <div class="sk-contact">📞 540-287-2037</div>
-        <div class="sk-contact">✉️ greg@iuoelocal77.com</div>
-        <div class="sk-notes">Attended 3/23 dinner.</div>
-      </div>
-
-      <div class="sk-card no-contact">
-        <div class="sk-name">Virginia Diamond</div>
-        <div class="sk-sentiment"><span class="pill p-green">Supporter</span></div>
-        <div class="sk-contact">Northern Virginia AFL-CIO (NoVA Labor)</div>
-        <div class="sk-notes">Ben Dendy only. Texted.</div>
-      </div>
-
-      <div class="sk-sector-head"><div class="label">Education</div><div class="bar"></div><div class="count">2 contacts</div></div>
-
-      <div class="sk-card has-contact">
-        <div class="sk-name">Chad Stewart</div>
-        <div class="sk-sentiment"><span class="pill p-amber">Declined</span></div>
-        <div class="sk-contact">Interim Dir. Govt. Relations · Virginia Education Assoc.</div>
-        <div class="sk-contact">✉️ cstewart@veanea.org</div>
-        <div class="sk-notes">Email sent 2/23. Declined interest.</div>
-      </div>
-
-      <div class="sk-card no-contact">
-        <div class="sk-name">John Ferrara</div>
-        <div class="sk-sentiment"><span class="pill p-grey">Unassessed</span></div>
-        <div class="sk-contact">President · Fredericksburg Virginia Education Association</div>
-        <div class="sk-contact">📞 540-752-1901</div>
-      </div>
-
-    </div>
+    <div id="supporters-stats" class="stats-row"><div class="loading">Loading…</div></div>
+    <div id="supporters-cards" class="sk-grid"><div class="loading">Loading…</div></div>
   </div>
 
-  <!-- ========== OPPOSITION ========== -->
+  <!-- OPPOSITION -->
   <div id="tab-opposition" class="tab-section">
-    <div class="stats-row" style="grid-template-columns:repeat(4,1fr)">
-      <div class="stat red-top"><div class="stat-label">Total Opposition</div><div class="stat-num">57</div></div>
-      <div class="stat"><div class="stat-label">General Opposition</div><div class="stat-num">47</div><div class="stat-sub">Primarily residents</div></div>
-      <div class="stat red-top"><div class="stat-label">Conservation</div><div class="stat-num">6</div><div class="stat-sub">Organized advocates</div></div>
-      <div class="stat"><div class="stat-label">Social Media</div><div class="stat-num">2</div><div class="stat-sub">Inform Fredericksburg</div></div>
-    </div>
-
-    <!-- KEY OPPOSITION LEADERS -->
-    <div class="card">
-      <div class="card-head"><div class="icon-circle">!</div><h3>Key Opposition Leaders</h3></div>
-      <div class="card-body" style="padding:0">
-        <table class="tbl">
-          <thead><tr><th>Name</th><th>Type</th><th>Affiliation</th><th>Key Issues &amp; Notes</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><strong>Matt Kelly</strong></td><td><span class="pill p-red">Social Media</span></td>
-              <td>Co-founder, Inform Fredericksburg / Former City Council</td>
-              <td>Transparency, rushed timeline, process concerns. Discussed transmission land acquisition and newer lower-water-use designs. mattyes.net</td>
-            </tr>
-            <tr>
-              <td><strong>Rick Pullen</strong></td><td><span class="pill p-red">Social Media</span></td>
-              <td>Co-founder, Inform Fredericksburg</td>
-              <td>Transparency, government accountability. Active on Inform Fredericksburg Facebook.</td>
-            </tr>
-            <tr>
-              <td><strong>Brent Hunsinger</strong></td><td><span class="pill p-red">Conservation</span></td>
-              <td>River Steward · Friends of the Rappahannock</td>
-              <td>Water usage, river protection, prefers SUP process. Discussed collaboration on stormwater design; requested review of residential proximity and water clarity.</td>
-            </tr>
-            <tr>
-              <td><strong>Tim Cywinski</strong></td><td><span class="pill p-red">Conservation</span></td>
-              <td>Communications Director · Sierra Club Virginia</td>
-              <td>Environmental impact, energy demand, AI concerns. 📞 (540) 272-5358 · tim.cywinski@sierraclub.org</td>
-            </tr>
-            <tr>
-              <td><strong>Paula Chow</strong></td><td><span class="pill p-red">Conservation</span></td>
-              <td>Program Chair · Rappahannock Group Sierra Club</td>
-              <td>Environmental concerns. Spoke about landscape impacts of transmission lines and drought; cited DEQ and Virginia Drought Monitoring Task Force.</td>
-            </tr>
-            <tr>
-              <td><strong>Eric Bonds</strong></td><td><span class="pill p-red">Conservation</span></td>
-              <td>Co-founder Fossil Free Fxbg / Prof. UMW Sociology</td>
-              <td>Climate impact, environmental justice, transparency. ebonds@umw.edu</td>
-            </tr>
-            <tr>
-              <td><strong>Alexanna Hengy</strong></td><td><span class="pill p-red">Conservation</span></td>
-              <td>Rappahannock Community Coalition</td>
-              <td>Climate goals, proximity to vulnerable residents. Air pollution, ecosystem loss, river damage concerns.</td>
-            </tr>
-            <tr>
-              <td><strong>Max Steinbaum</strong></td><td><span class="pill p-red">Conservation</span></td>
-              <td>President · Fredericksburg Trails Alliance / UMW Student</td>
-              <td>Trail network impacts.</td>
-            </tr>
-            <tr>
-              <td><strong>Libby Wasem</strong></td><td><span class="pill p-red">Gen. Opposition</span></td>
-              <td>President · Snowden Hills HOA</td>
-              <td>Loss of tree canopy and neighborhood character. 1005 Albert Rennolds Drive.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- RESIDENT OPPOSITION -->
-    <div class="card">
-      <div class="card-head"><div class="icon-circle">🏠</div><h3>Resident Opposition — Full Log</h3><div class="chip-red">47 Residents</div></div>
-      <div class="card-body" style="padding:0">
-        <table class="tbl">
-          <thead><tr><th>Name</th><th>Address</th><th>Key Concern</th></tr></thead>
-          <tbody>
-            <tr><td>Erica Kasraie</td><td style="font-size:0.78rem;color:var(--text-light)">1101 Great Oaks Lane (600 ft from site)</td><td>Noise, forest removal, quality of life; suggested underground data center models.</td></tr>
-            <tr><td>Marjorie Lucas</td><td style="font-size:0.78rem;color:var(--text-light)">1014 Black Oak Court</td><td>Land use concerns, gateway site preservation; requested water usage estimates.</td></tr>
-            <tr><td>David Corbin</td><td style="font-size:0.78rem;color:var(--text-light)">1044 Hotchkiss Place (640 ft from site)</td><td>Noise/screening; acknowledges "progress happens"; requested improved aesthetics.</td></tr>
-            <tr><td>Anne Little</td><td style="font-size:0.78rem;color:var(--text-light)">726 William St</td><td>Process speed, transparency; home values, tree timelines, noise, downstream water.</td></tr>
-            <tr><td>Sue Sargent</td><td style="font-size:0.78rem;color:var(--text-light)">Ward 5</td><td>Rushed timeline; cited JLARC study recommending data centers away from residential.</td></tr>
-            <tr><td>Reese Scott</td><td style="font-size:0.78rem;color:var(--text-light)">960 Cadmus Drive</td><td>Noise, air pollution, neighborhood character, added city costs.</td></tr>
-            <tr><td>Libby Wasem</td><td style="font-size:0.78rem;color:var(--text-light)">1005 Albert Rennolds Dr (HOA President)</td><td>Tree canopy loss and neighborhood character.</td></tr>
-            <tr><td>Marianne Diffin</td><td style="font-size:0.78rem;color:var(--text-light)">908 William Street</td><td>Application should not be considered outside Technology Overlay District.</td></tr>
-            <tr><td>Lynn Kelsey</td><td style="font-size:0.78rem;color:var(--text-light)">1020 Albert Rennolds Drive</td><td>Mature tree retention; visuals of transmission lines along Cowan Boulevard.</td></tr>
-            <tr><td>Cynthia Dowd</td><td style="font-size:0.78rem;color:var(--text-light)">109 Beaton Street</td><td>Less obtrusive designs, water use, Dominion's carbon goals, Virginia power imports.</td></tr>
-            <tr><td>Jimmy Morris</td><td style="font-size:0.78rem;color:var(--text-light)">138 Caroline Street</td><td>Site suitability; water evaporation and road needs west of I-95.</td></tr>
-            <tr><td>Cynthia King</td><td style="font-size:0.78rem;color:var(--text-light)">1006 Albert Rennolds Drive</td><td>Water, electricity, and health impacts in residential areas.</td></tr>
-            <tr><td>Dixie Lee Martin</td><td style="font-size:0.78rem;color:var(--text-light)">2201 Hays Street</td><td>Negative impacts on homeowners and environment.</td></tr>
-            <tr><td>Emily Dabbs</td><td style="font-size:0.78rem;color:var(--text-light)">1117 Great Oaks Lane</td><td>Airborne pollutants; asthmatic family member.</td></tr>
-            <tr><td>Harry Farley Jr.</td><td style="font-size:0.78rem;color:var(--text-light)">1001 Cadmus Court</td><td>Water, power, noise, industrial use near residential.</td></tr>
-            <tr><td>Phil &amp; Lili Robins</td><td style="font-size:0.78rem;color:var(--text-light)">306 Amelia Street</td><td>Revenue projections, water lifecycle, power timing, generator noise.</td></tr>
-            <tr><td>Sharon Faux</td><td style="font-size:0.78rem;color:var(--text-light)">1048 Hotchkiss Place</td><td>Tax reductions, noise enforcement.</td></tr>
-            <tr><td>Shana Gertner</td><td style="font-size:0.78rem;color:var(--text-light)">1009 Robert Court</td><td>Data centers harm quality of life.</td></tr>
-            <tr><td>Stephen Treacy</td><td style="font-size:0.78rem;color:var(--text-light)">1019 Hickory Court</td><td>Habitat destruction, noise, traffic congestion.</td></tr>
-            <tr><td>Swee Choy Hue</td><td style="font-size:0.78rem;color:var(--text-light)">2101 Hays Street</td><td>Environmental degradation and pollution burdens.</td></tr>
-            <tr><td>Tom Cordes</td><td style="font-size:0.78rem;color:var(--text-light)">1304 Preserve Lane</td><td>More remote siting; height and noise concerns.</td></tr>
-            <tr><td>William &amp; Sherry Smith</td><td style="font-size:0.78rem;color:var(--text-light)">1011 Hickory Court</td><td>General opposition; existing data centers and city aesthetics.</td></tr>
-            <tr><td>Anne Louis Antonoff</td><td style="font-size:0.78rem;color:var(--text-light)">1002 Cadmus Court</td><td>Regional data center park model; property value impacts.</td></tr>
-            <tr><td>Gary Forjan</td><td style="font-size:0.78rem;color:var(--text-light)">1115 Great Oaks Lane</td><td>Larger buffer; project outside Technology Overlay District.</td></tr>
-            <tr><td>Melissa Palguta</td><td style="font-size:0.78rem;color:var(--text-light)">964 Cadmus Drive</td><td>Water use, power use, tree loss, health impacts.</td></tr>
-            <tr><td>Rachel Sargeant</td><td style="font-size:0.78rem;color:var(--text-light)">Ward 5</td><td>Prince William County experience with generator noise.</td></tr>
-            <tr><td>Ron Smith</td><td style="font-size:0.78rem;color:var(--text-light)">Ward 5</td><td>Rappahannock River endangered status; JLARC recommendations.</td></tr>
-            <tr><td>Raymond &amp; Patricia Hiatt</td><td style="font-size:0.78rem;color:var(--text-light)">1013–1014 Black Oak Court</td><td>Tree loss, building height, environmental concerns.</td></tr>
-            <tr><td>Rebecca Brenkman</td><td style="font-size:0.78rem;color:var(--text-light)">1515 Princess Anne Street</td><td>National data center impacts; fossil fuel reliance.</td></tr>
-            <tr><td>Stefanie Chae</td><td style="font-size:0.78rem;color:var(--text-light)">1117 Great Oaks Lane</td><td>Data centers reduce quality of life.</td></tr>
-            <tr><td>Eleanor Ledoux</td><td style="font-size:0.78rem;color:var(--text-light)">1004 Albert Rennolds Drive</td><td>Cumulative tree loss and noise increases.</td></tr>
-            <tr><td>Hanna Fisher / Justin Hill</td><td style="font-size:0.78rem;color:var(--text-light)">1714–1715 Washington Avenue</td><td>Environmental hazards, limited job creation.</td></tr>
-            <tr><td>James Powell</td><td style="font-size:0.78rem;color:var(--text-light)">1004 Great Oaks Lane</td><td>Notification concerns, water use, low-frequency noise, alternative land uses.</td></tr>
-            <tr><td>John Hinson</td><td style="font-size:0.78rem;color:var(--text-light)">1012 Hickory Court</td><td>Existing infrastructure issues.</td></tr>
-            <tr><td>Kenneth Gantt</td><td style="font-size:0.78rem;color:var(--text-light)">1204 Graham Drive</td><td>Data centers should only be in Technology Overlay District.</td></tr>
-            <tr><td>Madeline Kenerly</td><td style="font-size:0.78rem;color:var(--text-light)">116 Beatson Street</td><td>Chesapeake Bay Watershed impacts.</td></tr>
-            <tr><td>Maia Conrad / John Burton</td><td style="font-size:0.78rem;color:var(--text-light)">715 Barkley Drive</td><td>Traffic, utility costs, Gateway Blvd congestion.</td></tr>
-            <tr><td>Robert &amp; Grace Toepfer</td><td style="font-size:0.78rem;color:var(--text-light)">1003–1004 Lindsay Court</td><td>Health impacts on residents and schools.</td></tr>
-            <tr><td>Emma Dupeyron</td><td style="font-size:0.78rem;color:var(--text-light)">Spotsylvania Courthouse</td><td>Wildlife disruption and increased utility bills.</td></tr>
-            <tr><td>Matt Mayer</td><td style="font-size:0.78rem;color:var(--text-light)">11211 Tidewater Trail</td><td>Suggested renewable offsets and rainwater capture; cited Finland models.</td></tr>
-            <tr><td>Samantha Corker</td><td style="font-size:0.78rem;color:var(--text-light)">Spotsylvania</td><td>Requested council engagement with public.</td></tr>
-            <tr><td>Libby Wassem</td><td style="font-size:0.78rem;color:var(--text-light)">Fredericksburg</td><td>Distrust of big industries.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div id="opposition-stats" class="stats-row"><div class="loading">Loading…</div></div>
+    <div id="opp-leaders-card" class="card"><div class="loading">Loading…</div></div>
+    <div id="opp-residents-card" class="card"><div class="loading">Loading…</div></div>
   </div>
 
-  <!-- ========== OPPOSITION GROUPS ========== -->
+  <!-- OPPOSITION GROUPS -->
   <div id="tab-opp-groups" class="tab-section">
-    <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
-      <div class="stat red-top"><div class="stat-label">Opposition Groups</div><div class="stat-num">9</div></div>
-      <div class="stat"><div class="stat-label">Conservation Orgs</div><div class="stat-num">6</div></div>
-      <div class="stat red-top"><div class="stat-label">Advocacy / Media</div><div class="stat-num">3</div></div>
-    </div>
-
-    <div class="opp-grid">
-      <div class="opp-card-full">
-        <div class="og-name">Friends of the Rappahannock (FOR)</div>
-        <div class="og-type">Conservation</div>
-        <div class="og-rep">👤 Brent Hunsinger (River Steward)</div>
-        <div class="og-rep">📍 3219 Fall Hill Ave, Fredericksburg</div>
-        <div class="og-notes">Environmental advocacy, water protection. Engaged on stormwater design collaboration; requested review of residential proximity.</div>
-      </div>
-      <div class="opp-card-full">
-        <div class="og-name">Sierra Club Virginia Chapter</div>
-        <div class="og-type">Conservation — Statewide</div>
-        <div class="og-rep">👤 Tim Cywinski (Communications Director)</div>
-        <div class="og-rep">📞 (540) 272-5358</div>
-        <div class="og-notes">Statewide data center opposition. Focus on energy demand and AI-driven power growth.</div>
-      </div>
-      <div class="opp-card-full">
-        <div class="og-name">Rappahannock Group Sierra Club</div>
-        <div class="og-type">Conservation — Local</div>
-        <div class="og-rep">👤 Paula Chow (Program Chair)</div>
-        <div class="og-rep">🌐 sierraclub.org/virginia/rappahannock</div>
-        <div class="og-notes">Local environmental advocacy; drought concerns, DEQ involvement.</div>
-      </div>
-      <div class="opp-card-full">
-        <div class="og-name">Inform Fredericksburg</div>
-        <div class="og-type">Social Media / Transparency</div>
-        <div class="og-rep">👤 Matt Kelly &amp; Rick Pullen (Co-founders)</div>
-        <div class="og-rep">📱 Inform Fredericksburg Facebook page</div>
-        <div class="og-notes">Government transparency advocacy. Matt Kelly is a former City Council member — significant local credibility.</div>
-      </div>
-      <div class="opp-card-full">
-        <div class="og-name">Fossil Free Fredericksburg</div>
-        <div class="og-type">Conservation / Climate</div>
-        <div class="og-rep">👤 Eric Bonds (Co-founder, UMW Professor)</div>
-        <div class="og-notes">Climate advocacy; environmental justice angle; university affiliation adds academic credibility.</div>
-      </div>
-      <div class="opp-card-full">
-        <div class="og-name">Rappahannock Community Coalition</div>
-        <div class="og-type">Anti-Data Center Activism</div>
-        <div class="og-rep">👤 Alexanna Hengy</div>
-        <div class="og-notes">Anti-data center activism; air pollution, ecosystem, and river damage framing.</div>
-      </div>
-      <div class="opp-card-full">
-        <div class="og-name">Fredericksburg Neighborhood Coalition</div>
-        <div class="og-type">Residential Advocacy</div>
-        <div class="og-rep ph">No key rep on file</div>
-        <div class="og-notes">Residential impact advocacy.</div>
-      </div>
-      <div class="opp-card-full">
-        <div class="og-name">Climate Reality Project</div>
-        <div class="og-type">Conservation</div>
-        <div class="og-rep ph">No key rep on file</div>
-        <div class="og-notes">Environmental education and climate advocacy.</div>
-      </div>
-      <div class="opp-card-full">
-        <div class="og-name">Piedmont Environmental Council</div>
-        <div class="og-type">Conservation — Regional</div>
-        <div class="og-rep">👤 Julie Bolthouse</div>
-        <div class="og-notes">Regional land use advocacy.</div>
-      </div>
-    </div>
+    <div id="opp-groups-stats" class="stats-row"><div class="loading">Loading…</div></div>
+    <div id="opp-groups-cards" class="opp-grid"><div class="loading">Loading…</div></div>
   </div>
 
-  <!-- ========== EDUCATION ========== -->
+  <!-- EDUCATION -->
   <div id="tab-education" class="tab-section">
-    <div class="card">
-      <div class="card-head"><div class="icon-circle">🎓</div><h3>Education Contacts</h3><div class="chip">Key Influence on Council</div></div>
-      <div class="card-body" style="padding:0">
-        <table class="tbl">
-          <thead><tr><th>Name / Organization</th><th>Title</th><th>Phone</th><th>Email</th><th>Notes</th></tr></thead>
-          <tbody>
-            <tr class="section-row"><td colspan="5">Fredericksburg City Public Schools — District</td></tr>
-            <tr><td><strong>Dr. Marceline "Marci" Catlett</strong></td><td>Division Superintendent</td><td>(540) 372-1130</td><td>mcatlett@cityschools.com</td><td style="color:var(--gold);font-weight:600">Key target — Xavier Richardson agreed to facilitate meeting</td></tr>
-            <tr><td><strong>Angela Wilson</strong></td><td>Clerk, School Board</td><td>(540) 372-1130 x2603</td><td>awilson@cityschools.com</td><td>—</td></tr>
-            <tr><td><strong>Brina Settles</strong></td><td>Deputy Clerk</td><td>—</td><td>bsettles@cityschools.com</td><td>—</td></tr>
-            <tr class="section-row"><td colspan="5">School Board Members</td></tr>
-            <tr><td><strong>Kathleen Pomeroy</strong></td><td>Chair · Ward 2</td><td>—</td><td>kpomeroy@cityschools.com</td><td>—</td></tr>
-            <tr><td><strong>Andrew Wolfenbarger</strong></td><td>Ward 1</td><td>—</td><td>awolfenbarger@cityschools.com</td><td>—</td></tr>
-            <tr><td><strong>Annie Langdon</strong></td><td>Ward 3</td><td>—</td><td>alangdon@cityschools.com</td><td>—</td></tr>
-            <tr><td><strong>Malvina Rollins Kay</strong></td><td>Ward 4</td><td>—</td><td>mrkay@cityschools.com</td><td>—</td></tr>
-            <tr><td><strong>Jarvis Bailey</strong></td><td>At-Large</td><td>—</td><td>jbailey@cityschools.com</td><td>—</td></tr>
-            <tr><td><strong>Molly McFadden</strong></td><td>At-Large</td><td>—</td><td>mmcfadden@cityschools.com</td><td>—</td></tr>
-            <tr class="section-row"><td colspan="5">Education Unions</td></tr>
-            <tr><td><strong>John Ferrara</strong></td><td>President · Fredericksburg Education Assoc.</td><td>540-752-1901</td><td>—</td><td>Local Union, affiliated with VEA/NEA</td></tr>
-            <tr><td><strong>Matthew Lentz</strong></td><td>President · Stafford Education Assoc.</td><td>540-752-1901</td><td>—</td><td>Neighboring county union</td></tr>
-            <tr><td><strong>Melissa Brace</strong></td><td>President · Spotsylvania Education Assoc.</td><td>540-752-1901</td><td>—</td><td>Neighboring county union</td></tr>
-            <tr><td><strong>Fredericksburg City Public Schools</strong></td><td>District HQ</td><td>(540) 372-1130</td><td>fcpsspeakers@cityschools.com</td><td>PTA/PTO contact for all 5 schools</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <div id="education-card" class="card"><div class="loading">Loading…</div></div>
   </div>
 
-  <!-- ========== MEDIA ========== -->
+  <!-- MEDIA -->
   <div id="tab-media" class="tab-section">
-    <div class="stats-row" style="grid-template-columns:repeat(4,1fr)">
-      <div class="stat gold-top"><div class="stat-label">Total Outlets</div><div class="stat-num">9</div></div>
-      <div class="stat"><div class="stat-label">Local / Regional</div><div class="stat-num">5</div></div>
-      <div class="stat gold-top"><div class="stat-label">Statewide / National</div><div class="stat-num">3</div></div>
-      <div class="stat"><div class="stat-label">Broadcast</div><div class="stat-num">2</div><div class="stat-sub">Radio + TV</div></div>
-    </div>
-
-    <div class="media-grid">
-      <div class="media-card">
-        <div class="mc-outlet">The Free Lance-Star</div>
-        <div class="mc-type">Newspaper / Digital</div>
-        <div class="mc-reach">Daily · 14,000+ circulation</div>
-        <div class="mc-reporter">Jake Womer (Exec. Editor) · Adele Uphaus (Local Govt/Schools)</div>
-      </div>
-      <div class="media-card">
-        <div class="mc-outlet">Fredericksburg Free Press</div>
-        <div class="mc-type">Online News</div>
-        <div class="mc-reach">Local · 9,000+ subscribers</div>
-        <div class="mc-reporter">Joey LoMonaco (Managing Editor)</div>
-      </div>
-      <div class="media-card">
-        <div class="mc-outlet">Potomac Local News</div>
-        <div class="mc-type">Online News</div>
-        <div class="mc-reach">Regional — Stafford / Prince William County</div>
-        <div class="mc-reporter">Uriah Kiser (Publisher/Editor)</div>
-      </div>
-      <div class="media-card">
-        <div class="mc-outlet">InsideNoVa</div>
-        <div class="mc-type">Digital / Print</div>
-        <div class="mc-reach">Northern Virginia</div>
-        <div class="mc-reporter">Nolan Stout (Data Center / PWC / Stafford beat)</div>
-      </div>
-      <div class="media-card">
-        <div class="mc-outlet">Virginia Business</div>
-        <div class="mc-type">Magazine / Digital</div>
-        <div class="mc-reach">Statewide — Business audience</div>
-        <div class="mc-reporter">Josh Janney (Specializes in data center expansion)</div>
-      </div>
-      <div class="media-card">
-        <div class="mc-outlet">Washington Business Journal</div>
-        <div class="mc-type">Digital / Print</div>
-        <div class="mc-reach">Regional — B2B</div>
-        <div class="mc-reporter">Dan Brendel (Energy/Tech) · Caitlynn Peetz · Michael Niebauer</div>
-      </div>
-      <div class="media-card">
-        <div class="mc-outlet">WFVA / WFLS — Star Radio</div>
-        <div class="mc-type">Radio — News/Talk</div>
-        <div class="mc-reach">Local · 1230 AM / 93.3 FM</div>
-        <div class="mc-reporter">Ted Schubel (News Director / Host)</div>
-      </div>
-      <div class="media-card">
-        <div class="mc-outlet">WUSA9 / NBC4 / FOX5</div>
-        <div class="mc-type">TV — DC Market</div>
-        <div class="mc-reach">2.5M+ households</div>
-        <div class="mc-reporter">Justin Puccio (WUSA9) · Bryan Rothamel</div>
-      </div>
-      <div class="media-card">
-        <div class="mc-outlet">Data Center Dynamics</div>
-        <div class="mc-type">Digital / Print — Trade</div>
-        <div class="mc-reach">Industry-wide</div>
-        <div class="mc-reporter">Georgia Butler</div>
-      </div>
-    </div>
+    <div id="media-stats" class="stats-row"><div class="loading">Loading…</div></div>
+    <div id="media-cards" class="media-grid"><div class="loading">Loading…</div></div>
   </div>
 
 </div><!-- /main -->
@@ -1010,12 +316,492 @@
 </footer>
 
 <script>
-  function showTab(name) {
-    document.querySelectorAll('.tab-section').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
-    event.target.classList.add('active');
+'use strict';
+
+/* ── Utilities ─────────────────────────────────────────────────────────── */
+
+const h = s => String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+function pill(label, cls) {
+  return `<span class="pill ${cls}">${h(label)}</span>`;
+}
+
+function parseScore(val) {
+  if (!val) return null;
+  const n = parseFloat(val.replace('%','').trim());
+  return isNaN(n) ? null : n / 100;
+}
+
+function scoreInfo(score) {
+  if (score === null) return { label:'—', cls:'p-grey', bar:'var(--text-light)' };
+  if (score >= 0.70) return { label:'Likely Yes',  cls:'p-green', bar:'var(--green)' };
+  if (score >  0.50) return { label:'Leaning Yes', cls:'p-green', bar:'var(--green)' };
+  if (score >= 0.40) return { label:'Persuadable', cls:'p-gold',  bar:'var(--amber)' };
+  if (score >= 0.15) return { label:'Uncertain',   cls:'p-amber', bar:'var(--amber)' };
+  return                     { label:'Skeptical',   cls:'p-amber', bar:'var(--red)'   };
+}
+
+function positionPill(pos) {
+  if (!pos) return pill('—','p-grey');
+  const p = pos.toLowerCase();
+  if (p.includes('neutral'))  return pill('Neutral', 'p-grey');
+  if (p.includes('oppos') || p.includes('denied') || p.includes('denial')) return pill('Opposed','p-red');
+  if (p.includes('support'))  return pill('Support','p-green');
+  if (p.includes('lean'))     return pill('Leaning Yes','p-green');
+  return pill(pos, 'p-grey');
+}
+
+function normalizeType(t) {
+  const l = (t || '').toLowerCase();
+  if (l.includes('business'))                       return 'Business';
+  if (l.includes('economic') || l.includes('eda'))  return 'Economic Development';
+  if (l.includes('civic') || l.includes('citizen')) return 'Civic / Citizens';
+  if (l.includes('labor') || l.includes('union') || l.includes('trade') || l.includes('pipe') || l.includes('ibew') || l.includes('liunа')) return 'Labor';
+  if (l.includes('educat') || l.includes('school')) return 'Education';
+  return t || 'Other';
+}
+
+const SECTOR_ORDER = ['Business','Economic Development','Civic / Citizens','Labor','Education'];
+
+/* ── Data loading ───────────────────────────────────────────────────────── */
+
+async function loadAll() {
+  const keys = ['meta','city_council','planning','supporters','supportive_orgs',
+                'opposition','opposition_groups','education','media'];
+  try {
+    const results = await Promise.all(
+      keys.map(k => fetch(`./data/${k}.json`).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }))
+    );
+    return Object.fromEntries(keys.map((k, i) => [k, results[i]]));
+  } catch (err) {
+    console.error('Data load failed:', err);
+    return null;
   }
+}
+
+/* ── Renderers ──────────────────────────────────────────────────────────── */
+
+function renderMeta(meta) {
+  const el = document.getElementById('last-updated');
+  if (el && meta.last_updated) el.textContent = 'Updated ' + meta.last_updated;
+}
+
+function renderOverviewStats(d) {
+  const supporters   = (d.supporters   || []).filter(r => (r['Assessment']||'').toLowerCase().includes('support')).length;
+  const suppOrgs     = (d.supportive_orgs || []).length;
+  const opposition   = (d.opposition   || []).length;
+  const oppGroups    = (d.opposition_groups || []).length;
+  const media        = (d.media        || []).length;
+
+  document.getElementById('overview-stats').innerHTML = `
+    <div class="stat green-top">
+      <div class="stat-label">Supporters</div>
+      <div class="stat-num">${supporters}</div>
+      <div class="stat-sub">Business, Labor, Civic</div>
+    </div>
+    <div class="stat gold-top">
+      <div class="stat-label">Supportive Orgs</div>
+      <div class="stat-num">${suppOrgs}</div>
+      <div class="stat-sub">Organizations on record</div>
+    </div>
+    <div class="stat red-top">
+      <div class="stat-label">Opposition Contacts</div>
+      <div class="stat-num">${opposition}</div>
+      <div class="stat-sub">Residents &amp; conservation</div>
+    </div>
+    <div class="stat red-top">
+      <div class="stat-label">Opposition Groups</div>
+      <div class="stat-num">${oppGroups}</div>
+      <div class="stat-sub">Organized advocacy orgs</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Media Outlets</div>
+      <div class="stat-num">${media}</div>
+      <div class="stat-sub">Print, digital, TV, radio</div>
+    </div>`;
+}
+
+function renderCouncilSnapshot(council) {
+  const rows = (council || []).map(m => {
+    const score = parseScore(m['Current Position **']);
+    const info  = scoreInfo(score);
+    const name  = h(m['Name'] || '');
+    const title = h(m['Title'] || '');
+    const influences = (m['Influences'] || '').split(',').map(s => s.trim()).filter(Boolean);
+    const infPills = influences.map(i => pill(i, 'p-navy')).join(' ');
+    return `<tr>
+      <td><strong>${name}</strong></td>
+      <td style="color:var(--text-light);font-size:0.78rem">${title}</td>
+      <td>${pill((score !== null ? score.toFixed(2) : '—') + ' — ' + info.label, info.cls)}</td>
+      <td>${infPills}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('council-snapshot').innerHTML = `
+    <div class="card-head"><div class="icon-circle">⚖</div><h3>City Council — Position Snapshot</h3></div>
+    <div class="card-body" style="padding:0">
+      <table class="tbl">
+        <thead><tr><th>Member</th><th>Role</th><th>Position Score</th><th>Key Influence</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function renderPlanningSnapshot(planning) {
+  const rows = (planning || []).map(m => {
+    const name  = h(m['Name'] || '');
+    const title = h(m['Title'] || '');
+    const pos   = m['Position'] || '';
+    return `<tr>
+      <td><strong>${name}</strong></td>
+      <td style="color:var(--text-light);font-size:0.78rem">${title}</td>
+      <td>${positionPill(pos)}</td>
+      <td style="font-size:0.78rem;color:var(--text-light)">${h(m['Hearing Notes'] || '')}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('planning-snapshot').innerHTML = `
+    <div class="card-head"><div class="icon-circle">📋</div><h3>Planning Commission Status</h3><div class="chip-red">Recommended Denial</div></div>
+    <div class="card-body" style="padding:0">
+      <table class="tbl">
+        <thead><tr><th>Member</th><th>Role</th><th>Position</th><th>Key Notes</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function renderCouncilTab(council) {
+  const members = council || [];
+  const likelyYes   = members.filter(m => { const s = parseScore(m['Current Position **']); return s !== null && s > 0.5; }).length;
+  const persuadable  = members.filter(m => { const s = parseScore(m['Current Position **']); return s !== null && s >= 0.15 && s <= 0.5; }).length;
+  const skeptical    = members.filter(m => { const s = parseScore(m['Current Position **']); return s !== null && s < 0.15; }).length;
+
+  const lyNames = members.filter(m => parseScore(m['Current Position **']) > 0.5).map(m => m['Name']).join(', ');
+  const pNames  = members.filter(m => { const s=parseScore(m['Current Position **']); return s!==null&&s>=0.15&&s<=0.5; }).map(m => m['Name']).join(', ');
+  const skNames = members.filter(m => { const s=parseScore(m['Current Position **']); return s!==null&&s<0.15; }).map(m => m['Name']).join(', ');
+
+  document.getElementById('council-stats').innerHTML = `
+    <div class="stat green-top"><div class="stat-label">Leaning Yes or Better</div><div class="stat-num">${likelyYes}</div><div class="stat-sub">${h(lyNames)}</div></div>
+    <div class="stat amber-top"><div class="stat-label">Persuadable / Uncertain</div><div class="stat-num">${persuadable}</div><div class="stat-sub">${h(pNames)}</div></div>
+    <div class="stat red-top"><div class="stat-label">Skeptical</div><div class="stat-num">${skeptical}</div><div class="stat-sub">${h(skNames)}</div></div>`;
+
+  const cards = members.map(m => {
+    const score  = parseScore(m['Current Position **']);
+    const info   = scoreInfo(score);
+    const pct    = score !== null ? Math.round(score * 100) : 0;
+    const name   = h(m['Name'] || '');
+    const title  = h(m['Title'] || '');
+    const notes  = h(m['Key Issues/Notes'] || '');
+    const influences = (m['Influences'] || '').split(',').map(s => s.trim()).filter(Boolean);
+    const infPills = influences.map(i => pill(i, 'p-navy')).join('');
+    return `<div class="council-card">
+      <div class="cc-name">${name}</div>
+      <div class="cc-title">${title}</div>
+      <div class="cc-bar-wrap"><div class="cc-bar" style="width:${pct}%;background:${info.bar}"></div></div>
+      <div class="cc-score"><span>Support Score</span><span style="color:${info.bar}">${pct / 100} — ${info.label}</span></div>
+      <div class="cc-influence">${infPills}</div>
+      ${notes ? `<div class="cc-notes">${notes}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('council-cards').innerHTML = cards;
+}
+
+function renderPlanningTab(planning) {
+  const all     = planning || [];
+  const members = all.filter(m => m['Position'] && m['Position'].trim() !== '');
+  const staff   = all.filter(m => !m['Position'] || m['Position'].trim() === '');
+
+  const opposed  = members.filter(m => (m['Position']||'').toLowerCase().includes('oppos')).length;
+  const neutral  = members.filter(m => (m['Position']||'').toLowerCase().includes('neutral')).length;
+  const staffCt  = staff.length;
+
+  document.getElementById('planning-stats').innerHTML = `
+    <div class="stat red-top"><div class="stat-label">Opposed</div><div class="stat-num">${opposed}</div><div class="stat-sub">Recommended denial</div></div>
+    <div class="stat"><div class="stat-label">Neutral</div><div class="stat-num">${neutral}</div><div class="stat-sub">Chair Durham</div></div>
+    <div class="stat gold-top"><div class="stat-label">Staff</div><div class="stat-num">${staffCt}</div><div class="stat-sub">Director, Planner, Admin</div></div>`;
+
+  const memberRows = members.map(m => `<tr>
+    <td><strong>${h(m['Name']||'')}</strong></td>
+    <td style="color:var(--text-light);font-size:0.78rem">${h(m['Title']||'')}</td>
+    <td>${positionPill(m['Position']||'')}</td>
+    <td>${h(m['Hearing Notes']||'')}</td>
+  </tr>`).join('');
+
+  const staffRows = staff.length
+    ? `<tr class="section-row"><td colspan="4">Staff</td></tr>` +
+      staff.map(m => `<tr>
+        <td><strong>${h(m['Name']||'')}</strong></td>
+        <td style="color:var(--text-light);font-size:0.78rem">${h(m['Title']||'')}</td>
+        <td>—</td><td>${h(m['Phone #']||'')}${m['Email'] ? ' · ' + h(m['Email']) : ''}</td>
+      </tr>`).join('')
+    : '';
+
+  document.getElementById('planning-card').innerHTML = `
+    <div class="card-head"><div class="icon-circle">📋</div><h3>Planning Commission — Full Detail</h3><div class="chip-red">Voted Denial</div></div>
+    <div class="card-body" style="padding:0">
+      <table class="tbl">
+        <thead><tr><th>Name</th><th>Title</th><th>Position</th><th>Hearing Notes</th></tr></thead>
+        <tbody>${memberRows}${staffRows}</tbody>
+      </table>
+    </div>`;
+}
+
+function renderSupportersTab(supporters, supportiveOrgs) {
+  const rows    = supporters || [];
+  const allSupp = rows.filter(r => (r['Assessment']||'').toLowerCase().includes('support'));
+  const total   = allSupp.length;
+
+  // Count by sector
+  const byCnt = {};
+  rows.forEach(r => {
+    const sec = normalizeType(r['Type'] || '');
+    byCnt[sec] = (byCnt[sec] || 0) + 1;
+  });
+  const topSectors = SECTOR_ORDER.filter(s => byCnt[s]);
+
+  const statItems = [
+    `<div class="stat green-top"><div class="stat-label">Total Supporters</div><div class="stat-num">${total}</div></div>`,
+    ...topSectors.slice(0,3).map(s =>
+      `<div class="stat gold-top"><div class="stat-label">${h(s)}</div><div class="stat-num">${byCnt[s]||0}</div></div>`)
+  ].join('');
+  document.getElementById('supporters-stats').innerHTML = statItems;
+
+  // Group by sector
+  const grouped = {};
+  rows.forEach(r => {
+    const sec = normalizeType(r['Type'] || '');
+    if (!grouped[sec]) grouped[sec] = [];
+    grouped[sec].push(r);
+  });
+
+  let html = '';
+  const sectorsPresent = SECTOR_ORDER.filter(s => grouped[s]);
+  const otherSectors   = Object.keys(grouped).filter(s => !SECTOR_ORDER.includes(s));
+  [...sectorsPresent, ...otherSectors].forEach(sec => {
+    const items = grouped[sec];
+    html += `<div class="sk-sector-head">
+      <div class="label">${h(sec)}</div><div class="bar"></div>
+      <div class="count">${items.length} contact${items.length !== 1 ? 's' : ''}</div>
+    </div>`;
+    items.forEach(r => {
+      const firstName = r['First'] || '';
+      const lastName  = r['Last']  || '';
+      const name      = [firstName, lastName].filter(Boolean).join(' ');
+      const title     = r['Title'] || '';
+      const org       = r['Organization'] || '';
+      const org2      = r['Organization 2'] || '';
+      const title2    = r['Title 2'] || '';
+      const phone     = r['Mobile #'] || '';
+      const email     = r['Primary Email'] || '';
+      const assessment= r['Assessment'] || '';
+      const notes     = [r['Key Issues/Notes'], r['3/23 Dinner']].filter(Boolean).join(' ');
+
+      let pillCls = 'p-green', pillLabel = 'Supporter', cardCls = 'sk-card has-contact';
+      const al = assessment.toLowerCase();
+      if (al.includes('concern') || al.includes('monitor')) { pillCls='p-red'; pillLabel='Concerned'; cardCls='sk-card opp-card'; }
+      else if (al.includes('declin')) { pillCls='p-amber'; pillLabel='Declined'; cardCls='sk-card no-contact'; }
+      else if (!al.includes('support')) { pillCls='p-grey'; pillLabel='Unassessed'; cardCls='sk-card no-contact'; }
+      else if (!phone && !email) { cardCls = 'sk-card no-contact'; }
+
+      const affil = [title, org, title2 ? title2 + (org2 ? ' · ' + org2 : '') : org2].filter(Boolean).join(' · ');
+
+      html += `<div class="${cardCls}">
+        <div class="sk-name">${h(name)}</div>
+        <div class="sk-sentiment">${pill(pillLabel, pillCls)}</div>
+        ${affil ? `<div class="sk-contact">${h(affil)}</div>` : ''}
+        ${phone  ? `<div class="sk-contact">📞 ${h(phone)}</div>` : ''}
+        ${email  ? `<div class="sk-contact">✉️ ${h(email)}</div>` : ''}
+        ${notes  ? `<div class="sk-notes">${h(notes)}</div>` : ''}
+      </div>`;
+    });
+  });
+
+  document.getElementById('supporters-cards').innerHTML = html;
+}
+
+function renderOppositionTab(opposition) {
+  const all      = opposition || [];
+  const leaders  = all.filter(r => {
+    const t = (r['Stakeholder Type'] || '').toLowerCase();
+    return t.includes('conservation') || t.includes('social media') || t.includes('media');
+  });
+  const residents = all.filter(r => {
+    const t = (r['Stakeholder Type'] || '').toLowerCase();
+    return t.includes('gen.') || t.includes('general') || (!t.includes('conservation') && !t.includes('social media') && !t.includes('media'));
+  });
+
+  const genOppCt  = all.filter(r => (r['Stakeholder Type']||'').toLowerCase().includes('gen')).length;
+  const consrvCt  = all.filter(r => (r['Stakeholder Type']||'').toLowerCase().includes('conservation')).length;
+  const socialCt  = all.filter(r => (r['Stakeholder Type']||'').toLowerCase().includes('social')).length;
+
+  document.getElementById('opposition-stats').innerHTML = `
+    <div class="stat red-top"><div class="stat-label">Total Opposition</div><div class="stat-num">${all.length}</div></div>
+    <div class="stat"><div class="stat-label">General Opposition</div><div class="stat-num">${genOppCt}</div><div class="stat-sub">Primarily residents</div></div>
+    <div class="stat red-top"><div class="stat-label">Conservation</div><div class="stat-num">${consrvCt}</div><div class="stat-sub">Organized advocates</div></div>
+    <div class="stat"><div class="stat-label">Social Media</div><div class="stat-num">${socialCt}</div><div class="stat-sub">Inform Fredericksburg</div></div>`;
+
+  const leaderRows = leaders.map(r => {
+    const name    = [r['First'], r['Last']].filter(Boolean).join(' ');
+    const type    = r['Stakeholder Type'] || '';
+    const affil   = [r['Title'], r['Organization']].filter(Boolean).join(', ');
+    const contact = [r['Phone Number'], r['Email/Website']].filter(Boolean).join(' · ');
+    const notes   = r['Key Issues/Notes'] || '';
+    return `<tr>
+      <td><strong>${h(name)}</strong></td>
+      <td>${pill(type, 'p-red')}</td>
+      <td>${h(affil)}</td>
+      <td>${h(notes)}${contact ? `<br><span style="color:var(--text-light);font-size:0.75rem">${h(contact)}</span>` : ''}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('opp-leaders-card').innerHTML = `
+    <div class="card-head"><div class="icon-circle">!</div><h3>Key Opposition Leaders</h3></div>
+    <div class="card-body" style="padding:0">
+      <table class="tbl">
+        <thead><tr><th>Name</th><th>Type</th><th>Affiliation</th><th>Key Issues &amp; Notes</th></tr></thead>
+        <tbody>${leaderRows}</tbody>
+      </table>
+    </div>`;
+
+  const residentRows = residents.map(r => {
+    const name  = [r['First'], r['Last']].filter(Boolean).join(' ');
+    const addr  = r['Address'] || '';
+    const notes = r['Key Issues/Notes'] || '';
+    return `<tr>
+      <td>${h(name)}</td>
+      <td style="font-size:0.78rem;color:var(--text-light)">${h(addr)}</td>
+      <td>${h(notes)}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('opp-residents-card').innerHTML = `
+    <div class="card-head"><div class="icon-circle">🏠</div><h3>Resident Opposition — Full Log</h3><div class="chip-red">${residents.length} Residents</div></div>
+    <div class="card-body" style="padding:0">
+      <table class="tbl">
+        <thead><tr><th>Name</th><th>Address</th><th>Key Concern</th></tr></thead>
+        <tbody>${residentRows}</tbody>
+      </table>
+    </div>`;
+}
+
+function renderOppGroupsTab(oppGroups) {
+  const all = oppGroups || [];
+  const byCat = {};
+  all.forEach(g => {
+    const t = (g['Organization Type'] || 'Other');
+    byCat[t] = (byCat[t] || 0) + 1;
+  });
+  const cats = Object.keys(byCat);
+
+  const statsHtml = [
+    `<div class="stat red-top"><div class="stat-label">Opposition Groups</div><div class="stat-num">${all.length}</div></div>`,
+    ...cats.slice(0,2).map(c =>
+      `<div class="stat"><div class="stat-label">${h(c)}</div><div class="stat-num">${byCat[c]}</div></div>`)
+  ].join('');
+  document.getElementById('opp-groups-stats').innerHTML = statsHtml;
+
+  const cards = all.map(g => {
+    const name  = g['Organization'] || '';
+    const type  = g['Organization Type'] || '';
+    const rep   = g['Key Representative(s)'] || '';
+    const addr  = g['Address'] || '';
+    const phone = g['Phone Number'] || '';
+    const web   = g['Social Media/Website'] || '';
+    const notes = g['Role/Key Issues/Notes'] || '';
+    return `<div class="opp-card-full">
+      <div class="og-name">${h(name)}</div>
+      <div class="og-type">${h(type)}</div>
+      ${rep   ? `<div class="og-rep">👤 ${h(rep)}</div>` : ''}
+      ${addr  ? `<div class="og-rep">📍 ${h(addr)}</div>` : ''}
+      ${phone ? `<div class="og-rep">📞 ${h(phone)}</div>` : ''}
+      ${web   ? `<div class="og-rep">🌐 ${h(web)}</div>` : ''}
+      ${notes ? `<div class="og-notes">${h(notes)}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('opp-groups-cards').innerHTML = cards;
+}
+
+function renderEducationTab(education) {
+  const rows = (education || []).map(r => {
+    const name   = r['Name'] || '';
+    const title  = r['Title/Affiliation'] || '';
+    const phone  = r['Phone#'] || '';
+    const email  = r['Email'] || '';
+    const notes  = r['Key Issues/Notes'] || '';
+    return `<tr>
+      <td><strong>${h(name)}</strong></td>
+      <td style="color:var(--text-light);font-size:0.78rem">${h(title)}</td>
+      <td>${h(phone)}</td>
+      <td>${h(email)}</td>
+      <td>${h(notes)}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('education-card').innerHTML = `
+    <div class="card-head"><div class="icon-circle">🎓</div><h3>Education Contacts</h3><div class="chip">Key Influence on Council</div></div>
+    <div class="card-body" style="padding:0">
+      <table class="tbl">
+        <thead><tr><th>Name / Organization</th><th>Title</th><th>Phone</th><th>Email</th><th>Notes</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function renderMediaTab(media) {
+  const all = media || [];
+  document.getElementById('media-stats').innerHTML = `
+    <div class="stat gold-top"><div class="stat-label">Total Outlets</div><div class="stat-num">${all.length}</div></div>`;
+
+  const cards = all.map(m => {
+    const outlet   = m['Outlet'] || '';
+    const type     = m['Type'] || '';
+    const reach    = m['General Reach'] || '';
+    const reporter = m['Key Reporters / Editors'] || '';
+    return `<div class="media-card">
+      <div class="mc-outlet">${h(outlet)}</div>
+      <div class="mc-type">${h(type)}</div>
+      ${reach    ? `<div class="mc-reach">${h(reach)}</div>` : ''}
+      ${reporter ? `<div class="mc-reporter">${h(reporter)}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  document.getElementById('media-cards').innerHTML = cards;
+}
+
+/* ── Nav ────────────────────────────────────────────────────────────────── */
+
+function showTab(name) {
+  document.querySelectorAll('.tab-section').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* ── Init ───────────────────────────────────────────────────────────────── */
+
+document.addEventListener('DOMContentLoaded', async function () {
+  const d = await loadAll();
+  if (!d) {
+    document.querySelectorAll('.loading').forEach(el => {
+      el.textContent = 'Failed to load data. Check back after the next scheduled update.';
+    });
+    return;
+  }
+
+  renderMeta(d.meta);
+  renderOverviewStats(d);
+  renderCouncilSnapshot(d.city_council);
+  renderPlanningSnapshot(d.planning);
+  renderCouncilTab(d.city_council);
+  renderPlanningTab(d.planning);
+  renderSupportersTab(d.supporters, d.supportive_orgs);
+  renderOppositionTab(d.opposition);
+  renderOppGroupsTab(d.opposition_groups);
+  renderEducationTab(d.education);
+  renderMediaTab(d.media);
+});
 </script>
 </body>
 </html>

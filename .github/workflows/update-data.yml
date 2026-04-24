@@ -1,0 +1,36 @@
+name: Update Dashboard Data
+
+on:
+  schedule:
+    - cron: '0 13 * * *'   # 9:00 AM ET (EDT = UTC-4)
+    - cron: '0 19 * * *'   # 3:00 PM ET (EDT = UTC-4)
+  workflow_dispatch:        # Allow manual trigger from GitHub UI
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch sheet data
+        run: python scripts/fetch_data.py
+
+      - name: Commit and push if data changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "No data changes — skipping commit."
+          else
+            git commit -m "data: auto-update from Google Sheet [skip ci]"
+            git push
+          fi

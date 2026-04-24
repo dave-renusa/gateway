@@ -1,0 +1,56 @@
+[
+  {
+    "Outlet": "The Free Lance-Star",
+    "Type": "Newspaper/Digital",
+    "General Reach": "Daily (14k+ circ.)",
+    "Key Reporters / Editors": "Jake Womer (Exec. Editor), Adele Uphaus (Local Govt/Schools)"
+  },
+  {
+    "Outlet": "Fredericksburg Free Press",
+    "Type": "Online News",
+    "General Reach": "Local (9k+ subs)",
+    "Key Reporters / Editors": "Joey LoMonaco (Managing Editor)"
+  },
+  {
+    "Outlet": "Potomac Local News",
+    "Type": "Online News",
+    "General Reach": "Regional (Stafford/PWC)",
+    "Key Reporters / Editors": "Uriah Kiser (Publisher/Editor)"
+  },
+  {
+    "Outlet": "InsideNoVa",
+    "Type": "Digital/Print",
+    "General Reach": "Northern Virginia",
+    "Key Reporters / Editors": "Nolan Stout (Data Center/PWC/Stafford beat)"
+  },
+  {
+    "Outlet": "Virginia Business",
+    "Type": "Magazine/Digital",
+    "General Reach": "Statewide (Business)",
+    "Key Reporters / Editors": "Josh Janney (Specializes in data center expansion)"
+  },
+  {
+    "Outlet": "Washington Business Journal",
+    "Type": "Digital/Print",
+    "General Reach": "Regional (B2B)",
+    "Key Reporters / Editors": "Dan Brendel (Energy/Tech), Caitlynn Peetz, Michael Niebauer"
+  },
+  {
+    "Outlet": "WFVA / WFLS (Star Radio)",
+    "Type": "Radio (News/Talk)",
+    "General Reach": "Local (1230 AM / 93.3 FM)",
+    "Key Reporters / Editors": "Ted Schubel (News Director/Host)"
+  },
+  {
+    "Outlet": "WUSA9 / NBC4 / FOX5",
+    "Type": "TV (DC Market)",
+    "General Reach": "2.5M+ Households",
+    "Key Reporters / Editors": "Justin Puccio (WUSA9), Bryan Rothamel"
+  },
+  {
+    "Outlet": "Data Center Dynamics",
+    "Type": "Digital/Print",
+    "General Reach": "",
+    "Key Reporters / Editors": "Georgia Butler"
+  }
+]
