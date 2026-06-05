@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1500 Gateway | Supporter Coalition Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A2240;
+  --navy-mid: #163356;
+  --navy-light: #2C4A73;
+  --gold: #C8963C;
+  --gold-light: #E8C679;
+  --red: #B03030;
+  --cream: #F5F3EE;
+  --cream-dark: #E8E5DD;
+  --white: #FFFFFF;
+  --text: #1A1A1A;
+  --text-muted: #6B6B6B;
+  --border: #D9D5CB;
+  --green: #2E7D5B;
+  --orange: #C4711F;
+  --gray: #888;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); color: var(--text); font-size: 15px; line-height: 1.5; }
+h1, h2, h3, h4 { font-family: 'Bebas Neue', sans-serif; font-weight: 400; letter-spacing: 0.5px; }
+
+/* Header */
+.americana-stripe { height: 4px; background: var(--red); }
+.gold-stripe { height: 3px; background: var(--gold); }
+.header { background: var(--navy); color: var(--white); padding: 28px 40px 24px; border-bottom: 4px solid var(--gold); }
+.header-top { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
+.header-title { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 1.5px; line-height: 1; }
+.header-sub { font-family: 'Source Sans 3', sans-serif; font-size: 14px; color: var(--gold-light); margin-top: 8px; letter-spacing: 1px; text-transform: uppercase; }
+.header-meta { text-align: right; font-size: 12px; color: var(--cream-dark); letter-spacing: 0.5px; }
+.header-meta strong { color: var(--gold-light); display: block; font-size: 13px; }
+
+/* Nav */
+.nav { background: var(--navy-mid); padding: 0 40px; display: flex; gap: 4px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.nav button { background: none; border: none; color: rgba(255,255,255,0.65); padding: 14px 20px; font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 1.2px; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.15s; }
+.nav button:hover { color: var(--white); }
+.nav button.active { color: var(--white); border-bottom-color: var(--gold); }
+
+/* Layout */
+.container { max-width: 1400px; margin: 0 auto; padding: 32px 40px; }
+@media (max-width: 768px) { .container { padding: 20px; } .header { padding: 20px; } .nav { padding: 0 20px; overflow-x: auto; } .header-title { font-size: 30px; } }
+
+/* Stats Row */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.stat-card { background: var(--white); border: 1px solid var(--border); border-top: 4px solid var(--navy); padding: 20px 22px; transition: transform 0.15s; }
+.stat-card.focus { border-top-color: var(--gold); background: linear-gradient(180deg, #FFF9EB 0%, #FFFFFF 60%); }
+.stat-card.advocate { border-top-color: var(--green); }
+.stat-card.red { border-top-color: var(--red); }
+.stat-label { font-family: 'Source Sans 3', sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-muted); font-weight: 600; }
+.stat-value { font-family: 'Bebas Neue', sans-serif; font-size: 56px; line-height: 1; color: var(--navy); margin-top: 6px; }
+.stat-card.focus .stat-value { color: var(--gold); }
+.stat-card.advocate .stat-value { color: var(--green); }
+.stat-card.red .stat-value { color: var(--red); }
+.stat-foot { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.3; }
+
+/* Section card */
+.section { background: var(--white); border: 1px solid var(--border); margin-bottom: 32px; }
+.section-head { background: var(--navy); color: var(--white); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+.section-head h2 { font-size: 22px; letter-spacing: 1px; }
+.section-head .head-meta { font-size: 12px; color: var(--gold-light); letter-spacing: 0.5px; text-transform: uppercase; }
+.section-body { padding: 24px; }
+
+/* Filter bar */
+.filter-bar { display: flex; gap: 12px; flex-wrap: wrap; padding: 16px 20px; background: var(--cream); border-bottom: 1px solid var(--border); align-items: center; }
+.filter-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; margin-right: 4px; }
+.filter-bar select, .filter-bar input { font-family: 'Source Sans 3', sans-serif; font-size: 14px; padding: 7px 12px; border: 1px solid var(--border); background: var(--white); color: var(--text); border-radius: 0; }
+.filter-bar input { min-width: 220px; }
+.filter-bar button { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; padding: 7px 16px; border: 1px solid var(--navy); background: var(--white); color: var(--navy); cursor: pointer; font-size: 14px; }
+.filter-bar button:hover { background: var(--navy); color: var(--white); }
+.results-count { margin-left: auto; font-size: 13px; color: var(--text-muted); }
+
+/* Sector grid */
+.sector-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; padding: 24px; }
+.sector-card { background: var(--cream); border: 1px solid var(--border); border-left: 5px solid var(--navy); padding: 18px 20px; cursor: pointer; transition: all 0.15s; }
+.sector-card:hover { background: var(--white); border-left-color: var(--gold); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(10, 34, 64, 0.08); }
+.sector-card.active { background: var(--navy); color: var(--white); border-left-color: var(--gold); }
+.sector-card.active .sec-meta { color: var(--gold-light); }
+.sector-card.active .sec-bar-bg { background: rgba(255,255,255,0.15); }
+.sec-name { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; line-height: 1; }
+.sec-count { font-family: 'Bebas Neue', sans-serif; font-size: 36px; line-height: 1; color: var(--navy); margin-top: 8px; }
+.sector-card.active .sec-count { color: var(--gold); }
+.sec-meta { font-size: 12px; color: var(--text-muted); margin-top: 8px; line-height: 1.4; }
+.sec-bar { margin-top: 12px; display: flex; height: 8px; background: var(--cream-dark); border-radius: 0; overflow: hidden; }
+.sec-bar-bg { background: var(--cream-dark); }
+.sec-bar-fill-advocate { background: var(--green); }
+.sec-bar-fill-supporter { background: var(--gold); }
+.sec-bar-fill-engaged { background: var(--navy-light); }
+.sec-bar-fill-declined { background: var(--red); }
+.sec-legend { display: flex; gap: 10px; font-size: 10px; margin-top: 6px; flex-wrap: wrap; color: var(--text-muted); }
+.sec-legend-item { display: flex; align-items: center; gap: 4px; }
+.sec-legend-dot { width: 8px; height: 8px; }
+
+/* People grid */
+.people-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; padding: 24px; }
+.person-card { background: var(--white); border: 1px solid var(--border); padding: 16px 18px; cursor: pointer; transition: all 0.15s; position: relative; border-left: 4px solid var(--navy-light); }
+.person-card:hover { border-color: var(--gold); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(10, 34, 64, 0.1); }
+.person-card.tier-advocate { border-left-color: var(--green); }
+.person-card.tier-supporter { border-left-color: var(--gold); }
+.person-card.tier-engaged { border-left-color: var(--navy-light); }
+.person-card.tier-declined { border-left-color: var(--red); opacity: 0.7; }
+.person-card.mar-apr::after { content: ''; position: absolute; top: 0; right: 0; border-style: solid; border-width: 0 22px 22px 0; border-color: transparent var(--gold) transparent transparent; }
+.person-name { font-family: 'Bebas Neue', sans-serif; font-size: 19px; letter-spacing: 0.5px; color: var(--navy); }
+.person-occ { font-size: 12px; color: var(--text-muted); line-height: 1.35; margin-top: 4px; min-height: 32px; }
+.person-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+.person-tier-pill { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; padding: 3px 8px; font-weight: 700; }
+.tier-advocate-pill { background: #DCEFE6; color: var(--green); }
+.tier-supporter-pill { background: #FAEFD3; color: var(--orange); }
+.tier-engaged-pill { background: var(--cream); color: var(--text-muted); }
+.tier-declined-pill { background: #F5E0E0; color: var(--red); }
+.person-touches { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--navy); line-height: 1; }
+.person-touches small { font-size: 10px; color: var(--text-muted); display: block; letter-spacing: 1px; text-transform: uppercase; font-family: 'Source Sans 3', sans-serif; }
+
+/* Empty state */
+.empty { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+.empty .ico { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--cream-dark); }
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10, 34, 64, 0.7); z-index: 1000; align-items: flex-start; justify-content: center; padding: 60px 20px; overflow-y: auto; }
+.modal-overlay.active { display: flex; }
+.modal { background: var(--cream); width: 100%; max-width: 720px; border: 1px solid var(--border); }
+.modal-head { background: var(--navy); color: var(--white); padding: 20px 24px; border-bottom: 3px solid var(--gold); position: relative; }
+.modal-head h2 { font-size: 30px; line-height: 1; }
+.modal-head p { font-size: 14px; color: var(--gold-light); margin-top: 6px; line-height: 1.4; }
+.modal-close { position: absolute; top: 14px; right: 14px; background: none; border: 1px solid rgba(255,255,255,0.3); color: var(--white); width: 30px; height: 30px; cursor: pointer; font-size: 18px; line-height: 1; }
+.modal-close:hover { background: var(--red); border-color: var(--red); }
+.modal-body { padding: 24px; max-height: 60vh; overflow-y: auto; }
+
+.modal-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.modal-stat { background: var(--white); border: 1px solid var(--border); padding: 12px; text-align: center; }
+.modal-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 700; }
+.modal-stat-value { font-family: 'Bebas Neue', sans-serif; font-size: 30px; color: var(--navy); line-height: 1; margin-top: 4px; }
+
+.timeline { position: relative; padding-left: 24px; }
+.timeline::before { content: ''; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 2px; background: var(--cream-dark); }
+.timeline-event { position: relative; padding-bottom: 18px; }
+.timeline-event::before { content: ''; position: absolute; left: -22px; top: 6px; width: 12px; height: 12px; background: var(--gold); border: 2px solid var(--white); border-radius: 50%; box-shadow: 0 0 0 1px var(--cream-dark); }
+.timeline-event.focus::before { background: var(--red); }
+.timeline-date { font-family: 'Bebas Neue', sans-serif; font-size: 14px; color: var(--navy); letter-spacing: 1px; }
+.timeline-source { font-size: 11px; color: var(--text-muted); margin-left: 8px; font-style: italic; }
+.timeline-text { font-size: 14px; color: var(--text); margin-top: 4px; line-height: 1.5; }
+
+/* Monthly chart */
+.monthly-chart { padding: 24px; }
+.monthly-bars { display: flex; align-items: stretch; gap: 12px; height: 260px; padding: 20px 0 0; border-bottom: 2px solid var(--navy); }
+.monthly-bar { flex: 1; display: flex; flex-direction: column; align-items: center; min-width: 0; justify-content: flex-end; }
+.bar-stack { width: 100%; max-width: 80px; display: flex; flex-direction: column; justify-content: flex-end; flex: 1; min-height: 0; }
+.bar-events { background: var(--navy); width: 100%; position: relative; transition: opacity 0.15s; min-height: 30px; }
+.bar-events:hover { opacity: 0.85; }
+.bar-events.focus { background: var(--gold); }
+.bar-value { color: var(--white); font-family: 'Bebas Neue', sans-serif; font-size: 18px; text-align: center; padding: 4px 0; line-height: 1; }
+.bar-events.focus .bar-value { color: var(--navy); }
+.bar-label { font-family: 'Bebas Neue', sans-serif; font-size: 13px; letter-spacing: 0.5px; color: var(--navy); margin-top: 8px; text-align: center; }
+.bar-label small { display: block; font-family: 'Source Sans 3', sans-serif; font-size: 10px; color: var(--text-muted); letter-spacing: 0; text-transform: none; font-weight: 400; margin-top: 2px; }
+
+/* Tier legend */
+.tier-legend { display: flex; gap: 18px; flex-wrap: wrap; padding: 16px 24px; background: var(--cream); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); align-items: center; }
+.tier-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.tier-legend-bar { width: 16px; height: 14px; }
+.tier-legend strong { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+
+/* Footer */
+.footer { margin-top: 40px; }
+.footer-stripe { display: flex; height: 6px; }
+.footer-stripe div:nth-child(1) { background: var(--red); flex: 1; }
+.footer-stripe div:nth-child(2) { background: var(--white); flex: 1; }
+.footer-stripe div:nth-child(3) { background: var(--navy); flex: 1; }
+.footer-bar { background: var(--navy); color: var(--cream-dark); padding: 18px 40px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; letter-spacing: 0.5px; }
+.footer-bar strong { color: var(--gold-light); font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 1.5px; }
+
+/* Tab content */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* Pulse for the focus stat */
+@keyframes goldglow { 0%,100% { box-shadow: 0 0 0 rgba(200, 150, 60, 0); } 50% { box-shadow: 0 0 12px rgba(200, 150, 60, 0.3); } }
+.stat-card.focus { animation: goldglow 4s ease-in-out infinite; }
+
+/* Print */
+@media print {
+  .nav, .filter-bar, .modal-overlay { display: none !important; }
+  .section { break-inside: avoid; }
+  body { background: white; }
+}
+</style>
+</head>
+<body>
+
+<div class="americana-stripe"></div>
+<header class="header">
+  <div class="header-top">
+    <div>
+      <h1 class="header-title">1500 GATEWAY</h1>
+      <div class="header-sub">Supporter Coalition Dashboard</div>
+    </div>
+    <div class="header-meta">
+      <strong>FREDERICKSBURG, VA</strong>
+      Prepared April 30, 2026<br>
+      Source: Vectre + Supporters tracking files
+    </div>
+  </div>
+</header>
+<div class="gold-stripe"></div>
+
+<nav class="nav">
+  <button class="nav-btn active" data-tab="coalition">Coalition</button>
+  <button class="nav-btn" data-tab="people">All Supporters</button>
+  <button class="nav-btn" data-tab="timeline">Activity Timeline</button>
+</nav>
+
+<div class="container">
+
+  <!-- Stats row, always visible -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Total Supporters</div>
+      <div class="stat-value" id="stat-total">0</div>
+      <div class="stat-foot">Across both tracking files</div>
+    </div>
+    <div class="stat-card advocate">
+      <div class="stat-label">Active Advocates</div>
+      <div class="stat-value" id="stat-advocates">0</div>
+      <div class="stat-foot">Have contacted council or scheduled action</div>
+    </div>
+    <div class="stat-card focus">
+      <div class="stat-label">Mar / Apr 2026</div>
+      <div class="stat-value" id="stat-marapr">0</div>
+      <div class="stat-foot">Distinct people contacted in focus window</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Touchpoints</div>
+      <div class="stat-value" id="stat-touchpoints">0</div>
+      <div class="stat-foot">Dated engagement events</div>
+    </div>
+  </div>
+
+  <!-- Coalition tab (centerpiece) -->
+  <div class="tab-content active" id="tab-coalition">
+    <div class="section">
+      <div class="section-head">
+        <h2>Coalition By Sector</h2>
+        <span class="head-meta">Click a sector to filter the supporter list below</span>
+      </div>
+      <div class="sector-grid" id="sector-grid"></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h2 id="people-section-title">All Supporters</h2>
+        <span class="head-meta" id="people-section-meta">Click a card for engagement detail</span>
+      </div>
+      <div class="tier-legend">
+        <strong>Tier:</strong>
+        <div class="tier-legend-item"><div class="tier-legend-bar" style="background: var(--green);"></div>Active Advocate</div>
+        <div class="tier-legend-item"><div class="tier-legend-bar" style="background: var(--gold);"></div>Willing Supporter</div>
+        <div class="tier-legend-item"><div class="tier-legend-bar" style="background: var(--navy-light);"></div>Engaged (Dinner)</div>
+        <div class="tier-legend-item"><div class="tier-legend-bar" style="background: var(--red);"></div>Declined</div>
+        <div class="tier-legend-item" style="margin-left: auto;">
+          <div style="width: 0; height: 0; border-style: solid; border-width: 0 12px 12px 0; border-color: transparent var(--gold) transparent transparent;"></div>
+          Touched in Mar/Apr 2026
+        </div>
+      </div>
+      <div class="filter-bar">
+        <span class="filter-label">Search</span>
+        <input type="text" id="search" placeholder="Name or organization...">
+        <span class="filter-label">Tier</span>
+        <select id="tier-filter">
+          <option value="">All</option>
+          <option value="Active Advocate">Active Advocate</option>
+          <option value="Willing Supporter">Willing Supporter</option>
+          <option value="Engaged (Dinner)">Engaged (Dinner)</option>
+          <option value="Declined / Inactive">Declined / Inactive</option>
+        </select>
+        <span class="filter-label">Mar/Apr</span>
+        <select id="marapr-filter">
+          <option value="">All</option>
+          <option value="yes">Touched</option>
+          <option value="no">Not touched</option>
+        </select>
+        <span class="filter-label">Sort</span>
+        <select id="sort">
+          <option value="touches">Most touches</option>
+          <option value="recent">Most recent</option>
+          <option value="name">Name (A-Z)</option>
+        </select>
+        <button id="clear-filters">Reset</button>
+        <span class="results-count" id="results-count"></span>
+      </div>
+      <div class="people-grid" id="people-grid"></div>
+    </div>
+  </div>
+
+  <!-- All people tab -->
+  <div class="tab-content" id="tab-people">
+    <div class="section">
+      <div class="section-head">
+        <h2>Complete Supporter Roster</h2>
+        <span class="head-meta">Sortable, filterable view</span>
+      </div>
+      <div id="people-table-wrap"></div>
+    </div>
+  </div>
+
+  <!-- Timeline tab -->
+  <div class="tab-content" id="tab-timeline">
+    <div class="section">
+      <div class="section-head">
+        <h2>Monthly Engagement Volume</h2>
+        <span class="head-meta">Mar / Apr 2026 highlighted in gold</span>
+      </div>
+      <div class="monthly-chart">
+        <div class="monthly-bars" id="monthly-bars"></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head">
+        <h2>Mar / Apr 2026 Detail</h2>
+        <span class="head-meta">Chronological log of focus-window contacts</span>
+      </div>
+      <div style="padding: 24px;" id="marapr-list"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-stripe"><div></div><div></div><div></div></div>
+  <div class="footer-bar">
+    <span><strong>RENUSA</strong> &nbsp; Public affairs and community engagement</span>
+    <span>Confidential client deliverable for Penzance / 1500 Gateway</span>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close" id="modal-close">&times;</button>
+      <h2 id="modal-name"></h2>
+      <p id="modal-occ"></p>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stats" id="modal-stats"></div>
+      <h3 style="font-size: 18px; color: var(--navy); margin-bottom: 12px; letter-spacing: 1px;">Engagement Timeline</h3>
+      <div class="timeline" id="modal-timeline"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = {"stats":{"total_unique":60,"dated_events":95,"mar_apr_unique":43,"active_advocates":9,"mar_count":32,"apr_count":16,"mar_apr_count":48},"people":[{"id":"xavier_richardson","name":"Xavier Richardson","occupation":"Executive VP of Mary Washington Healthcare","sector":"Healthcare","tier":"Active Advocate","event_count":8,"first_touch":"Oct 23, 2025","latest_touch":"Apr 15, 2026","first_touch_iso":"2025-10-23","latest_touch_iso":"2026-04-15","mar_apr_touched":true,"files":"Supporters, Vectre","events":[{"date":"2025-10-23","date_display":"Oct 23, 2025","source":"Oct 23rd --","text":"Confirmed his strong relationships with Council members and expressed willingness to advocate with them, potentially speaking at Council meetings. However, he acknowledged that he could not influence Matt Rowe on this issue if they are elected. Richardson also mentioned that he knows members of the planning commission, which could be valuable for the project's advancement.","file":"Vectre"},{"date":"2026-01-08","date_display":"Jan 08, 2026","source":"Jan 8th --","text":"Still willing to talk with members of council.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Email sent on 2/23","file":"Supporters"},{"date":"2026-02-25","date_display":"Feb 25, 2026","source":"February 25th --","text":"Has contacted the mayor and discussed the project.","file":"Vectre"},{"date":"2026-02-26","date_display":"Feb 26, 2026","source":"Contact #2","text":"Email follow up on 2/26 focused on Dr. Catlett","file":"Supporters"},{"date":"2026-03-02","date_display":"Mar 02, 2026","source":"Contact #4","text":"DMD and X talked on 3/2. Xavier agreed to facilitate a meeting.","file":"Supporters"},{"date":"2026-04-14","date_display":"Apr 14, 2026","source":"April 14th --","text":"Met with Faizan, Dave, and Ben. Discussed support for Fredericksburg schools and UMW Medical School. He agreed to contact members of council.","file":"Vectre"},{"date":"2026-04-15","date_display":"Apr 15, 2026","source":"April 15th --","text":"Ben followed up with Xavier, he is going to start contacting members of council beginning with Jannan Holmes.","file":"Vectre"},{"date":null,"date_display":"Undated","source":"Contact #3","text":"Ben Dendy shares that Xavier has placed a call to the Mayor. Also point person on MWC Medical School in F'burg","file":"Supporters"}]},{"id":"dermaine_lewis","name":"Dermaine Lewis","occupation":"Market President of Atlantic Union Bank","sector":"Business / Development","tier":"Active Advocate","event_count":5,"first_touch":"Oct 29, 2025","latest_touch":"Apr 10, 2026","first_touch_iso":"2025-10-29","latest_touch_iso":"2026-04-10","mar_apr_touched":true,"files":"Supporters, Vectre","events":[{"date":"2025-10-29","date_display":"Oct 29, 2025","source":"Oct 29th --","text":"Supportive of economic development aspect of the project. Willing to talk with members of council but does not know them well.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Email sent on 2/23","file":"Supporters"},{"date":"2026-02-25","date_display":"Feb 25, 2026","source":"Contact #2","text":"Spoke with Mr. Lewis. 2/25 He is still supportive of the project. Will text with some times to meet to discuss further","file":"Supporters"},{"date":"2026-03-02","date_display":"Mar 02, 2026","source":"Contact #3","text":"Follow-up text sent 3/2 to schedule meeting.","file":"Supporters"},{"date":"2026-04-10","date_display":"Apr 10, 2026","source":"April 10th --","text":"Ben followed up; he will contact Mayor Devine and members of council. A detailed follow-up email was also sent.","file":"Vectre"}]},{"id":"don_slaiman","name":"Don Slaiman","occupation":"Director of Community Relations of the IBEW Local 26","sector":"Labor","tier":"Active Advocate","event_count":5,"first_touch":"Oct 25, 2025","latest_touch":"Apr 04, 2026","first_touch_iso":"2025-10-25","latest_touch_iso":"2026-04-04","mar_apr_touched":true,"files":"Supporters, Vectre","events":[{"date":"2025-10-25","date_display":"Oct 25, 2025","source":"Oct 25th --","text":"Indicated they will be very helpful and are willing to contact all members of Council. Slaiman would speak at the hearing and mobilize members of his organization to attend. They will be able to engage Delegate Josh Cole to support the project. Slaiman spoke with Cole about the issues. He noted that his membership has doubled because of data centers in the region. Slaiman also introduced Ben Dendy to Kevin Hughes with STACK, who may be willing to be helpful.","file":"Vectre"},{"date":"2026-01-07","date_display":"Jan 07, 2026","source":"Jan 7th --","text":"He is prepared to organize turnout for council meeting. He has meetings with members of council in which he will raise his support of the project.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Ben Dendy texted","file":"Supporters"},{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"March 23rd --","text":"Slaiman has been in contact with multiple stakeholders regarding the project. The next targeted council member is Susanna Finn. Labor and union support were key factors in her election to the council last November.","file":"Vectre"},{"date":"2026-04-04","date_display":"Apr 04, 2026","source":"April 4th --","text":"Followed up; made contact with Susanna Finn.","file":"Vectre"}]},{"id":"curry_roberts","name":"Curry Roberts","occupation":"President of the Fredericksburg Regional Alliance of Mary Washington","sector":"Business / Chamber","tier":"Willing Supporter","event_count":4,"first_touch":"Oct 06, 2025","latest_touch":"Mar 23, 2026","first_touch_iso":"2025-10-06","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters, Vectre","events":[{"date":"2025-10-06","date_display":"Oct 06, 2025","source":"Oct. 6th --","text":"Appeared to be willing to advocate to the Council and will be supportive.","file":"Vectre"},{"date":"2026-02-19","date_display":"Feb 19, 2026","source":"February 19th --","text":"Agreed to speak with Mayor Devine.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Email sent on 2/23","file":"Supporters"},{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"charles_w_mcdaniel","name":"Charles W. McDaniel","occupation":"Owner of Hilldrup Companies","sector":"Business / Development","tier":"Active Advocate","event_count":3,"first_touch":"Nov 10, 2025","latest_touch":"Apr 08, 2026","first_touch_iso":"2025-11-10","latest_touch_iso":"2026-04-08","mar_apr_touched":true,"files":"Supporters, Vectre","events":[{"date":"2025-11-10","date_display":"Nov 10, 2025","source":"Nov 10th --","text":"Expressed strong support for the project and offered to reach out to council members on its behalf, particularly Crump and Frye. He also provided Ben Dendy with four additional contacts to engage regarding the project.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Email sent on 2/23","file":"Supporters"},{"date":"2026-04-08","date_display":"Apr 08, 2026","source":"April 8th --","text":"Met with Dave and Ben; will contact the Mayor and Susanna Finn.","file":"Vectre"}]},{"id":"joel_griffin","name":"Joel Griffin","occupation":"Founder & CEO of Riphean","sector":"Business / Development","tier":"Willing Supporter","event_count":3,"first_touch":"Oct 10, 2025","latest_touch":"Feb 23, 2026","first_touch_iso":"2025-10-10","latest_touch_iso":"2026-02-23","mar_apr_touched":false,"files":"Supporters, Vectre","events":[{"date":"2025-10-10","date_display":"Oct 10, 2025","source":"Oct. 10th --","text":"Emphasized that he has strong relationships with most Council members and will advocate on behalf of the project.","file":"Vectre"},{"date":"2026-02-06","date_display":"Feb 06, 2026","source":"2/6 Notes","text":"Very active democrat, knows council well, strong relationships. Works with labor","file":"Supporters"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Email sent on 2/23","file":"Supporters"}]},{"id":"mary_katherine_greenlaw","name":"Mary Katherine Greenlaw","occupation":"Former Mayor of Fredericksburg","sector":"Government / Political","tier":"Declined / Inactive","event_count":3,"first_touch":"Nov 06, 2025","latest_touch":"Feb 25, 2026","first_touch_iso":"2025-11-06","latest_touch_iso":"2026-02-25","mar_apr_touched":false,"files":"Supporters, Vectre","events":[{"date":"2025-11-06","date_display":"Nov 06, 2025","source":"Nov 6th --","text":"Former mayor who is supportive of the project. She knows Joy Crump, and she served with current Mayor Devine when she was a city council member. Willing to contact members of city council and advocate.","file":"Vectre"},{"date":"2026-02-06","date_display":"Feb 06, 2026","source":"2/6 Notes","text":"Glad to talk to Crump and Mayor","file":"Supporters"},{"date":"2026-02-25","date_display":"Feb 25, 2026","source":"February 25 --","text":"Followed up with former mayor; not inclined to be involved.","file":"Vectre"},{"date":null,"date_display":"Undated","source":"Contact #2","text":"May want to be careful with her. She's out of the political front","file":"Supporters"}]},{"id":"richmond_mcdaniel","name":"Richmond McDaniel","occupation":"Broker, Developer, and Investor, Colliers","sector":"Business / Development","tier":"Willing Supporter","event_count":3,"first_touch":"Nov 19, 2025","latest_touch":"Mar 04, 2026","first_touch_iso":"2025-11-19","latest_touch_iso":"2026-03-04","mar_apr_touched":true,"files":"Supporters, Vectre","events":[{"date":"2025-11-19","date_display":"Nov 19, 2025","source":"Nov 19th --","text":"Demonstrated strong support for the project and expressed willingness to contact City Council members. Provided additional stakeholder contacts for potential project advocacy. Knows Frye well.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Email sent on 2/23","file":"Supporters"},{"date":"2026-03-04","date_display":"Mar 04, 2026","source":"Contact #2","text":"Zoom set 3/4","file":"Supporters"}]},{"id":"tommy_mitchell","name":"Tommy Mitchell","occupation":"Developer","sector":"Business / Development","tier":"Willing Supporter","event_count":3,"first_touch":"Nov 11, 2025","latest_touch":"Feb 25, 2026","first_touch_iso":"2025-11-11","latest_touch_iso":"2026-02-25","mar_apr_touched":false,"files":"Supporters, Vectre","events":[{"date":"2025-11-11","date_display":"Nov 11, 2025","source":"Nov 11th --","text":"Indicated support for the project and willingness to contact City Council members.                                                                                                                                                                                                                                                                                                                                                                                                           Apirl 21st -- He does not want to contact members of council at this time.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Email sent on 2/23","file":"Supporters"},{"date":"2026-02-25","date_display":"Feb 25, 2026","source":"Contact #2","text":"Left VM with assistant 2/25","file":"Supporters"}]},{"id":"bruce_davis","name":"Bruce Davis","occupation":"Chair of the Board of Mary Washington Healthcare","sector":"Healthcare","tier":"Active Advocate","event_count":2,"first_touch":"Nov 06, 2025","latest_touch":"Feb 23, 2026","first_touch_iso":"2025-11-06","latest_touch_iso":"2026-02-23","mar_apr_touched":false,"files":"Supporters, Vectre","events":[{"date":"2025-11-06","date_display":"Nov 06, 2025","source":"Nov 6th --","text":"He supports data centers and is willing to contact the mayor and other members of council.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Bad email, find update","file":"Supporters"}]},{"id":"charlie_mcdaniel","name":"Charlie McDaniel","occupation":"Vice President, Growth & Strategy at Hilldrup","sector":"Business / Development","tier":"Active Advocate","event_count":2,"first_touch":"Apr 08, 2026","latest_touch":"Apr 23, 2026","first_touch_iso":"2026-04-08","latest_touch_iso":"2026-04-23","mar_apr_touched":true,"files":"Vectre","events":[{"date":"2026-04-08","date_display":"Apr 08, 2026","source":"April 8th --","text":"Met with Dave and Ben; provided several additional contact recommendations.","file":"Vectre"},{"date":"2026-04-23","date_display":"Apr 23, 2026","source":"April 23rd --","text":"Will be sending emails to members of council and will work with his father on this. Sending drafts.","file":"Vectre"}]},{"id":"ernisha_hall","name":"Ernisha Hall","occupation":"President and CEO, VA Black Chamber of Commerce","sector":"Business / Chamber","tier":"Active Advocate","event_count":2,"first_touch":"Feb 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-02-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters, Vectre","events":[{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Penzance reached out","file":"Supporters"},{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"March 23rd --","text":"Ben Dendy has spoken with her on multiple occasions regarding the project. At the Labor Council Dinner, Jack Rushford and Chad Thompson were also able to meet her and begin building a relationship. Penzance is looking forward to fostering a partnership with the Black Chamber. Ernisha Hall is willing to support the project and speak with the mayor, but she has expressed interest in ensuring chamber members have contracting opportunities in the development of the campus.","file":"Vectre"}]},{"id":"jason_asher","name":"Jason Asher","occupation":"Politcal Director, Mid-Atlantic Pipe Trades Association","sector":"Labor","tier":"Willing Supporter","event_count":2,"first_touch":"Feb 20, 2026","latest_touch":"Feb 27, 2026","first_touch_iso":"2026-02-20","latest_touch_iso":"2026-02-27","mar_apr_touched":false,"files":"Supporters","events":[{"date":"2026-02-20","date_display":"Feb 20, 2026","source":"Contact #1","text":"Email sent 2/20","file":"Supporters"},{"date":"2026-02-27","date_display":"Feb 27, 2026","source":"Contact #2","text":"Zoom set 2/27","file":"Supporters"},{"date":null,"date_display":"Undated","source":"Key Issues/Notes","text":"Need to connect","file":"Supporters"}]},{"id":"joe_wilson","name":"Joe Wilson","occupation":"CEO Emeritus, PermaTreat Inc.","sector":"Business / Development","tier":"Willing Supporter","event_count":2,"first_touch":"Oct 29, 2025","latest_touch":"Feb 23, 2026","first_touch_iso":"2025-10-29","latest_touch_iso":"2026-02-23","mar_apr_touched":false,"files":"Supporters, Vectre","events":[{"date":"2025-10-29","date_display":"Oct 29, 2025","source":"Oct 29th --","text":"Supportive of the project and is willing to advocate to the Council.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Email sent on 2/23","file":"Supporters"}]},{"id":"meredith_schatz","name":"Meredith Schatz","occupation":"Chair, Fredericksburg Economic Development Authority; Senior Director and Chief of Staff, Education Advisory Board (EAB), Inc.","sector":"Business / Chamber","tier":"Active Advocate","event_count":2,"first_touch":"Jan 07, 2026","latest_touch":"Feb 23, 2026","first_touch_iso":"2026-01-07","latest_touch_iso":"2026-02-23","mar_apr_touched":false,"files":"Supporters, Vectre","events":[{"date":"2026-01-07","date_display":"Jan 07, 2026","source":"Jan 7th --","text":"Meredith Schatz chairs the Economic Development Authority. She is willing to contact council members and wants to follow-up with Charlie Payne. She also wants us to send her an updated point paper. She was impressed that there is not much residential development in the area where the data center would be located.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Email sent on 2/23","file":"Supporters"}]},{"id":"susan_spears","name":"Susan Spears","occupation":"CEO, Fredericksburg Regional Chamber of Commerce","sector":"Business / Chamber","tier":"Willing Supporter","event_count":2,"first_touch":"Oct 23, 2025","latest_touch":"Feb 23, 2026","first_touch_iso":"2025-10-23","latest_touch_iso":"2026-02-23","mar_apr_touched":false,"files":"Supporters, Vectre","events":[{"date":"2025-10-23","date_display":"Oct 23, 2025","source":"Oct 23rd --","text":"Offered to advocate with Council members and indicated she would have the most influence with Joy Crump. She noted that the planning commission has already gone on record supporting data centers in the area and stated that \"there is no other way for Fredericksburg to get what it needs.\" Her assessment of the current Council is that while they are generally anti-business, they will support this project due to the associated revenues. She concluded by saying, \"If the planning commission issues are addressed, how could the Council oppose?\" Spears confirmed her willingness to engage with Council members on behalf of the project.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Email sent on 2/23","file":"Supporters"},{"date":null,"date_display":"Undated","source":"Contact #2","text":"Ben Dendy trying to connect, text sent","file":"Supporters"}]},{"id":"virginia_diamond","name":"Virginia Diamond","occupation":"President of Northern Virginia AFL-CIO (NoVA Labor)","sector":"Labor","tier":"Active Advocate","event_count":2,"first_touch":"Oct 25, 2025","latest_touch":"Feb 23, 2026","first_touch_iso":"2025-10-25","latest_touch_iso":"2026-02-23","mar_apr_touched":false,"files":"Supporters, Vectre","events":[{"date":"2025-10-25","date_display":"Oct 25, 2025","source":"Oct 25th --","text":"Indicated they will be very helpful and are willing to contact all members of Council.","file":"Vectre"},{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Ben Dendy texted","file":"Supporters"}]},{"id":"aaron_brooks","name":"Aaron Brooks","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"adam_fried","name":"Adam Fried","occupation":"Developer/Founder, Atlantic Builders","sector":"Business / Development","tier":"Willing Supporter","event_count":1,"first_touch":"Apr 29, 2026","latest_touch":"Apr 29, 2026","first_touch_iso":"2026-04-29","latest_touch_iso":"2026-04-29","mar_apr_touched":true,"files":"Vectre","events":[{"date":"2026-04-29","date_display":"Apr 29, 2026","source":"April 29th --","text":"Hosted a fundraiser for Councilwoman Joy Crump. Will contact Joy Crump about the project.","file":"Vectre"}]},{"id":"barry_wilson","name":"Barry Wilson","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"cathy_wack","name":"Cathy Wack","occupation":"Owner, Wack General Contracting","sector":"Business / Development","tier":"Willing Supporter","event_count":1,"first_touch":"Nov 19, 2025","latest_touch":"Nov 19, 2025","first_touch_iso":"2025-11-19","latest_touch_iso":"2025-11-19","mar_apr_touched":false,"files":"Supporters, Vectre","events":[{"date":"2025-11-19","date_display":"Nov 19, 2025","source":"Nov 19th --","text":"After reviewing tax revenue information, if she agrees, Cathy Wack would contact members of council. The study has been sent to her, and Ben will follow up.","file":"Vectre"}]},{"id":"chad_stewart","name":"Chad Stewart","occupation":"Interim Director of Government Relations and Research, Virginia Education Association","sector":"Education","tier":"Declined / Inactive","event_count":1,"first_touch":"Feb 23, 2026","latest_touch":"Feb 23, 2026","first_touch_iso":"2026-02-23","latest_touch_iso":"2026-02-23","mar_apr_touched":false,"files":"Supporters","events":[{"date":"2026-02-23","date_display":"Feb 23, 2026","source":"Contact #1","text":"Email sent on 2/23","file":"Supporters"},{"date":null,"date_display":"Undated","source":"Contact #2","text":"Declined interest","file":"Supporters"}]},{"id":"charles_g_mcdaniel","name":"Charles G. McDaniel","occupation":"Founder of Hillrup, father and grandfather of Charles and Charlie McDaniel respectively.","sector":"Business / Development","tier":"Willing Supporter","event_count":1,"first_touch":"Apr 08, 2026","latest_touch":"Apr 08, 2026","first_touch_iso":"2026-04-08","latest_touch_iso":"2026-04-08","mar_apr_touched":true,"files":"Vectre","events":[{"date":"2026-04-08","date_display":"Apr 08, 2026","source":"April 8th --","text":"Met with Ben and will contact Mayor Devine. Has a close relationship with the City Manager and has discussed data centers with him.","file":"Vectre"}]},{"id":"chris_payton","name":"Chris Payton","occupation":"Brisben Center","sector":"Business / Development","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"damien_wood","name":"Damien Wood","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"david_walrod","name":"David Walrod","occupation":"Educator, lives in the Fredericksburg area; former President of Fairfax AFT.","sector":"Education","tier":"Willing Supporter","event_count":1,"first_touch":"Apr 14, 2026","latest_touch":"Apr 14, 2026","first_touch_iso":"2026-04-14","latest_touch_iso":"2026-04-14","mar_apr_touched":true,"files":"Supporters, Vectre","events":[{"date":"2026-04-14","date_display":"Apr 14, 2026","source":"April 14th --","text":"Met with Ben and will contact members of council.","file":"Vectre"},{"date":null,"date_display":"Undated","source":"Key Issues/Notes","text":"Recommended Connection","file":"Supporters"}]},{"id":"delegate_josh_cole","name":"Delegate Josh Cole","occupation":"Member of the House of Delegates and Pastor","sector":"Government / Political","tier":"Willing Supporter","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Vectre","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"March 23rd --","text":"Has engaged in discussions with Mayor Devine regarding the project.","file":"Vectre"}]},{"id":"edgardo_mangual","name":"Edgardo Mangual","occupation":"AFA","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"fitzhugh_johnson_iii","name":"Fitzhugh Johnson III","occupation":"Founder of Johnson Realty Advisors,","sector":"Business / Development","tier":"Willing Supporter","event_count":1,"first_touch":"Apr 20, 2026","latest_touch":"Apr 20, 2026","first_touch_iso":"2026-04-20","latest_touch_iso":"2026-04-20","mar_apr_touched":true,"files":"Vectre","events":[{"date":"2026-04-20","date_display":"Apr 20, 2026","source":"April 20th --","text":"Supportive of the project and is willing to contact members of council.","file":"Vectre"}]},{"id":"greg_strotman","name":"Greg Strotman","occupation":"IUOE Local 77","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"heather_hagerman","name":"Heather Hagerman","occupation":"Excutive Vice President of Johnson Realty Advisors","sector":"Business / Development","tier":"Willing Supporter","event_count":1,"first_touch":"Apr 20, 2026","latest_touch":"Apr 20, 2026","first_touch_iso":"2026-04-20","latest_touch_iso":"2026-04-20","mar_apr_touched":true,"files":"Vectre","events":[{"date":"2026-04-20","date_display":"Apr 20, 2026","source":"April 20th --","text":"Met with Ben and said that she will take the council member Jannan Holmes for coffee and discuss her support of the project.","file":"Vectre"}]},{"id":"ikea_bathea","name":"Ikea Bathea","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"irene_roberts","name":"Irene Roberts","occupation":"Office of Tim Kaine / Campaign Manager","sector":"Government / Political","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"jarvis_bailey","name":"Jarvis Bailey","occupation":"Pastor and Fredericksburg School Board Member","sector":"Faith Community","tier":"Willing Supporter","event_count":1,"first_touch":"Apr 29, 2026","latest_touch":"Apr 29, 2026","first_touch_iso":"2026-04-29","latest_touch_iso":"2026-04-29","mar_apr_touched":true,"files":"Vectre","events":[{"date":"2026-04-29","date_display":"Apr 29, 2026","source":"April 29th --","text":"Interested in ongoing support for training opportunities at 1500 Gateway for Fredericksburg students beyond the one-time gift to the CTE programs. Recognizes the value the project brings to education and will likely contact members of the council.","file":"Vectre"}]},{"id":"john_williams","name":"John Williams","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"kerry_devine","name":"Kerry Devine","occupation":"Mayor, Fredericksburg","sector":"Government / Political","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"lee_murray","name":"Lee Murray","occupation":"City Resident/ Public Commenter","sector":"Citizen","tier":"Willing Supporter","event_count":1,"first_touch":"Feb 25, 2026","latest_touch":"Feb 25, 2026","first_touch_iso":"2026-02-25","latest_touch_iso":"2026-02-25","mar_apr_touched":false,"files":"Supporters","events":[{"date":"2026-02-25","date_display":"Feb 25, 2026","source":"Contact #1","text":"Left VM 2/25","file":"Supporters"},{"date":null,"date_display":"Undated","source":"Key Issues/Notes","text":"Argues the city is \"foolish\" to turn down tax revenue","file":"Supporters"}]},{"id":"lou_spencer","name":"Lou Spencer","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"mallese_froelich","name":"Mallese Froelich","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"marshall_brown","name":"Marshall Brown","occupation":"Director, LiUNA Laborers-Employers Cooperation and Education Trust (LECET)","sector":"Labor","tier":"Willing Supporter","event_count":1,"first_touch":"Feb 25, 2026","latest_touch":"Feb 25, 2026","first_touch_iso":"2026-02-25","latest_touch_iso":"2026-02-25","mar_apr_touched":false,"files":"Supporters","events":[{"date":"2026-02-25","date_display":"Feb 25, 2026","source":"Contact #1","text":"Zoom 2/25","file":"Supporters"},{"date":null,"date_display":"Undated","source":"Key Issues/Notes","text":"Recommended Connection","file":"Supporters"},{"date":null,"date_display":"Undated","source":"Contact #2","text":"Held meeting, Marshall, Don and Ginny going to talk soon","file":"Supporters"}]},{"id":"matthew_rathbun","name":"Matthew Rathbun","occupation":"President, Fredericksburg Area Association of Realtors","sector":"Business / Chamber","tier":"Willing Supporter","event_count":1,"first_touch":"Apr 13, 2026","latest_touch":"Apr 13, 2026","first_touch_iso":"2026-04-13","latest_touch_iso":"2026-04-13","mar_apr_touched":true,"files":"Vectre","events":[{"date":"2026-04-13","date_display":"Apr 13, 2026","source":"April 13th --","text":"Met with and he will contact members of council \"behind the scenes\". FAAR will not take a position.","file":"Vectre"}]},{"id":"melvin_carter","name":"Melvin Carter","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"mike_dempsey","name":"Mike Dempsey","occupation":"Carpenters","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"neil_sullivan","name":"Neil Sullivan","occupation":"Retired Developer","sector":"Business / Development","tier":"Willing Supporter","event_count":1,"first_touch":"Nov 14, 2025","latest_touch":"Nov 14, 2025","first_touch_iso":"2025-11-14","latest_touch_iso":"2025-11-14","mar_apr_touched":false,"files":"Supporters, Vectre","events":[{"date":"2025-11-14","date_display":"Nov 14, 2025","source":"Nov 14th --","text":"Expressed willingness to contact City Council members.","file":"Vectre"}]},{"id":"nelson_aguilar","name":"Nelson Aguilar","occupation":"Carpenters Local 197 / IUOE #77","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"nestor_cruz","name":"Nestor Cruz","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"pamela_yeung","name":"Pamela Yeung","occupation":"Stafford county","sector":"Citizen","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"peter_mitchell","name":"Peter Mitchell","occupation":"CWA (retired)","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"raymond_jackson","name":"Raymond Jackson","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"rick_nehrboss","name":"Rick Nehrboss","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"robert_girdharry","name":"Robert Girdharry","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"shameka_harris","name":"Shameka Harris","occupation":"","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"shane_riddle","name":"Shane Riddle","occupation":"Director of Government Relations, Virginia Education Association","sector":"Education","tier":"Willing Supporter","event_count":1,"first_touch":"Jan 12, 2026","latest_touch":"Jan 12, 2026","first_touch_iso":"2026-01-12","latest_touch_iso":"2026-01-12","mar_apr_touched":false,"files":"Vectre","events":[{"date":"2026-01-12","date_display":"Jan 12, 2026","source":"Jan 12th --","text":"Shane Riddle is with the Virginia Education Association. Will arrange for us to meet with Fredericksburg Education Association.\nHas moved out of state and was unable to arrange a meeting.","file":"Vectre"}]},{"id":"shellie_bowman","name":"Shellie Bowman","occupation":"Candidate","sector":"Government / Political","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"tom_schoedel","name":"Tom Schoedel","occupation":"CEO, Atlantic Builders","sector":"Business / Development","tier":"Willing Supporter","event_count":1,"first_touch":"Apr 29, 2026","latest_touch":"Apr 29, 2026","first_touch_iso":"2026-04-29","latest_touch_iso":"2026-04-29","mar_apr_touched":true,"files":"Vectre","events":[{"date":"2026-04-29","date_display":"Apr 29, 2026","source":"April 29th --","text":"Briefed him on the project. Will work with Adam Fried.","file":"Vectre"}]},{"id":"tom_wack","name":"Tom Wack","occupation":"President of Wack General Contracting","sector":"Business / Development","tier":"Willing Supporter","event_count":1,"first_touch":"Nov 19, 2025","latest_touch":"Nov 19, 2025","first_touch_iso":"2025-11-19","latest_touch_iso":"2025-11-19","mar_apr_touched":false,"files":"Supporters, Vectre","events":[{"date":"2025-11-19","date_display":"Nov 19, 2025","source":"Nov 19th --","text":"Tom Wack on the Economic Development Authority for Fredericksburg. He has to make sure this does not present a conflict. After reviewing tax revenue information, if she agrees, Cathy Wack would contact members of council. The study has been sent to her, and Ben will follow up.","file":"Vectre"}]},{"id":"tracey_hall","name":"Tracey Hall","occupation":"VA Black Chamber of Commerce","sector":"Business / Chamber","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"vance_ayres","name":"Vance Ayres","occupation":"IUOE Local 10","sector":"Labor","tier":"Engaged (Dinner)","event_count":1,"first_touch":"Mar 23, 2026","latest_touch":"Mar 23, 2026","first_touch_iso":"2026-03-23","latest_touch_iso":"2026-03-23","mar_apr_touched":true,"files":"Supporters","events":[{"date":"2026-03-23","date_display":"Mar 23, 2026","source":"3/23 Dinner","text":"Attended","file":"Supporters"}]},{"id":"wendy_zelazny","name":"Wendy Zelazny","occupation":"Vice President Membership and Strategic Growth, Fredericksburg Regional Chamber of Commerce","sector":"Business / Chamber","tier":"Willing Supporter","event_count":1,"first_touch":"Apr 08, 2026","latest_touch":"Apr 08, 2026","first_touch_iso":"2026-04-08","latest_touch_iso":"2026-04-08","mar_apr_touched":true,"files":"Vectre","events":[{"date":"2026-04-08","date_display":"Apr 08, 2026","source":"April 8th --","text":"She is willing to write a letter to council from the Chamber as soon as Penzance joins the Fredericksburg Regional Chamber of Commerce. Penzance can also present to the board of directors subject to scheduling.","file":"Vectre"}]},{"id":"sonia_luna","name":"Sonia Luna","occupation":"Business Manager, LiUNA Local 572","sector":"Labor","tier":"Willing Supporter","event_count":0,"first_touch":"","latest_touch":"","first_touch_iso":"","latest_touch_iso":"","mar_apr_touched":false,"files":"Supporters","events":[{"date":null,"date_display":"Undated","source":"Key Issues/Notes","text":"Recommended Connection","file":"Supporters"}]}],"sectors":[{"sector":"Labor","total":24,"active_advocate":2,"willing_supporter":3,"engaged_dinner":19,"declined":0,"mar_apr_touched":20},{"sector":"Business / Development","total":16,"active_advocate":3,"willing_supporter":12,"engaged_dinner":1,"declined":0,"mar_apr_touched":10},{"sector":"Business / Chamber","total":7,"active_advocate":2,"willing_supporter":4,"engaged_dinner":1,"declined":0,"mar_apr_touched":5},{"sector":"Government / Political","total":5,"active_advocate":0,"willing_supporter":1,"engaged_dinner":3,"declined":1,"mar_apr_touched":4},{"sector":"Education","total":3,"active_advocate":0,"willing_supporter":2,"engaged_dinner":0,"declined":1,"mar_apr_touched":1},{"sector":"Healthcare","total":2,"active_advocate":2,"willing_supporter":0,"engaged_dinner":0,"declined":0,"mar_apr_touched":1},{"sector":"Citizen","total":2,"active_advocate":0,"willing_supporter":1,"engaged_dinner":1,"declined":0,"mar_apr_touched":1},{"sector":"Faith Community","total":1,"active_advocate":0,"willing_supporter":1,"engaged_dinner":0,"declined":0,"mar_apr_touched":1}],"monthly":[{"month":"Oct 2025","month_full":"October 2025","events":8,"unique":8,"is_focus":false},{"month":"Nov 2025","month_full":"November 2025","events":8,"unique":8,"is_focus":false},{"month":"Jan 2026","month_full":"January 2026","events":4,"unique":4,"is_focus":false},{"month":"Feb 2026","month_full":"February 2026","events":27,"unique":19,"is_focus":false},{"month":"Mar 2026","month_full":"March 2026","events":32,"unique":32,"is_focus":true},{"month":"Apr 2026","month_full":"April 2026","events":16,"unique":14,"is_focus":true}]};
+
+// State
+let activeSector = null;
+let state = { search: '', tier: '', marapr: '', sort: 'touches' };
+
+const el = (id) => document.getElementById(id);
+const escapeHTML = (s) => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const tierClass = {
+  'Active Advocate': 'advocate',
+  'Willing Supporter': 'supporter',
+  'Engaged (Dinner)': 'engaged',
+  'Declined / Inactive': 'declined',
+};
+
+// ============== HEADLINE STATS ==============
+function renderStats() {
+  el('stat-total').textContent = DATA.stats.total_unique;
+  el('stat-advocates').textContent = DATA.stats.active_advocates;
+  el('stat-marapr').textContent = DATA.stats.mar_apr_unique;
+  el('stat-touchpoints').textContent = DATA.stats.dated_events;
+}
+
+// ============== SECTORS ==============
+function renderSectors() {
+  const grid = el('sector-grid');
+  grid.innerHTML = '';
+  DATA.sectors.forEach(s => {
+    const total = s.total;
+    const aPct = (s.active_advocate / total) * 100;
+    const wPct = (s.willing_supporter / total) * 100;
+    const ePct = (s.engaged_dinner / total) * 100;
+    const dPct = (s.declined / total) * 100;
+    
+    const card = document.createElement('div');
+    card.className = 'sector-card' + (activeSector === s.sector ? ' active' : '');
+    card.innerHTML = `
+      <div class="sec-name">${escapeHTML(s.sector)}</div>
+      <div class="sec-count">${s.total}</div>
+      <div class="sec-meta">${s.mar_apr_touched} touched in Mar/Apr 2026</div>
+      <div class="sec-bar">
+        <div style="width: ${aPct}%; background: var(--green);" title="${s.active_advocate} active advocate"></div>
+        <div style="width: ${wPct}%; background: var(--gold);" title="${s.willing_supporter} willing supporter"></div>
+        <div style="width: ${ePct}%; background: var(--navy-light);" title="${s.engaged_dinner} engaged"></div>
+        <div style="width: ${dPct}%; background: var(--red);" title="${s.declined} declined"></div>
+      </div>
+      <div class="sec-legend">
+        ${s.active_advocate > 0 ? `<span class="sec-legend-item"><span class="sec-legend-dot" style="background:var(--green);"></span>${s.active_advocate} adv</span>` : ''}
+        ${s.willing_supporter > 0 ? `<span class="sec-legend-item"><span class="sec-legend-dot" style="background:var(--gold);"></span>${s.willing_supporter} sup</span>` : ''}
+        ${s.engaged_dinner > 0 ? `<span class="sec-legend-item"><span class="sec-legend-dot" style="background:var(--navy-light);"></span>${s.engaged_dinner} eng</span>` : ''}
+        ${s.declined > 0 ? `<span class="sec-legend-item"><span class="sec-legend-dot" style="background:var(--red);"></span>${s.declined} dec</span>` : ''}
+      </div>
+    `;
+    card.onclick = () => {
+      activeSector = (activeSector === s.sector) ? null : s.sector;
+      renderSectors();
+      renderPeople();
+    };
+    grid.appendChild(card);
+  });
+}
+
+// ============== PEOPLE ==============
+function getFilteredPeople() {
+  let list = DATA.people.slice();
+  if (activeSector) list = list.filter(p => p.sector === activeSector);
+  if (state.search) {
+    const q = state.search.toLowerCase();
+    list = list.filter(p => p.name.toLowerCase().includes(q) || (p.occupation || '').toLowerCase().includes(q));
+  }
+  if (state.tier) list = list.filter(p => p.tier === state.tier);
+  if (state.marapr === 'yes') list = list.filter(p => p.mar_apr_touched);
+  if (state.marapr === 'no') list = list.filter(p => !p.mar_apr_touched);
+  
+  if (state.sort === 'touches') list.sort((a,b) => b.event_count - a.event_count || a.name.localeCompare(b.name));
+  else if (state.sort === 'recent') list.sort((a,b) => (b.latest_touch_iso || '').localeCompare(a.latest_touch_iso || '') || a.name.localeCompare(b.name));
+  else if (state.sort === 'name') list.sort((a,b) => a.name.localeCompare(b.name));
+  
+  return list;
+}
+
+function renderPeople() {
+  const list = getFilteredPeople();
+  const grid = el('people-grid');
+  
+  el('results-count').textContent = list.length + ' of ' + DATA.people.length + ' supporters';
+  el('people-section-title').textContent = activeSector ? activeSector : 'All Supporters';
+  el('people-section-meta').textContent = activeSector ? 'Click sector again to clear filter, or click any card for engagement detail' : 'Click a card for engagement detail';
+  
+  if (list.length === 0) {
+    grid.innerHTML = '<div class="empty"><div class="ico">No matches</div><p>Try adjusting your filters.</p></div>';
+    return;
+  }
+  
+  grid.innerHTML = list.map(p => {
+    const cls = 'person-card tier-' + tierClass[p.tier] + (p.mar_apr_touched ? ' mar-apr' : '');
+    return `
+      <div class="${cls}" data-id="${p.id}">
+        <div class="person-name">${escapeHTML(p.name)}</div>
+        <div class="person-occ">${escapeHTML(p.occupation || 'No role recorded')}</div>
+        <div class="person-meta">
+          <span class="person-tier-pill tier-${tierClass[p.tier]}-pill">${escapeHTML(p.tier)}</span>
+          <div class="person-touches">${p.event_count}<small>touches</small></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  grid.querySelectorAll('.person-card').forEach(card => {
+    card.onclick = () => openPersonModal(card.dataset.id);
+  });
+}
+
+// ============== TABLE VIEW (All Supporters tab) ==============
+function renderTable() {
+  const wrap = el('people-table-wrap');
+  let html = `<div class="filter-bar">
+    <span class="filter-label">Sort</span>
+    <select id="table-sort">
+      <option value="touches">Most touches</option>
+      <option value="name">Name (A-Z)</option>
+      <option value="sector">By sector</option>
+    </select>
+  </div>
+  <div style="overflow-x:auto;"><table style="width:100%; border-collapse: collapse; font-size: 14px;">
+    <thead style="background: var(--navy); color: var(--white);">
+      <tr>
+        <th style="text-align:left; padding: 10px 14px; font-family: 'Bebas Neue'; letter-spacing: 1px; font-size: 13px;">Name</th>
+        <th style="text-align:left; padding: 10px 14px; font-family: 'Bebas Neue'; letter-spacing: 1px; font-size: 13px;">Sector</th>
+        <th style="text-align:left; padding: 10px 14px; font-family: 'Bebas Neue'; letter-spacing: 1px; font-size: 13px;">Role / Org</th>
+        <th style="text-align:center; padding: 10px 14px; font-family: 'Bebas Neue'; letter-spacing: 1px; font-size: 13px;">Tier</th>
+        <th style="text-align:center; padding: 10px 14px; font-family: 'Bebas Neue'; letter-spacing: 1px; font-size: 13px;">Touches</th>
+        <th style="text-align:center; padding: 10px 14px; font-family: 'Bebas Neue'; letter-spacing: 1px; font-size: 13px;">First</th>
+        <th style="text-align:center; padding: 10px 14px; font-family: 'Bebas Neue'; letter-spacing: 1px; font-size: 13px;">Latest</th>
+        <th style="text-align:center; padding: 10px 14px; font-family: 'Bebas Neue'; letter-spacing: 1px; font-size: 13px;">Mar/Apr</th>
+      </tr>
+    </thead><tbody id="table-body">
+  </tbody></table></div>`;
+  wrap.innerHTML = html;
+  renderTableBody();
+  el('table-sort').onchange = (e) => { tableSort = e.target.value; renderTableBody(); };
+}
+
+let tableSort = 'touches';
+function renderTableBody() {
+  let list = DATA.people.slice();
+  if (tableSort === 'touches') list.sort((a,b) => b.event_count - a.event_count || a.name.localeCompare(b.name));
+  else if (tableSort === 'name') list.sort((a,b) => a.name.localeCompare(b.name));
+  else if (tableSort === 'sector') list.sort((a,b) => a.sector.localeCompare(b.sector) || b.event_count - a.event_count);
+  
+  el('table-body').innerHTML = list.map((p, i) => {
+    const bg = p.mar_apr_touched ? 'background: #FFF9EB;' : (i % 2 === 0 ? 'background: var(--white);' : 'background: var(--cream);');
+    const tierColor = { 'Active Advocate': 'var(--green)', 'Willing Supporter': 'var(--orange)', 'Engaged (Dinner)': 'var(--text-muted)', 'Declined / Inactive': 'var(--red)' }[p.tier];
+    return `<tr data-id="${p.id}" style="${bg} cursor: pointer; border-bottom: 1px solid var(--border);" class="table-row">
+      <td style="padding: 10px 14px; font-weight: 600;">${escapeHTML(p.name)}</td>
+      <td style="padding: 10px 14px; font-size: 13px;">${escapeHTML(p.sector)}</td>
+      <td style="padding: 10px 14px; font-size: 13px; color: var(--text-muted);">${escapeHTML(p.occupation || '—')}</td>
+      <td style="padding: 10px 14px; text-align: center;"><span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: ${tierColor}; font-weight: 700;">${escapeHTML(p.tier)}</span></td>
+      <td style="padding: 10px 14px; text-align: center; font-family: 'Bebas Neue'; font-size: 18px; color: var(--navy);">${p.event_count}</td>
+      <td style="padding: 10px 14px; text-align: center; font-size: 12px;">${escapeHTML(p.first_touch || '—')}</td>
+      <td style="padding: 10px 14px; text-align: center; font-size: 12px;">${escapeHTML(p.latest_touch || '—')}</td>
+      <td style="padding: 10px 14px; text-align: center;">${p.mar_apr_touched ? '<span style="color: var(--gold); font-weight: 700;">●</span>' : '<span style="color: var(--cream-dark);">○</span>'}</td>
+    </tr>`;
+  }).join('');
+  document.querySelectorAll('.table-row').forEach(r => r.onclick = () => openPersonModal(r.dataset.id));
+}
+
+// ============== TIMELINE TAB ==============
+function renderMonthly() {
+  const max = Math.max(...DATA.monthly.map(m => m.events));
+  const bars = el('monthly-bars');
+  bars.innerHTML = DATA.monthly.map(m => {
+    const pct = (m.events / max) * 100;
+    return `
+      <div class="monthly-bar">
+        <div class="bar-stack">
+          <div class="bar-events ${m.is_focus ? 'focus' : ''}" style="height: ${pct}%;">
+            <div class="bar-value">${m.events}</div>
+          </div>
+        </div>
+        <div class="bar-label">${escapeHTML(m.month)}<small>${m.unique} people</small></div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderMarAprList() {
+  const focusEvents = [];
+  DATA.people.forEach(p => {
+    p.events.forEach(e => {
+      if (e.date && (e.date.startsWith('2026-03') || e.date.startsWith('2026-04'))) {
+        focusEvents.push({ ...e, name: p.name, occupation: p.occupation, tier: p.tier, person_id: p.id });
+      }
+    });
+  });
+  focusEvents.sort((a,b) => a.date.localeCompare(b.date) || a.name.localeCompare(b.name));
+  
+  const wrap = el('marapr-list');
+  let html = '';
+  let prevMonth = null;
+  focusEvents.forEach(e => {
+    const month = e.date.startsWith('2026-03') ? 'MARCH 2026' : 'APRIL 2026';
+    if (month !== prevMonth) {
+      html += `<div style="background: var(--gold); color: var(--white); padding: 8px 14px; font-family: 'Bebas Neue'; letter-spacing: 1.5px; font-size: 16px; margin-top: ${prevMonth ? '24px' : '0'};">${month}</div>`;
+      prevMonth = month;
+    }
+    html += `
+      <div style="display: grid; grid-template-columns: 80px 1fr; gap: 16px; padding: 14px 4px; border-bottom: 1px solid var(--border); cursor: pointer;" class="marapr-row" data-id="${e.person_id}">
+        <div style="font-family: 'Bebas Neue'; color: var(--navy); font-size: 16px; letter-spacing: 1px;">${escapeHTML(e.date_display.replace(', 2026',''))}</div>
+        <div>
+          <div><strong style="color: var(--navy);">${escapeHTML(e.name)}</strong> <span style="color: var(--text-muted); font-size: 13px;">· ${escapeHTML(e.occupation || '')}</span></div>
+          <div style="font-size: 14px; margin-top: 4px;">${escapeHTML(e.text)}</div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; font-style: italic;">Source: ${escapeHTML(e.source)}</div>
+        </div>
+      </div>
+    `;
+  });
+  wrap.innerHTML = html;
+  document.querySelectorAll('.marapr-row').forEach(r => r.onclick = () => openPersonModal(r.dataset.id));
+}
+
+// ============== MODAL ==============
+function openPersonModal(personId) {
+  const p = DATA.people.find(x => x.id === personId);
+  if (!p) return;
+  
+  el('modal-name').textContent = p.name;
+  el('modal-occ').textContent = (p.occupation || 'No role recorded') + ' · ' + p.sector;
+  
+  el('modal-stats').innerHTML = `
+    <div class="modal-stat"><div class="modal-stat-label">Touchpoints</div><div class="modal-stat-value">${p.event_count}</div></div>
+    <div class="modal-stat"><div class="modal-stat-label">Tier</div><div class="modal-stat-value" style="font-size: 20px;">${escapeHTML(p.tier)}</div></div>
+    <div class="modal-stat"><div class="modal-stat-label">Mar/Apr 2026</div><div class="modal-stat-value">${p.mar_apr_touched ? 'Yes' : 'No'}</div></div>
+  `;
+  
+  const events = p.events.slice().sort((a, b) => (a.date || '9999').localeCompare(b.date || '9999'));
+  el('modal-timeline').innerHTML = events.map(e => {
+    const isFocus = e.date && (e.date.startsWith('2026-03') || e.date.startsWith('2026-04'));
+    return `
+      <div class="timeline-event ${isFocus ? 'focus' : ''}">
+        <span class="timeline-date">${escapeHTML(e.date_display)}</span>
+        <span class="timeline-source">via ${escapeHTML(e.source)}</span>
+        <div class="timeline-text">${escapeHTML(e.text)}</div>
+      </div>
+    `;
+  }).join('');
+  
+  el('modal-overlay').classList.add('active');
+}
+
+el('modal-close').onclick = () => el('modal-overlay').classList.remove('active');
+el('modal-overlay').onclick = (e) => { if (e.target.id === 'modal-overlay') el('modal-overlay').classList.remove('active'); };
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') el('modal-overlay').classList.remove('active'); });
+
+// ============== FILTERS ==============
+el('search').oninput = (e) => { state.search = e.target.value; renderPeople(); };
+el('tier-filter').onchange = (e) => { state.tier = e.target.value; renderPeople(); };
+el('marapr-filter').onchange = (e) => { state.marapr = e.target.value; renderPeople(); };
+el('sort').onchange = (e) => { state.sort = e.target.value; renderPeople(); };
+el('clear-filters').onclick = () => {
+  state = { search: '', tier: '', marapr: '', sort: 'touches' };
+  activeSector = null;
+  el('search').value = ''; el('tier-filter').value = ''; el('marapr-filter').value = ''; el('sort').value = 'touches';
+  renderSectors();
+  renderPeople();
+};
+
+// ============== TABS ==============
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    el('tab-' + btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 'people') renderTable();
+    if (btn.dataset.tab === 'timeline') { renderMonthly(); renderMarAprList(); }
+  };
+});
+
+// Init
+renderStats();
+renderSectors();
+renderPeople();
+</script>
+</body>
+</html>
