@@ -52,5 +52,35 @@
     "Type": "Digital/Print",
     "General Reach": "",
     "Key Reporters / Editors": "Georgia Butler"
+  },
+  {
+    "Outlet": "Outlet",
+    "Type": "Reporter",
+    "General Reach": "Email",
+    "Key Reporters / Editors": "Phone"
+  },
+  {
+    "Outlet": "The Free Lance-Star",
+    "Type": "Keith Epps",
+    "General Reach": "kepps@freelancestar.com",
+    "Key Reporters / Editors": "540-374-5404"
+  },
+  {
+    "Outlet": "Fredericksburg Free Press",
+    "Type": "Adele Uphaus",
+    "General Reach": "adele.uphaus@fredericksburgfreepress.com",
+    "Key Reporters / Editors": "540-684-3370"
+  },
+  {
+    "Outlet": "Virgina Free Press",
+    "Type": "Martin Davis",
+    "General Reach": "Mdavis@virginiafreepress.com",
+    "Key Reporters / Editors": ""
+  },
+  {
+    "Outlet": "Potomac Local News",
+    "Type": "Uriah Kiser",
+    "General Reach": "ukiser@potomaclocal.com",
+    "Key Reporters / Editors": ""
   }
 ]
