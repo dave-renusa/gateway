@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supporter Coalition | 1500 Gateway</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #d8e4d9;
+  --green-text: #5a8a6a;
+  --green-dark: #004d28;
+  --green-deep: #002e18;
+  --green-light: #e8f4ee;
+  --green-mid: #b8ddc8;
+  --gold: #c8963c;
+  --gold-light: #e8b84b;
+  --gold-pale: #fef6e4;
+  --white: #ffffff;
+  --off-white: #f6f9f7;
+  --text: #1a2a1e;
+  --muted: #4a6054;
+  --border: #d0e4d8;
+  --red-soft: #fde8e8;
+  --red-text: #8b2020;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); line-height: 1.6; }
+h1, h2, h3 { font-family: 'Playfair Display', serif; line-height: 1.15; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(0,46,24,0.93); backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: white; text-decoration: none; }
+.nav-logo span { color: var(--gold); }
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: rgba(255,255,255,0.65); font-size: 0.82rem; font-weight: 500; text-decoration: none; letter-spacing: 0.02em; transition: color 0.15s; }
+.back-link:hover { color: var(--gold-light); }
+.back-link::before { content: '←'; }
+
+/* PAGE HEADER */
+.page-header { background: linear-gradient(115deg, rgba(0,46,24,0.96) 0%, rgba(0,35,16,0.9) 100%); padding: 112px 32px 60px; text-align: center; }
+.page-header .eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #80d4a4; margin-bottom: 14px; }
+.page-header h1 { font-size: clamp(2rem, 5vw, 3rem); color: white; margin-bottom: 16px; }
+.page-header .lead { font-size: 1.05rem; color: rgba(255,255,255,0.7); max-width: 560px; margin: 0 auto; }
+
+/* MAIN */
+.main { max-width: 1200px; margin: 0 auto; padding: 48px 32px 80px; }
+
+/* STATS */
+.stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 40px; }
+.stat-card { background: var(--off-white); border: 1px solid var(--border); border-top: 3px solid var(--green-dark); border-radius: 8px; padding: 20px 20px 16px; }
+.stat-card.gold { border-top-color: var(--gold); }
+.stat-card.mid { border-top-color: var(--green-text); }
+.stat-card.muted { border-top-color: var(--border); }
+.stat-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 6px; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 2.6rem; color: var(--green-dark); line-height: 1; }
+.stat-card.gold .stat-num { color: var(--gold); }
+.stat-card.mid .stat-num { color: var(--green-text); }
+.stat-card.muted .stat-num { color: var(--muted); }
+.stat-sub { font-size: 0.75rem; color: var(--muted); margin-top: 6px; }
+
+/* SECTION CARD */
+.section-card { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 28px; }
+.section-head { background: var(--green-dark); padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; }
+.section-head h2 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: white; font-weight: 700; }
+.section-head .head-note { font-size: 0.72rem; color: rgba(255,255,255,0.55); letter-spacing: 0.06em; }
+
+/* SECTOR GRID */
+.sector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; padding: 20px 22px; background: var(--off-white); }
+.sector-card { background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--green-dark); border-radius: 6px; padding: 16px 18px; cursor: pointer; transition: all 0.15s; }
+.sector-card:hover { border-left-color: var(--gold); box-shadow: 0 4px 14px rgba(0,46,24,0.1); transform: translateY(-2px); }
+.sector-card.active { background: var(--green-dark); border-left-color: var(--gold); color: white; }
+.sector-card.active .sec-meta { color: rgba(255,255,255,0.55); }
+.sec-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; line-height: 1.1; }
+.sec-count { font-family: 'Playfair Display', serif; font-size: 2.2rem; line-height: 1; color: var(--green-dark); margin-top: 6px; }
+.sector-card.active .sec-count { color: var(--gold-light); }
+.sec-meta { font-size: 0.72rem; color: var(--muted); margin-top: 6px; line-height: 1.4; }
+.tier-bar { display: flex; height: 5px; margin-top: 12px; border-radius: 3px; overflow: hidden; background: var(--border); }
+.sector-card.active .tier-bar { background: rgba(255,255,255,0.15); }
+.tb-advocate { background: var(--green-dark); }
+.tb-supporter { background: var(--gold); }
+.tb-dinner { background: var(--green-text); }
+.tb-tracked { background: var(--green-mid); }
+
+/* FILTER BAR */
+.filter-bar { display: flex; gap: 10px; flex-wrap: wrap; padding: 14px 22px; background: var(--off-white); border-bottom: 1px solid var(--border); align-items: center; }
+.filter-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+.filter-bar select, .filter-bar input[type=text] {
+  font-family: 'DM Sans', sans-serif; font-size: 0.85rem; padding: 7px 11px;
+  border: 1px solid var(--border); background: var(--white); color: var(--text); border-radius: 6px;
+}
+.filter-bar input[type=text] { min-width: 200px; }
+.filter-bar button {
+  font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 600;
+  padding: 7px 16px; border: 1px solid var(--green-dark); background: var(--white); color: var(--green-dark);
+  border-radius: 6px; cursor: pointer; transition: all 0.15s;
+}
+.filter-bar button:hover { background: var(--green-dark); color: white; }
+.results-count { margin-left: auto; font-size: 0.8rem; color: var(--muted); }
+
+/* TIER LEGEND */
+.tier-legend { display: flex; gap: 20px; flex-wrap: wrap; padding: 12px 22px; background: var(--white); border-bottom: 1px solid var(--border); align-items: center; }
+.tl-item { display: flex; align-items: center; gap: 7px; font-size: 0.8rem; color: var(--muted); }
+.tl-dot { width: 10px; height: 10px; border-radius: 50%; }
+.tl-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+
+/* PERSON GRID */
+.person-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; padding: 20px 22px; }
+.person-card { background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--border); border-radius: 6px; padding: 14px 16px; cursor: pointer; transition: all 0.15s; }
+.person-card:hover { box-shadow: 0 4px 16px rgba(0,46,24,0.1); border-color: var(--green-mid); border-left-color: inherit; }
+.person-card.tier-advocate { border-left-color: var(--green-dark); }
+.person-card.tier-supporter { border-left-color: var(--gold); }
+.person-card.tier-dinner { border-left-color: var(--green-text); }
+.person-card.tier-tracked { border-left-color: var(--border); }
+.pc-name { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 4px; padding-right: 80px; }
+.pc-affil { font-size: 0.78rem; color: var(--muted); line-height: 1.35; min-height: 28px; }
+.pc-sector { font-size: 0.68rem; color: var(--green-text); text-transform: uppercase; letter-spacing: 0.07em; margin-top: 4px; }
+.pc-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); }
+.pc-pill { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.pill-advocate { background: var(--green-light); color: var(--green-dark); }
+.pill-supporter { background: var(--gold-pale); color: #8B5E20; }
+.pill-dinner { background: #edf6f1; color: var(--green-text); }
+.pill-tracked { background: var(--off-white); color: var(--muted); }
+.pc-touches { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--green-dark); line-height: 1; }
+.pc-touches small { font-size: 0.62rem; color: var(--muted); display: block; letter-spacing: 0.08em; text-transform: uppercase; font-family: 'DM Sans', sans-serif; font-weight: 700; }
+
+/* EMPTY */
+.empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,20,10,0.65); z-index: 1000; align-items: flex-start; justify-content: center; padding: 48px 20px; overflow-y: auto; }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--white); width: 100%; max-width: 680px; border-radius: 12px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,46,24,0.25); }
+.modal-head { background: var(--green-dark); padding: 24px 28px; position: relative; border-bottom: 3px solid var(--gold); }
+.modal-head h2 { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: white; line-height: 1.1; }
+.modal-head .mh-affil { font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-top: 6px; line-height: 1.4; }
+.modal-close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 30px; height: 30px; border-radius: 6px; cursor: pointer; font-size: 16px; line-height: 30px; text-align: center; transition: all 0.15s; }
+.modal-close:hover { background: rgba(200,60,60,0.7); border-color: transparent; }
+.modal-body { padding: 24px 28px; max-height: 65vh; overflow-y: auto; }
+.modal-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.ms { background: var(--off-white); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
+.ms-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--green-dark); line-height: 1; }
+.ms-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-top: 4px; }
+.modal-section-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 10px; margin-top: 18px; border-top: 1px solid var(--border); padding-top: 16px; }
+.timeline { position: relative; padding-left: 20px; }
+.timeline::before { content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: var(--border); }
+.tl-event { position: relative; padding-bottom: 16px; }
+.tl-event:last-child { padding-bottom: 0; }
+.tl-event::before { content: ''; position: absolute; left: -18px; top: 6px; width: 10px; height: 10px; background: var(--gold); border: 2px solid white; border-radius: 50%; box-shadow: 0 0 0 1px var(--border); }
+.tl-event.tl-highlight::before { background: var(--green-dark); }
+.tl-date { font-weight: 700; font-size: 0.78rem; color: var(--green-dark); letter-spacing: 0.04em; }
+.tl-text { font-size: 0.84rem; color: var(--muted); margin-top: 3px; line-height: 1.55; }
+.modal-contact-row { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.84rem; color: var(--muted); margin-bottom: 4px; }
+
+/* FOOTER */
+footer { background: var(--green-deep); padding: 32px; text-align: center; }
+footer .foot-mark { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: rgba(255,255,255,0.8); margin-bottom: 6px; }
+footer .foot-mark span { color: var(--gold); }
+footer .foot-note { font-size: 0.72rem; color: rgba(255,255,255,0.35); letter-spacing: 0.05em; }
+
+.loading { color: var(--muted); font-style: italic; padding: 32px; text-align: center; font-size: 0.85rem; }
+
+@media (max-width: 1100px) { .stats-row { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 760px) {
+  .main { padding: 32px 20px 60px; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .person-grid { grid-template-columns: 1fr; }
+  .sector-grid { grid-template-columns: 1fr 1fr; }
+  .nav-inner { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="./index.html" class="nav-logo"><span>1500 Gateway</span></a>
+    <a href="./index.html" class="back-link">Back to main page</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Fredericksburg, VA</div>
+  <h1>Supporter Coalition</h1>
+  <p class="lead">A growing coalition of businesses, labor, civic leaders, and community members standing behind 1500 Gateway.</p>
+</div>
+
+<div class="main">
+
+  <div class="stats-row" id="stats-row"><div class="loading">Loading…</div></div>
+
+  <div class="section-card">
+    <div class="section-head">
+      <h2>Coalition by Sector</h2>
+      <span class="head-note">Click a sector to filter</span>
+    </div>
+    <div class="sector-grid" id="sector-grid"><div class="loading">Loading…</div></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-head">
+      <h2 id="people-head-title">All Tracked Contacts</h2>
+      <span class="head-note" id="people-head-note">Click a card for engagement detail</span>
+    </div>
+    <div class="tier-legend">
+      <span class="tl-label">Tier:</span>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--green-dark)"></div>Active Advocate</div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--gold)"></div>Willing Supporter</div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--green-text)"></div>Dinner Guest</div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--border)"></div>Tracked Contact</div>
+    </div>
+    <div class="filter-bar">
+      <span class="filter-label">Search</span>
+      <input type="text" id="search-input" placeholder="Name or organization…">
+      <span class="filter-label">Tier</span>
+      <select id="tier-filter">
+        <option value="">All Tiers</option>
+        <option value="advocate">Active Advocate</option>
+        <option value="supporter">Willing Supporter</option>
+        <option value="dinner">Dinner Guest</option>
+        <option value="tracked">Tracked Contact</option>
+      </select>
+      <span class="filter-label">Sort</span>
+      <select id="sort-filter">
+        <option value="touches">Most touchpoints</option>
+        <option value="name">Name (A–Z)</option>
+        <option value="tier">Tier</option>
+      </select>
+      <button id="reset-btn">Reset</button>
+      <span class="results-count" id="results-count"></span>
+    </div>
+    <div class="person-grid" id="person-grid"><div class="loading">Loading…</div></div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="m-name">—</h2>
+      <div class="mh-affil" id="m-affil"></div>
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-mark"><span>1500 Gateway</span> · Fredericksburg, VA</div>
+  <div class="foot-note">Supporter Coalition Overview · RenUSA</div>
+</footer>
+
+<script>
+'use strict';
+
+const DATA_URL = './data/supporters.json';
+
+const h = s => String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+function inferTier(r) {
+  const a = (r['Assessment'] || '').toLowerCase();
+  if (a.includes('declin') || a.includes('inactive')) return 'declined';
+  if (a.includes('advocate')) return 'advocate';
+  if ([3,4,5,6,7].some(i => (r[`Contact #${i}`]||'').trim())) return 'advocate';
+  if (a.includes('support')) return 'supporter';
+  if ((r['3/23 Dinner']||'').trim()) return 'dinner';
+  return 'tracked';
+}
+
+const TIER_ORDER = { advocate:0, supporter:1, dinner:2, tracked:3, declined:4 };
+const TIER_LABELS = { advocate:'Active Advocate', supporter:'Willing Supporter', dinner:'Dinner Guest', tracked:'Tracked Contact', declined:'Declined' };
+const TIER_PILLS  = { advocate:'pill-advocate', supporter:'pill-supporter', dinner:'pill-dinner', tracked:'pill-tracked', declined:'pill-tracked' };
+
+const SECTOR_ORDER = ['Business','Economic Development','Labor','Civic / Citizens','Education','Other'];
+
+function normalizeSector(t) {
+  const l = (t || '').toLowerCase();
+  if (l.includes('business'))                                      return 'Business';
+  if (l.includes('economic') || l.includes('eda'))                return 'Economic Development';
+  if (l.includes('labor') || l.includes('union') || l.includes('trade') || l.includes('pipe') || l.includes('ibew')) return 'Labor';
+  if (l.includes('civic') || l.includes('citizen'))               return 'Civic / Citizens';
+  if (l.includes('educat') || l.includes('school'))               return 'Education';
+  if (!t || !t.trim())                                            return 'Other';
+  return t;
+}
+
+function countTouches(r) {
+  let n = 0;
+  for (let i = 1; i <= 7; i++) if ((r[`Contact #${i}`]||'').trim()) n++;
+  if ((r['2/6 Notes']||'').trim()) n++;
+  if ((r['3/23 Dinner']||'').trim()) n++;
+  if ((r['Key Issues/Notes']||'').trim()) n++;
+  return n;
+}
+
+function buildTimeline(r) {
+  const events = [];
+  const notes = (r['Key Issues/Notes']||'').trim();
+  if (notes) {
+    notes.split(/\n/).map(s=>s.trim()).filter(Boolean).forEach(p => {
+      events.push({ text: p, highlight: /mayor|council|members/i.test(p) });
+    });
+  }
+  if ((r['2/6 Notes']||'').trim()) events.push({ label:'Feb 6 Meeting', text: r['2/6 Notes'].trim() });
+  if ((r['3/23 Dinner']||'').trim()) events.push({ label:'Mar 23 Dinner', text: r['3/23 Dinner'].trim(), highlight: true });
+  for (let i = 1; i <= 7; i++) {
+    const v = (r[`Contact #${i}`]||'').trim();
+    if (v) events.push({ label:`Contact ${i}`, text: v, highlight: i >= 3 });
+  }
+  return events;
+}
+
+let allPeople = [];
+let activeSector = null;
+
+function renderStats(rows) {
+  const advocates  = rows.filter(r=>r._tier==='advocate').length;
+  const supporters = rows.filter(r=>r._tier==='supporter').length;
+  const dinner     = rows.filter(r=>r._tier==='dinner').length;
+  const tracked    = rows.filter(r=>r._tier==='tracked').length;
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat-card"><div class="stat-label">Active Advocates</div><div class="stat-num">${advocates}</div><div class="stat-sub">3+ documented touchpoints</div></div>
+    <div class="stat-card gold"><div class="stat-label">Willing Supporters</div><div class="stat-num">${supporters}</div><div class="stat-sub">Confirmed supporters</div></div>
+    <div class="stat-card mid"><div class="stat-label">Dinner Guests</div><div class="stat-num">${dinner}</div><div class="stat-sub">Attended Mar 23 dinner</div></div>
+    <div class="stat-card muted"><div class="stat-label">Tracked Contacts</div><div class="stat-num">${tracked}</div><div class="stat-sub">In system, not yet assessed</div></div>
+    <div class="stat-card"><div class="stat-label">Total in Coalition</div><div class="stat-num">${rows.length}</div><div class="stat-sub">Across all sectors</div></div>
+  `;
+}
+
+function renderSectors(rows) {
+  const byTier = {};
+  rows.forEach(r => {
+    if (!byTier[r._sector]) byTier[r._sector] = { advocate:0, supporter:0, dinner:0, tracked:0, declined:0 };
+    byTier[r._sector][r._tier] = (byTier[r._sector][r._tier]||0) + 1;
+  });
+  const sectors = SECTOR_ORDER.filter(s=>byTier[s]).concat(Object.keys(byTier).filter(s=>!SECTOR_ORDER.includes(s)));
+  let html = '';
+  sectors.forEach(sec => {
+    const c = byTier[sec];
+    const tot = Object.values(c).reduce((a,b)=>a+b,0);
+    const pct = t => tot ? Math.round((c[t]||0)/tot*100) : 0;
+    const meta = [c.advocate?`${c.advocate} advocate${c.advocate>1?'s':''}`:null, c.supporter?`${c.supporter} supporter${c.supporter>1?'s':''}`:null, c.dinner?`${c.dinner} dinner`:null].filter(Boolean).join(' · ');
+    const isActive = activeSector === sec;
+    html += `<div class="sector-card${isActive?' active':''}" onclick="toggleSector('${h(sec)}')">
+      <div class="sec-name">${h(sec)}</div>
+      <div class="sec-count">${tot}</div>
+      <div class="sec-meta">${meta || 'Tracked contacts'}</div>
+      <div class="tier-bar">
+        <div class="tb-advocate" style="width:${pct('advocate')}%"></div>
+        <div class="tb-supporter" style="width:${pct('supporter')}%"></div>
+        <div class="tb-dinner" style="width:${pct('dinner')}%"></div>
+        <div class="tb-tracked" style="width:${pct('tracked')+pct('declined')}%"></div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('sector-grid').innerHTML = html;
+}
+
+function renderPeople(rows) {
+  const search = document.getElementById('search-input').value.toLowerCase();
+  const tierF  = document.getElementById('tier-filter').value;
+  const sortF  = document.getElementById('sort-filter').value;
+
+  let filtered = rows.filter(r => {
+    if (activeSector && r._sector !== activeSector) return false;
+    if (tierF && r._tier !== tierF) return false;
+    if (search) {
+      const q = `${r.First} ${r.Last} ${r.Organization} ${r['Organization 2']}`.toLowerCase();
+      if (!q.includes(search)) return false;
+    }
+    return true;
+  });
+
+  if (sortF === 'name') filtered.sort((a,b)=>(a.Last||'').localeCompare(b.Last||''));
+  else if (sortF === 'tier') filtered.sort((a,b)=>(TIER_ORDER[a._tier]||99)-(TIER_ORDER[b._tier]||99));
+  else filtered.sort((a,b)=>b._touches-a._touches);
+
+  window._filtered = filtered;
+  document.getElementById('results-count').textContent = `${filtered.length} contact${filtered.length!==1?'s':''}`;
+
+  if (!filtered.length) {
+    document.getElementById('person-grid').innerHTML = `<div class="empty-state">No contacts match this filter.</div>`;
+    return;
+  }
+
+  document.getElementById('person-grid').innerHTML = filtered.map((r, i) => {
+    const name  = [r.First, r.Last].filter(Boolean).join(' ');
+    const affil = [r.Title, r.Organization].filter(Boolean).join(', ');
+    const affil2= [r['Title 2'], r['Organization 2']].filter(Boolean).join(', ');
+    const fullAffil = [affil, affil2].filter(Boolean).join(' · ');
+    return `<div class="person-card tier-${h(r._tier)}" onclick="openModal(${i})">
+      <div class="pc-name">${h(name)}</div>
+      <div class="pc-affil">${h(fullAffil) || '<em style="color:var(--muted)">No affiliation listed</em>'}</div>
+      <div class="pc-sector">${h(r._sector)}</div>
+      <div class="pc-meta">
+        <span class="pc-pill ${TIER_PILLS[r._tier]||'pill-tracked'}">${TIER_LABELS[r._tier]||'—'}</span>
+        <div class="pc-touches">${r._touches}<small>touchpoints</small></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const title = activeSector || 'All Tracked Contacts';
+  document.getElementById('people-head-title').textContent = title;
+  document.getElementById('people-head-note').textContent = activeSector ? `${filtered.length} contact${filtered.length!==1?'s':''}` : 'Click a card for engagement detail';
+}
+
+function openModal(idx) {
+  const r = (window._filtered || allPeople)[idx];
+  if (!r) return;
+  const name   = [r.First, r.Last].filter(Boolean).join(' ');
+  const affil  = [r.Title, r.Organization].filter(Boolean).join(', ');
+  const affil2 = [r['Title 2'], r['Organization 2']].filter(Boolean).join(', ');
+  document.getElementById('m-name').textContent = name || '—';
+  document.getElementById('m-affil').textContent = [affil, affil2].filter(Boolean).join(' · ');
+
+  const pillHtml = `<span class="pc-pill ${TIER_PILLS[r._tier]||'pill-tracked'}">${TIER_LABELS[r._tier]||'—'}</span>`;
+  const phone = r['Mobile #'] || r['Office #'] || '';
+  const email = r['Primary Email'] || '';
+  const ref   = r['Referral'] || '';
+  const contactHtml = [
+    phone ? `📞 ${h(phone)}` : '',
+    email ? `✉ <a href="mailto:${h(email)}" style="color:var(--green-dark)">${h(email)}</a>` : '',
+  ].filter(Boolean).join('<span style="color:var(--border)"> · </span>');
+
+  const events = buildTimeline(r);
+  const timelineHtml = events.length
+    ? events.map(e=>`<div class="tl-event${e.highlight?' tl-highlight':''}">
+        ${e.label ? `<div class="tl-date">${h(e.label)}</div>` : ''}
+        <div class="tl-text">${h(e.text)}</div>
+      </div>`).join('')
+    : '<div style="color:var(--muted);font-style:italic;font-size:0.82rem">No engagement events recorded yet.</div>';
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-stats">
+      <div class="ms"><div class="ms-num">${r._touches}</div><div class="ms-label">Touchpoints</div></div>
+      <div class="ms">${pillHtml}<div class="ms-label" style="margin-top:8px">Tier</div></div>
+      <div class="ms"><div class="ms-num" style="font-size:1rem;padding-top:8px">${h(r._sector)}</div><div class="ms-label">Sector</div></div>
+    </div>
+    ${contactHtml ? `<div class="modal-contact-row">${contactHtml}</div>` : ''}
+    ${ref ? `<div style="font-size:0.8rem;color:var(--muted);margin-bottom:14px">Referred by: <strong>${h(ref)}</strong></div>` : ''}
+    <div class="modal-section-label">Engagement Timeline</div>
+    <div class="timeline">${timelineHtml}</div>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function toggleSector(sec) {
+  activeSector = activeSector === sec ? null : sec;
+  renderSectors(allPeople);
+  renderPeople(allPeople);
+}
+
+async function init() {
+  const data = await fetch(DATA_URL).then(r => r.json());
+  allPeople = data.filter(r => r.First || r.Last).map(r => ({
+    ...r,
+    _tier:    inferTier(r),
+    _sector:  normalizeSector(r.Type || ''),
+    _touches: countTouches(r),
+  }));
+  renderStats(allPeople);
+  renderSectors(allPeople);
+  renderPeople(allPeople);
+}
+
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+['search-input','tier-filter','sort-filter'].forEach(id =>
+  document.getElementById(id).addEventListener('input', () => renderPeople(allPeople))
+);
+document.getElementById('reset-btn').addEventListener('click', () => {
+  document.getElementById('search-input').value = '';
+  document.getElementById('tier-filter').value = '';
+  document.getElementById('sort-filter').value = 'touches';
+  activeSector = null;
+  renderSectors(allPeople);
+  renderPeople(allPeople);
+});
+
+init();
+</script>
+</body>
+</html>
