@@ -69,6 +69,8 @@
   .stat.red-top { border-top-color:var(--red); }
   .stat.green-top { border-top-color:var(--green); }
   .stat.amber-top { border-top-color:var(--amber); }
+  .stat.navy-top { border-top-color:var(--navy-light); }
+  .stat.navy-top .stat-num { color:var(--navy-light); }
   .stat-num { font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--navy);line-height:1;letter-spacing:0.02em; }
   .stat.gold-top .stat-num { color:var(--gold); }
   .stat.red-top .stat-num { color:var(--red); }
@@ -275,7 +277,12 @@
   <!-- SUPPORTERS -->
   <div id="tab-supporters" class="tab-section">
     <div id="supporters-stats" class="stats-row"><div class="loading">Loading…</div></div>
-    <div id="supporters-cards" class="sk-grid"><div class="loading">Loading…</div></div>
+    <div class="card" id="supporters-sector-card"><div class="loading">Loading…</div></div>
+    <div class="card" id="supporters-advocates-card"><div class="loading">Loading…</div></div>
+    <div style="text-align:center;margin:28px 0 8px;">
+      <a href="./supporters.html" style="display:inline-block;background:var(--navy);color:var(--white);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.1em;padding:14px 36px;text-decoration:none;border-bottom:3px solid var(--gold);transition:background 0.15s;" onmouseover="this.style.background='var(--navy-light)'" onmouseout="this.style.background='var(--navy)'">View Full Coalition Detail →</a>
+      <div style="font-size:0.72rem;color:var(--text-light);margin-top:8px;letter-spacing:0.04em;">Sector grid · Filterable contact cards · Engagement timelines</div>
+    </div>
   </div>
 
   <!-- OPPOSITION -->
@@ -547,77 +554,80 @@ function renderPlanningTab(planning) {
     </div>`;
 }
 
-function renderSupportersTab(supporters, supportiveOrgs) {
-  const rows    = supporters || [];
-  const allSupp = rows.filter(r => (r['Assessment']||'').toLowerCase().includes('support'));
-  const total   = allSupp.length;
+function inferSupporterTier(r) {
+  const a = (r['Assessment'] || '').toLowerCase();
+  if (a.includes('declin') || a.includes('inactive')) return 'declined';
+  if (a.includes('advocate')) return 'advocate';
+  if ([3,4,5,6,7].some(i => (r[`Contact #${i}`]||'').trim())) return 'advocate';
+  if (a.includes('support')) return 'supporter';
+  if ((r['3/23 Dinner']||'').trim()) return 'dinner';
+  return 'tracked';
+}
 
-  // Count by sector
-  const byCnt = {};
+function renderSupportersTab(supporters) {
+  const rows = (supporters || []).filter(r => r['First'] || r['Last']);
+
   rows.forEach(r => {
-    const sec = normalizeType(r['Type'] || '');
-    byCnt[sec] = (byCnt[sec] || 0) + 1;
-  });
-  const topSectors = SECTOR_ORDER.filter(s => byCnt[s]);
-
-  const statItems = [
-    `<div class="stat green-top"><div class="stat-label">Total Supporters</div><div class="stat-num">${total}</div></div>`,
-    ...topSectors.slice(0,3).map(s =>
-      `<div class="stat gold-top"><div class="stat-label">${h(s)}</div><div class="stat-num">${byCnt[s]||0}</div></div>`)
-  ].join('');
-  document.getElementById('supporters-stats').innerHTML = statItems;
-
-  // Group by sector
-  const grouped = {};
-  rows.forEach(r => {
-    const sec = normalizeType(r['Type'] || '');
-    if (!grouped[sec]) grouped[sec] = [];
-    grouped[sec].push(r);
+    r._tier   = inferSupporterTier(r);
+    r._sector = normalizeType(r['Type'] || '');
   });
 
-  let html = '';
-  const sectorsPresent = SECTOR_ORDER.filter(s => grouped[s]);
-  const otherSectors   = Object.keys(grouped).filter(s => !SECTOR_ORDER.includes(s));
-  [...sectorsPresent, ...otherSectors].forEach(sec => {
-    const items = grouped[sec];
-    html += `<div class="sk-sector-head">
-      <div class="label">${h(sec)}</div><div class="bar"></div>
-      <div class="count">${items.length} contact${items.length !== 1 ? 's' : ''}</div>
+  const advocates  = rows.filter(r => r._tier === 'advocate').length;
+  const supporters_ = rows.filter(r => r._tier === 'supporter').length;
+  const dinner     = rows.filter(r => r._tier === 'dinner').length;
+  const total      = rows.length;
+
+  document.getElementById('supporters-stats').innerHTML = `
+    <div class="stat green-top"><div class="stat-label">Active Advocates</div><div class="stat-num">${advocates}</div><div class="stat-sub">3+ documented touchpoints</div></div>
+    <div class="stat gold-top"><div class="stat-label">Willing Supporters</div><div class="stat-num">${supporters_}</div><div class="stat-sub">Confirmed supporters</div></div>
+    <div class="stat navy-top"><div class="stat-label">Dinner Guests</div><div class="stat-num">${dinner}</div><div class="stat-sub">Attended Mar 23 dinner</div></div>
+    <div class="stat"><div class="stat-label">Total in Coalition</div><div class="stat-num">${total}</div><div class="stat-sub">Across all sectors</div></div>
+  `;
+
+  // Sector summary
+  const byTier = {};
+  rows.forEach(r => {
+    const s = r._sector;
+    if (!byTier[s]) byTier[s] = { advocate:0, supporter:0, dinner:0, tracked:0 };
+    byTier[s][r._tier] = (byTier[s][r._tier]||0) + 1;
+  });
+  const sectors = SECTOR_ORDER.filter(s => byTier[s]).concat(Object.keys(byTier).filter(s => !SECTOR_ORDER.includes(s)));
+  let sectorHtml = '<div class="card-head"><h3>Coalition by Sector</h3></div><div class="card-body"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">';
+  sectors.forEach(sec => {
+    const c = byTier[sec];
+    const tot = Object.values(c).reduce((a,b)=>a+b,0);
+    const pct = t => tot ? Math.round((c[t]||0)/tot*100) : 0;
+    const meta = [c.advocate?`${c.advocate} advocate${c.advocate>1?'s':''}`:null, c.supporter?`${c.supporter} supporter${c.supporter>1?'s':''}`:null, c.dinner?`${c.dinner} dinner`:null].filter(Boolean).join(' · ');
+    sectorHtml += `<div style="background:var(--cream);border:1px solid var(--cream-dark);border-left:3px solid var(--navy);padding:14px 16px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.08em;color:var(--navy)">${h(sec)}</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--navy);line-height:1;margin:4px 0">${tot}</div>
+      <div style="font-size:0.72rem;color:var(--text-light);margin-bottom:10px">${meta||'Tracked contacts'}</div>
+      <div style="display:flex;height:5px;border-radius:3px;overflow:hidden;background:var(--cream-dark)">
+        <div style="width:${pct('advocate')}%;background:var(--green)"></div>
+        <div style="width:${pct('supporter')}%;background:var(--gold)"></div>
+        <div style="width:${pct('dinner')}%;background:var(--navy-light)"></div>
+      </div>
     </div>`;
-    items.forEach(r => {
-      const firstName = r['First'] || '';
-      const lastName  = r['Last']  || '';
-      const name      = [firstName, lastName].filter(Boolean).join(' ');
-      const title     = r['Title'] || '';
-      const org       = r['Organization'] || '';
-      const org2      = r['Organization 2'] || '';
-      const title2    = r['Title 2'] || '';
-      const phone     = r['Mobile #'] || '';
-      const email     = r['Primary Email'] || '';
-      const assessment= r['Assessment'] || '';
-      const notes     = [r['Key Issues/Notes'], r['3/23 Dinner']].filter(Boolean).join(' ');
-
-      let pillCls = 'p-green', pillLabel = 'Supporter', cardCls = 'sk-card has-contact';
-      const al = assessment.toLowerCase();
-      if (al.includes('concern') || al.includes('monitor')) { pillCls='p-red'; pillLabel='Concerned'; cardCls='sk-card opp-card'; }
-      else if (al.includes('declin')) { pillCls='p-amber'; pillLabel='Declined'; cardCls='sk-card no-contact'; }
-      else if (!al.includes('support')) { pillCls='p-grey'; pillLabel='Unassessed'; cardCls='sk-card no-contact'; }
-      else if (!phone && !email) { cardCls = 'sk-card no-contact'; }
-
-      const affil = [title, org, title2 ? title2 + (org2 ? ' · ' + org2 : '') : org2].filter(Boolean).join(' · ');
-
-      html += `<div class="${cardCls}">
-        <div class="sk-name">${h(name)}</div>
-        <div class="sk-sentiment">${pill(pillLabel, pillCls)}</div>
-        ${affil ? `<div class="sk-contact">${h(affil)}</div>` : ''}
-        ${phone  ? `<div class="sk-contact">📞 ${h(phone)}</div>` : ''}
-        ${email  ? `<div class="sk-contact">✉️ ${h(email)}</div>` : ''}
-        ${notes  ? `<div class="sk-notes">${h(notes)}</div>` : ''}
-      </div>`;
-    });
   });
+  sectorHtml += '</div></div>';
+  document.getElementById('supporters-sector-card').innerHTML = sectorHtml;
 
-  document.getElementById('supporters-cards').innerHTML = html;
+  // Top advocates
+  const topAdvocates = rows.filter(r => r._tier === 'advocate' || r._tier === 'supporter').slice(0, 6);
+  let advHtml = '<div class="card-head"><h3>Key Supporters &amp; Advocates</h3><span class="chip-green">Most Engaged</span></div><div class="sk-grid" style="padding:16px;">';
+  topAdvocates.forEach(r => {
+    const name  = [r.First, r.Last].filter(Boolean).join(' ');
+    const affil = [r.Title, r.Organization].filter(Boolean).join(', ');
+    const pillCls = r._tier === 'advocate' ? 'p-green' : 'p-gold';
+    const pillLbl = r._tier === 'advocate' ? 'Active Advocate' : 'Supporter';
+    advHtml += `<div class="sk-card has-contact">
+      <div class="sk-name">${h(name)}</div>
+      <div class="sk-sentiment">${pill(pillLbl, pillCls)}</div>
+      ${affil ? `<div class="sk-contact">${h(affil)}</div>` : ''}
+    </div>`;
+  });
+  advHtml += '</div>';
+  document.getElementById('supporters-advocates-card').innerHTML = advHtml;
 }
 
 function renderOppositionTab(opposition) {
@@ -796,7 +806,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   renderPlanningSnapshot(d.planning);
   renderCouncilTab(d.city_council);
   renderPlanningTab(d.planning);
-  renderSupportersTab(d.supporters, d.supportive_orgs);
+  renderSupportersTab(d.supporters);
   renderOppositionTab(d.opposition);
   renderOppGroupsTab(d.opposition_groups);
   renderEducationTab(d.education);
