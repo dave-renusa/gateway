@@ -19,6 +19,8 @@ TABS = {
     "opposition_groups":"Opposition Groups",
     "education":        "Education Contacts",
     "media":            "Media",
+    "union_rally":      "Union Rally",
+    "advocates":        "Advocates",
 }
 
 
