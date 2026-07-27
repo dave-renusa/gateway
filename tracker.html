@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>1500 Gateway | 30-Day Campaign Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --navy: #0A2240;
+    --navy-mid: #14345c;
+    --gold: #C8963C;
+    --red: #B03030;
+    --cream: #F5F3EE;
+    --ink: #1f2733;
+    --line: #d9d3c7;
+    --green: #2e7d52;
+    --shadow: 0 1px 3px rgba(10,34,64,.12), 0 6px 20px rgba(10,34,64,.06);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Source Sans 3", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.5;
+  }
+  h1, h2, h3, .bebas, .stat-num {
+    font-family: "Bebas Neue", Impact, sans-serif;
+    font-weight: 400;
+    letter-spacing: .02em;
+  }
+
+  /* Header */
+  .topstripe { height: 6px; background: var(--red); }
+  header.masthead { background: var(--navy); color: #fff; padding: 22px 24px 18px; }
+  .masthead-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  header.masthead h1 { font-size: 3.1rem; line-height: .95; margin: 0; color: #fff; }
+  header.masthead .sub { font-size: 1rem; color: #cdd6e4; margin-top: 4px; text-transform: uppercase; letter-spacing: .08em; }
+  header.masthead a.backlink { color: var(--gold); font-size: .8rem; text-decoration: none; letter-spacing: .04em; }
+  header.masthead a.backlink:hover { text-decoration: underline; }
+  .goldbar { height: 5px; background: var(--gold); }
+
+  main { max-width: 1200px; margin: 0 auto; padding: 22px 24px 60px; }
+
+  /* Overview: countdown + three phases */
+  .overview { display: grid; grid-template-columns: 260px 1fr; gap: 18px; margin-bottom: 22px; }
+  @media (max-width: 860px) { .overview { grid-template-columns: 1fr; } }
+
+  .countdown {
+    background: var(--navy); color: #fff; border-radius: 10px; padding: 20px;
+    box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: center; text-align: center;
+  }
+  .countdown .label { text-transform: uppercase; letter-spacing: .1em; font-size: .78rem; color: var(--gold); }
+  .countdown .days { font-family: "Bebas Neue", sans-serif; font-size: 5.2rem; line-height: .9; color: #fff; margin: 6px 0 2px; }
+  .countdown .days small { font-size: 1.1rem; color: #cdd6e4; letter-spacing: .04em; }
+  .countdown .when { font-size: .95rem; color: #e7ecf4; margin-top: 6px; }
+  .countdown .when strong { color: var(--gold); }
+
+  .phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 620px) { .phases { grid-template-columns: 1fr; } }
+  .phase-card { background: #fff; border-radius: 10px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; }
+  .phase-card .head { background: var(--navy); color: #fff; padding: 10px 14px; display: flex; align-items: baseline; justify-content: space-between; }
+  .phase-card .head .pname { font-family: "Bebas Neue", sans-serif; font-size: 1.5rem; }
+  .phase-card .head .prange { font-size: .74rem; color: #b9c4d6; letter-spacing: .03em; }
+  .phase-card .body { padding: 12px 14px 14px; }
+  .phase-card .pcount { font-size: .82rem; color: #55606f; margin-bottom: 8px; }
+  .phase-card .pcount b { color: var(--navy); }
+  .bar { height: 10px; border-radius: 6px; background: #e7e2d7; overflow: hidden; }
+  .bar > span { display: block; height: 100%; background: var(--green); transition: width .4s ease; }
+  .phase-card .pct { font-family: "Bebas Neue", sans-serif; font-size: 1.6rem; color: var(--navy); margin-top: 6px; }
+
+  /* Stat row */
+  .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 22px; }
+  @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  .stat { background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 12px 14px; border-left: 5px solid var(--navy); }
+  .stat.done { border-left-color: var(--green); }
+  .stat.prog { border-left-color: var(--gold); }
+  .stat.block { border-left-color: var(--red); }
+  .stat.over { border-left-color: var(--red); }
+  .stat-num { font-size: 2.6rem; color: var(--navy); line-height: 1; }
+  .stat.done .stat-num { color: var(--green); }
+  .stat.block .stat-num, .stat.over .stat-num { color: var(--red); }
+  .stat .stat-label { font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; color: #6b7480; }
+
+  /* Controls */
+  .controls { background: var(--navy-mid); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; box-shadow: var(--shadow); }
+  .controls .tabs { display: flex; gap: 4px; background: rgba(255,255,255,.08); border-radius: 8px; padding: 3px; }
+  .controls .tab { border: none; background: transparent; color: #cdd6e4; font-family: inherit; font-size: .86rem; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+  .controls .tab.active { background: var(--gold); color: var(--navy); }
+  .controls select, .controls input[type="search"] { font-family: inherit; font-size: .86rem; padding: 7px 10px; border-radius: 7px; border: 1px solid #33517a; background: #fff; color: var(--ink); }
+  .controls input[type="search"] { min-width: 190px; }
+  .controls label.chk { color: #dfe6f0; font-size: .84rem; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+  .controls .spacer { flex: 1 1 auto; }
+  .btn-edit { font-family: inherit; font-weight: 700; font-size: .84rem; padding: 7px 14px; border-radius: 7px; border: 1px solid var(--gold); background: transparent; color: var(--gold); cursor: pointer; }
+  .btn-edit.on { background: var(--gold); color: var(--navy); }
+
+  /* Table */
+  .table-wrap { background: #fff; border-radius: 10px; box-shadow: var(--shadow); overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  thead th { background: var(--cream); color: var(--navy); text-align: left; padding: 10px 12px; font-family: "Bebas Neue", sans-serif; font-size: 1.02rem; letter-spacing: .04em; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 2; }
+  tbody td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tbody tr.phase-divider td { background: var(--navy); color: #fff; font-family: "Bebas Neue", sans-serif; font-size: 1.15rem; letter-spacing: .04em; padding: 8px 12px; }
+  tbody tr:hover:not(.phase-divider) { background: #fbfaf6; }
+  tr.done { opacity: .58; }
+  tr.overdue { box-shadow: inset 4px 0 0 var(--red); }
+  td.c-id { color: #9aa3af; font-variant-numeric: tabular-nums; width: 34px; }
+  td.c-task { min-width: 260px; }
+  td.c-task .ws { display: inline-block; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--navy); background: #eef1f6; border-radius: 4px; padding: 1px 6px; margin-bottom: 4px; }
+  td.c-owner { white-space: nowrap; font-weight: 600; }
+  td.c-support { color: #626b78; font-size: .84rem; min-width: 130px; }
+  td.c-deadline { white-space: nowrap; font-size: .84rem; }
+  td.c-deadline.late { color: var(--red); font-weight: 700; }
+  .hard { color: var(--red); font-weight: 700; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; display: block; }
+
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: .78rem; font-weight: 700; white-space: nowrap; }
+  .pill.s-not { background: #eceef1; color: #5a6472; }
+  .pill.s-prog { background: #f6ecd2; color: #8a6a12; }
+  .pill.s-block { background: #f6dede; color: var(--red); }
+  .pill.s-done { background: #d9efe2; color: var(--green); }
+  select.status-sel { font-family: inherit; font-size: .82rem; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); }
+
+  td.c-notes { color: #4a5361; font-size: .84rem; min-width: 200px; }
+  .notes-edit { width: 100%; min-height: 44px; font-family: inherit; font-size: .84rem; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; resize: vertical; color: var(--ink); }
+  .saved-flash { font-size: .72rem; font-weight: 700; margin-left: 6px; }
+
+  .banner { background: #fff6da; border: 1px solid var(--gold); color: #6b520f; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; font-size: .9rem; }
+  .banner.err { background: #fbe9e9; border-color: var(--red); color: #7a1f1f; }
+
+  /* Footer */
+  .amstripe { height: 8px; background: repeating-linear-gradient(90deg, var(--red) 0 40px, #fff 40px 80px, var(--navy) 80px 120px); margin-top: 40px; }
+  footer { background: var(--navy); color: #b9c4d6; text-align: center; padding: 16px; font-size: .82rem; }
+  footer strong { color: #fff; }
+  .muted { color: #8b93a0; }
+</style>
+</head>
+<body>
+  <div class="topstripe"></div>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div>
+        <h1>1500 Gateway</h1>
+        <div class="sub">30-Day Campaign Tracker &nbsp;&bull;&nbsp; Fredericksburg City Council Hearing</div>
+      </div>
+      <a class="backlink" href="./index.html">&larr; Stakeholder dashboard</a>
+    </div>
+  </header>
+  <div class="goldbar"></div>
+
+  <main>
+    <div id="banner"></div>
+
+    <section class="overview">
+      <div class="countdown">
+        <div class="label">Countdown to Hearing</div>
+        <div class="days" id="cd-days">--<small>days</small></div>
+        <div class="when">Tue <strong>Aug 25, 2026</strong><br />7:30 PM &bull; Hanover St entrance<br /><span class="muted">Pre-rally 5:30 PM</span></div>
+      </div>
+      <div class="phases" id="phases"></div>
+    </section>
+
+    <section class="stats" id="stats"></section>
+
+    <section class="controls">
+      <div class="tabs" id="phase-tabs">
+        <button class="tab active" data-phase="all">All Phases</button>
+        <button class="tab" data-phase="1">1 Launch</button>
+        <button class="tab" data-phase="2">2 Amplify</button>
+        <button class="tab" data-phase="3">3 Close</button>
+      </div>
+      <select id="owner-filter"><option value="all">All owners</option></select>
+      <select id="status-filter">
+        <option value="all">All statuses</option>
+        <option value="Not Started">Not Started</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Blocked">Blocked</option>
+        <option value="Done">Done</option>
+      </select>
+      <input type="search" id="search" placeholder="Search tasks, names, notes" />
+      <label class="chk"><input type="checkbox" id="overdue-only" /> Overdue only</label>
+      <label class="chk"><input type="checkbox" id="blocked-only" /> Blocked only</label>
+      <span class="spacer"></span>
+      <button class="btn-edit" id="edit-toggle">Enable editing</button>
+    </section>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Task</th>
+            <th>Owner</th>
+            <th>Support</th>
+            <th>Deadline</th>
+            <th>Status</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="rows"><tr><td colspan="7" style="padding:24px;text-align:center;color:#8b93a0;">Loading tasks...</td></tr></tbody>
+      </table>
+    </div>
+  </main>
+
+  <div class="amstripe"></div>
+  <footer>
+    <strong>1500 Gateway Coalition</strong> &bull; Internal campaign tracker &bull; Status and notes update live for the whole team
+    <div class="muted" id="last-sync" style="margin-top:4px;"></div>
+  </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ============================================================
+   CONFIG  --  the only lines you may need to touch
+   ============================================================ */
+const SUPABASE_URL = "https://gnmmpspivkztgcjpfvvd.supabase.co";
+// Paste the "newrentest" project's anon / publishable key between the quotes.
+// Supabase dashboard: Project Settings > API > Project API keys > anon public
+const SUPABASE_ANON_KEY = "PASTE_ANON_KEY_HERE";
+
+// Word someone types to unlock editing. Viewing is always open; this just
+// keeps a random visitor from flipping statuses. Change it to whatever you like.
+const EDIT_WORD = "hanover";
+
+// The immovable anchor: Council hearing (Eastern time).
+const HEARING = new Date("2026-08-25T19:30:00-04:00");
+/* ============================================================ */
+
+const PHASES = [
+  { key: "1", name: "Launch",  range: "Jul 27 - Aug 1" },
+  { key: "2", name: "Amplify", range: "Aug 3 - Aug 14" },
+  { key: "3", name: "Close",   range: "Aug 17 - Aug 25" },
+];
+const STATUS_ORDER = ["Not Started", "In Progress", "Blocked", "Done"];
+
+let TASKS = [];
+let editing = false;
+const state = { phase: "all", owner: "all", status: "all", search: "", overdueOnly: false, blockedOnly: false };
+
+const $ = (sel) => document.querySelector(sel);
+const banner = $("#banner");
+
+function showBanner(msg, isErr) {
+  banner.innerHTML = '<div class="banner' + (isErr ? " err" : "") + '">' + msg + "</div>";
+}
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+function phaseKey(phaseStr) { return String(phaseStr).trim().charAt(0); }
+function statusClass(s) {
+  return s === "Done" ? "s-done" : s === "In Progress" ? "s-prog" : s === "Blocked" ? "s-block" : "s-not";
+}
+function isOverdue(t) {
+  if (!t.due_date || t.status === "Done") return false;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  return new Date(t.due_date + "T00:00:00") < today;
+}
+function esc(str) {
+  return String(str == null ? "" : str).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+async function load() {
+  const { data, error } = await sb.from("gateway_tasks").select("*").order("id");
+  if (error) {
+    showBanner("Could not load tasks: " + esc(error.message) + ". Check the anon key and that supabase_setup.sql has been run.", true);
+    return;
+  }
+  banner.innerHTML = "";
+  TASKS = data || [];
+  buildOwnerFilter();
+  renderAll();
+  const now = new Date();
+  $("#last-sync").textContent = "Last synced " + now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
+
+function buildOwnerFilter() {
+  const sel = $("#owner-filter");
+  const current = sel.value;
+  const owners = Array.from(new Set(TASKS.map((t) => t.owner))).sort();
+  sel.innerHTML = '<option value="all">All owners</option>' + owners.map((o) => '<option value="' + esc(o) + '">' + esc(o) + "</option>").join("");
+  if (owners.includes(current)) sel.value = current;
+}
+
+function renderAll() {
+  renderCountdown();
+  renderPhases();
+  renderStats();
+  renderTable();
+}
+
+function renderCountdown() {
+  const now = new Date();
+  const ms = HEARING - now;
+  const days = Math.max(0, Math.ceil(ms / 86400000));
+  $("#cd-days").innerHTML = days + "<small>days</small>";
+}
+
+function renderPhases() {
+  const wrap = $("#phases");
+  wrap.innerHTML = PHASES.map((p) => {
+    const list = TASKS.filter((t) => phaseKey(t.phase) === p.key);
+    const done = list.filter((t) => t.status === "Done").length;
+    const pct = list.length ? Math.round((done / list.length) * 100) : 0;
+    return (
+      '<div class="phase-card"><div class="head"><span class="pname">' + p.name + '</span>' +
+      '<span class="prange">' + p.range + "</span></div><div class=\"body\">" +
+      '<div class="pcount"><b>' + done + "</b> of <b>" + list.length + "</b> tasks done</div>" +
+      '<div class="bar"><span style="width:' + pct + '%"></span></div>' +
+      '<div class="pct">' + pct + "%</div></div></div>"
+    );
+  }).join("");
+}
+
+function renderStats() {
+  const total = TASKS.length;
+  const done = TASKS.filter((t) => t.status === "Done").length;
+  const prog = TASKS.filter((t) => t.status === "In Progress").length;
+  const block = TASKS.filter((t) => t.status === "Blocked").length;
+  const over = TASKS.filter(isOverdue).length;
+  const cards = [
+    { cls: "", num: total, label: "Total Tasks" },
+    { cls: "done", num: done, label: "Done" },
+    { cls: "prog", num: prog, label: "In Progress" },
+    { cls: "block", num: block, label: "Blocked" },
+    { cls: "over", num: over, label: "Overdue" },
+  ];
+  $("#stats").innerHTML = cards.map((c) =>
+    '<div class="stat ' + c.cls + '"><div class="stat-num">' + c.num + '</div><div class="stat-label">' + c.label + "</div></div>"
+  ).join("");
+}
+
+function passesFilters(t) {
+  if (state.phase !== "all" && phaseKey(t.phase) !== state.phase) return false;
+  if (state.owner !== "all" && t.owner !== state.owner) return false;
+  if (state.status !== "all" && t.status !== state.status) return false;
+  if (state.overdueOnly && !isOverdue(t)) return false;
+  if (state.blockedOnly && t.status !== "Blocked") return false;
+  if (state.search) {
+    const hay = (t.task + " " + t.owner + " " + (t.support || "") + " " + (t.notes || "") + " " + t.workstream).toLowerCase();
+    if (!hay.includes(state.search.toLowerCase())) return false;
+  }
+  return true;
+}
+
+function renderTable() {
+  const rows = $("#rows");
+  const visible = TASKS.filter(passesFilters);
+  if (!visible.length) {
+    rows.innerHTML = '<tr><td colspan="7" style="padding:24px;text-align:center;color:#8b93a0;">No tasks match these filters.</td></tr>';
+    return;
+  }
+  let html = "";
+  let lastPhase = null;
+  visible.forEach((t) => {
+    const pk = phaseKey(t.phase);
+    if (pk !== lastPhase) {
+      const p = PHASES.find((x) => x.key === pk);
+      html += '<tr class="phase-divider"><td colspan="7">Phase ' + pk + " &bull; " + (p ? p.name : "") + " &bull; " + esc(t.phase.replace(/^\d+\s*-\s*/, "")) + "</td></tr>";
+      lastPhase = pk;
+    }
+    const over = isOverdue(t);
+    const hard = /HARD DEADLINE/i.test(t.notes || "");
+    html +=
+      '<tr class="' + (t.status === "Done" ? "done " : "") + (over ? "overdue" : "") + '" data-id="' + t.id + '">' +
+      '<td class="c-id">' + t.id + "</td>" +
+      '<td class="c-task"><span class="ws">' + esc(t.workstream) + "</span><br />" + esc(t.task) + "</td>" +
+      '<td class="c-owner">' + esc(t.owner) + "</td>" +
+      '<td class="c-support">' + esc(t.support || "") + "</td>" +
+      '<td class="c-deadline ' + (over ? "late" : "") + '">' + esc(t.deadline) + (hard ? '<span class="hard">Hard deadline</span>' : "") + "</td>" +
+      "<td>" + statusCell(t) + "</td>" +
+      '<td class="c-notes">' + notesCell(t) + "</td>" +
+      "</tr>";
+  });
+  rows.innerHTML = html;
+  if (editing) wireEditors();
+}
+
+function statusCell(t) {
+  if (editing) {
+    return '<select class="status-sel" data-id="' + t.id + '">' +
+      STATUS_ORDER.map((s) => "<option" + (s === t.status ? " selected" : "") + ">" + s + "</option>").join("") +
+      "</select>";
+  }
+  return '<span class="pill ' + statusClass(t.status) + '">' + esc(t.status) + "</span>";
+}
+
+function notesCell(t) {
+  if (editing) {
+    return '<textarea class="notes-edit" data-id="' + t.id + '">' + esc(t.notes || "") + "</textarea>";
+  }
+  return esc(t.notes || "");
+}
+
+function wireEditors() {
+  document.querySelectorAll("select.status-sel").forEach((sel) => {
+    sel.addEventListener("change", async (e) => {
+      await saveField(Number(e.target.dataset.id), { status: e.target.value }, e.target);
+    });
+  });
+  document.querySelectorAll("textarea.notes-edit").forEach((ta) => {
+    ta.addEventListener("blur", async (e) => {
+      const id = Number(e.target.dataset.id);
+      const t = TASKS.find((x) => x.id === id);
+      if (t && (t.notes || "") !== e.target.value) {
+        await saveField(id, { notes: e.target.value }, e.target);
+      }
+    });
+  });
+}
+
+async function saveField(id, patch, el) {
+  const { error } = await sb.from("gateway_tasks").update(patch).eq("id", id);
+  if (error) { flash(el, "save failed", true); return; }
+  const t = TASKS.find((x) => x.id === id);
+  if (t) Object.assign(t, patch);
+  flash(el, "saved", false);
+  renderPhases(); renderStats();
+}
+
+function flash(el, msg, isErr) {
+  const s = document.createElement("span");
+  s.className = "saved-flash";
+  s.style.color = isErr ? "var(--red)" : "var(--green)";
+  s.textContent = msg;
+  if (el && el.parentNode) {
+    el.parentNode.appendChild(s);
+    setTimeout(() => s.remove(), 1600);
+  }
+}
+
+/* Controls wiring */
+$("#phase-tabs").addEventListener("click", (e) => {
+  const btn = e.target.closest(".tab");
+  if (!btn) return;
+  document.querySelectorAll("#phase-tabs .tab").forEach((b) => b.classList.remove("active"));
+  btn.classList.add("active");
+  state.phase = btn.dataset.phase;
+  renderTable();
+});
+$("#owner-filter").addEventListener("change", (e) => { state.owner = e.target.value; renderTable(); });
+$("#status-filter").addEventListener("change", (e) => { state.status = e.target.value; renderTable(); });
+$("#search").addEventListener("input", (e) => { state.search = e.target.value; renderTable(); });
+$("#overdue-only").addEventListener("change", (e) => { state.overdueOnly = e.target.checked; renderTable(); });
+$("#blocked-only").addEventListener("change", (e) => { state.blockedOnly = e.target.checked; renderTable(); });
+
+$("#edit-toggle").addEventListener("click", () => {
+  if (!editing) {
+    const word = prompt("Enter the edit word to turn on editing:");
+    if (word === null) return;
+    if (word.trim().toLowerCase() !== EDIT_WORD.toLowerCase()) { alert("That word does not match. Editing stays off."); return; }
+    editing = true;
+    $("#edit-toggle").textContent = "Editing on";
+    $("#edit-toggle").classList.add("on");
+  } else {
+    editing = false;
+    $("#edit-toggle").textContent = "Enable editing";
+    $("#edit-toggle").classList.remove("on");
+  }
+  renderTable();
+});
+
+/* Live-ish refresh: re-pull every 30s and when the tab regains focus, so
+   teammates see each other's updates without a manual reload. Skips while
+   someone is mid-edit so it does not yank a field away. */
+function safeRefresh() {
+  if (editing && document.querySelector(".notes-edit:focus")) return;
+  load();
+}
+setInterval(renderCountdown, 60000);
+setInterval(safeRefresh, 30000);
+window.addEventListener("focus", safeRefresh);
+
+renderCountdown();
+if (SUPABASE_ANON_KEY === "PASTE_ANON_KEY_HERE") {
+  showBanner("Setup step: paste the newrentest anon key into the SUPABASE_ANON_KEY line near the top of the &lt;script&gt; block, then reload. The tracker cannot load data until then.", true);
+} else {
+  load();
+}
+</script>
+</body>
+</html>
