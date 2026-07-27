@@ -29,6 +29,8 @@ create table if not exists public.gateway_tasks (
 -- 2. Freeze the fixed campaign structure -------------------------------------
 -- A public update can only touch status and notes. Everything else is forced
 -- back to its original value, so nobody can rewrite tasks, owners, or dates.
+-- Editable from the page: status, notes, owner, support, deadline, due_date.
+-- Frozen (structure of the plan): id, phase, workstream, task.
 create or replace function public.gateway_tasks_guard()
 returns trigger language plpgsql as $func$
 begin
@@ -36,10 +38,6 @@ begin
   new.phase      := old.phase;
   new.workstream := old.workstream;
   new.task       := old.task;
-  new.owner      := old.owner;
-  new.support    := old.support;
-  new.deadline   := old.deadline;
-  new.due_date   := old.due_date;
   new.updated_at := now();
   return new;
 end $func$;

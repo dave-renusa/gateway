@@ -29,9 +29,21 @@ Reload the page and the 35 tasks appear.
 
 ## Editing
 
-Viewing is open to anyone with the link. To change a status or note, click
-**Enable editing** and type the edit word. It is `hanover` by default; change
-the `EDIT_WORD` line in `tracker.html` to whatever you want.
+Viewing is open to anyone with the link. Click **Enable editing** and type the
+edit word (`hanover` by default; change the `EDIT_WORD` line in `tracker.html`).
+You can then edit, right on the page:
+
+- **Status** (dropdown)
+- **Owner** and **Support** (dropdowns of the team, plus "Other..." to type anyone)
+- **Deadline** (date picker; updates the countdown automatically)
+- **Notes** (free text)
+
+The task text and phase stay locked. The Owner/Support roster is the `TEAM` line
+near the top of the `<script>`; add names there.
+
+Note: enabling Owner/Support/Deadline editing required loosening the database
+guard. If those edits do not stick, re-run `supabase_setup.sql` (safe, keeps
+existing status/notes) so the updated guard is in place.
 
 ## What it shows
 

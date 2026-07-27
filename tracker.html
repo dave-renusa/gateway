@@ -139,16 +139,16 @@
   tbody tr:hover:not(.phase-divider) { background: #f6f8fb; }
   tr.done { opacity: .6; }
   tr.overdue { box-shadow: inset 4px 0 0 var(--red); }
-  td.c-id { color: var(--muted-soft); font-variant-numeric: tabular-nums; width: 34px; }
-  td.c-task { min-width: 260px; }
+  td.c-id { color: var(--muted-soft); font-variant-numeric: tabular-nums; width: 32px; }
+  td.c-task { width: 44%; min-width: 240px; }
   td.c-task .ws { display: inline-block; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--navy); background: #eaeff5; border-radius: 4px; padding: 1px 6px; margin-bottom: 4px; }
-  td.c-owner { white-space: nowrap; font-weight: 700; color: var(--ink); }
-  td.c-support { color: var(--muted); font-size: .84rem; min-width: 130px; }
-  td.c-deadline { white-space: nowrap; font-size: .84rem; }
+  td.c-owner { width: 88px; font-weight: 700; color: var(--ink); }
+  td.c-support { color: var(--muted); font-size: .84rem; width: 140px; }
+  td.c-deadline { width: 92px; font-size: .84rem; }
   td.c-deadline.late { color: var(--red); font-weight: 700; }
   .hard { color: var(--red); font-weight: 700; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; display: block; }
 
-  td.c-cd { white-space: nowrap; }
+  td.c-cd { width: 72px; white-space: nowrap; }
   .cd-cell { font-variant-numeric: tabular-nums; font-weight: 700; font-size: .84rem; white-space: nowrap; }
   .cd-far { color: var(--muted); }
   .cd-soon { color: var(--pill-prog-ink); }
@@ -161,9 +161,9 @@
   .pill.s-prog { background: var(--pill-prog-bg); color: var(--pill-prog-ink); }
   .pill.s-block { background: var(--pill-block-bg); color: var(--pill-block-ink); }
   .pill.s-done { background: var(--pill-done-bg); color: var(--pill-done-ink); }
-  select.status-sel { font-family: inherit; font-size: .82rem; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+  select.status-sel, select.owner-sel, select.support-sel, input.deadline-inp { font-family: inherit; font-size: .82rem; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--ink); max-width: 100%; }
 
-  td.c-notes { color: var(--muted); font-size: .84rem; min-width: 200px; }
+  td.c-notes { color: var(--muted); font-size: .84rem; width: 18%; min-width: 170px; }
   .notes-edit { width: 100%; min-height: 44px; font-family: inherit; font-size: .84rem; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; resize: vertical; color: var(--ink); }
   .saved-flash { font-size: .72rem; font-weight: 700; margin-left: 6px; }
 
@@ -273,6 +273,10 @@ const PHASES = [
   { key: "3", name: "Close",   range: "Aug 17 - Aug 25" },
 ];
 const STATUS_ORDER = ["Not Started", "In Progress", "Blocked", "Done"];
+// Roster for the Owner / Support dropdowns. Add or remove names here and both
+// dropdowns update. "Other..." is always available to type anyone not listed.
+const TEAM = ["Ben", "Chad", "Dave", "Jeremy", "John"];
+const SUPPORT_EXTRA = ["All"];  // extra quick-picks that appear only on Support
 
 let TASKS = [];
 let editing = false;
@@ -432,15 +436,14 @@ function renderTable() {
       lastPhase = pk;
     }
     const over = isOverdue(t);
-    const hard = /HARD DEADLINE/i.test(t.notes || "");
     const cd = timeLeft(t);
     html +=
       '<tr class="' + (t.status === "Done" ? "done " : "") + (over ? "overdue" : "") + '" data-id="' + t.id + '">' +
       '<td class="c-id">' + t.id + "</td>" +
       '<td class="c-task"><span class="ws">' + esc(t.workstream) + "</span><br />" + esc(t.task) + "</td>" +
-      '<td class="c-owner">' + esc(t.owner) + "</td>" +
-      '<td class="c-support">' + esc(t.support || "") + "</td>" +
-      '<td class="c-deadline ' + (over ? "late" : "") + '">' + esc(t.deadline) + (hard ? '<span class="hard">Hard deadline</span>' : "") + "</td>" +
+      '<td class="c-owner">' + ownerCell(t) + "</td>" +
+      '<td class="c-support">' + supportCell(t) + "</td>" +
+      deadlineTd(t) +
       '<td class="c-cd"><span class="cd-cell ' + cd.cls + '" data-id="' + t.id + '">' + cd.text + "</span></td>" +
       "<td>" + statusCell(t) + "</td>" +
       '<td class="c-notes">' + notesCell(t) + "</td>" +
@@ -466,6 +469,38 @@ function notesCell(t) {
   return esc(t.notes || "");
 }
 
+// Owner / Support dropdowns. The current value is always shown as a selected
+// option even if it is a custom string not in the roster, and "Other..." lets
+// you type anyone (or a multi-name Support string).
+function personSelect(cls, t, roster, current) {
+  const opts = roster.slice();
+  if (current && !opts.includes(current)) opts.unshift(current);
+  return '<select class="' + cls + '" data-id="' + t.id + '">' +
+    opts.map((o) => "<option" + (o === current ? " selected" : "") + ">" + esc(o) + "</option>").join("") +
+    '<option value="__other__">Other...</option></select>';
+}
+function ownerCell(t) {
+  return editing ? personSelect("owner-sel", t, TEAM, t.owner || "") : esc(t.owner);
+}
+function supportCell(t) {
+  return editing ? personSelect("support-sel", t, TEAM.concat(SUPPORT_EXTRA), t.support || "") : esc(t.support || "");
+}
+function deadlineTd(t) {
+  if (editing) {
+    return '<td class="c-deadline"><input type="date" class="deadline-inp" data-id="' + t.id + '" value="' + (t.due_date || "") + '"></td>';
+  }
+  const over = isOverdue(t);
+  const hard = /HARD DEADLINE/i.test(t.notes || "");
+  return '<td class="c-deadline ' + (over ? "late" : "") + '">' + esc(t.deadline) + (hard ? '<span class="hard">Hard deadline</span>' : "") + "</td>";
+}
+// Turn a yyyy-mm-dd date into the short label style used in the tracker,
+// e.g. "Mon 8/3". Parsed at noon so it lands on the right local day.
+function formatDeadline(iso) {
+  const d = new Date(iso + "T12:00:00");
+  const dow = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][d.getDay()];
+  return dow + " " + (d.getMonth() + 1) + "/" + d.getDate();
+}
+
 function wireEditors() {
   document.querySelectorAll("select.status-sel").forEach((sel) => {
     sel.addEventListener("change", async (e) => {
@@ -481,6 +516,34 @@ function wireEditors() {
       }
     });
   });
+  document.querySelectorAll("select.owner-sel").forEach((sel) => {
+    sel.addEventListener("change", (e) => personChange(e, "owner", "Owner name:"));
+  });
+  document.querySelectorAll("select.support-sel").forEach((sel) => {
+    sel.addEventListener("change", (e) => personChange(e, "support", "Support (names, comma separated):"));
+  });
+  document.querySelectorAll("input.deadline-inp").forEach((inp) => {
+    inp.addEventListener("change", async (e) => {
+      const id = Number(e.target.dataset.id);
+      const iso = e.target.value;
+      const patch = iso ? { due_date: iso, deadline: formatDeadline(iso) } : { due_date: null, deadline: "No date" };
+      await saveField(id, patch, e.target);
+      renderTable();
+    });
+  });
+}
+
+async function personChange(e, field, promptLabel) {
+  const id = Number(e.target.dataset.id);
+  const t = TASKS.find((x) => x.id === id);
+  let v = e.target.value;
+  if (v === "__other__") {
+    v = prompt(promptLabel, t ? t[field] || "" : "");
+    if (v === null) { renderTable(); return; }
+    v = v.trim();
+  }
+  await saveField(id, { [field]: v }, e.target);
+  renderTable();
 }
 
 async function saveField(id, patch, el) {
