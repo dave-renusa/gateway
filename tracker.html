@@ -130,6 +130,16 @@
   .btn-edit { font-family: inherit; font-weight: 700; font-size: .84rem; padding: 7px 14px; border-radius: 7px; border: 1px solid var(--gold-bright); background: transparent; color: var(--gold-bright); cursor: pointer; }
   .btn-edit.on { background: var(--gold-bright); color: var(--navy); }
 
+  /* Add-task panel */
+  .add-panel { background: var(--card); border-radius: 10px; box-shadow: var(--shadow); border-left: 5px solid var(--gold-bright); padding: 14px; margin-bottom: 16px; }
+  .add-title { font-family: "Bebas Neue", sans-serif; font-size: 1.2rem; color: var(--navy); letter-spacing: .04em; margin-bottom: 8px; }
+  .add-grid { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .add-grid select, .add-grid input { font-family: inherit; font-size: .86rem; padding: 7px 10px; border-radius: 7px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+  .add-grid input.wide { flex: 1 1 260px; }
+  .btn-solid { font-family: inherit; font-weight: 700; font-size: .84rem; padding: 8px 16px; border-radius: 7px; border: none; background: var(--green); color: #fff; cursor: pointer; }
+  .btn-ghost { font-family: inherit; font-weight: 600; font-size: .84rem; padding: 8px 14px; border-radius: 7px; border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; }
+  .del-btn { border: none; background: transparent; color: var(--red); font-size: 1rem; font-weight: 700; cursor: pointer; line-height: 1; padding: 0 2px; }
+
   /* Table */
   .table-wrap { background: var(--card); border-radius: 10px; box-shadow: var(--shadow); overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: .92rem; }
@@ -222,7 +232,27 @@
       <label class="chk"><input type="checkbox" id="overdue-only" /> Overdue only</label>
       <label class="chk"><input type="checkbox" id="blocked-only" /> Blocked only</label>
       <span class="spacer"></span>
+      <button class="btn-edit" id="add-toggle" style="display:none;">+ Add task</button>
       <button class="btn-edit" id="edit-toggle">Enable editing</button>
+    </section>
+
+    <section class="add-panel" id="add-panel" style="display:none;">
+      <div class="add-title">New task</div>
+      <div class="add-grid">
+        <select id="add-phase">
+          <option value="1">Phase 1 - Launch</option>
+          <option value="2">Phase 2 - Amplify</option>
+          <option value="3">Phase 3 - Close</option>
+        </select>
+        <input id="add-workstream" placeholder="Workstream (e.g. Media)" />
+        <input id="add-task" class="wide" placeholder="Task description (required)" />
+        <select id="add-owner"></select>
+        <input id="add-support" placeholder="Support (optional)" />
+        <input id="add-deadline" type="date" title="Deadline (optional)" />
+        <input id="add-notes" class="wide" placeholder="Notes (optional)" />
+        <button class="btn-solid" id="add-submit">Add task</button>
+        <button class="btn-ghost" id="add-cancel" type="button">Cancel</button>
+      </div>
     </section>
 
     <div class="table-wrap">
@@ -272,6 +302,13 @@ const PHASES = [
   { key: "2", name: "Amplify", range: "Aug 3 - Aug 14" },
   { key: "3", name: "Close",   range: "Aug 17 - Aug 25" },
 ];
+// Canonical phase strings stored on new tasks so they group correctly.
+const PHASE_FULL = {
+  "1": "1 - Launch (7/27-8/1)",
+  "2": "2 - Amplify (8/3-8/14)",
+  "3": "3 - Close (8/17-8/25)",
+};
+const SEED_MAX_ID = 35;  // tasks with id above this were added later and can be deleted
 const STATUS_ORDER = ["Not Started", "In Progress", "Blocked", "Done"];
 // Roster for the Owner / Support dropdowns. Add or remove names here and both
 // dropdowns update. "Other..." is always available to type anyone not listed.
@@ -439,7 +476,7 @@ function renderTable() {
     const cd = timeLeft(t);
     html +=
       '<tr class="' + (t.status === "Done" ? "done " : "") + (over ? "overdue" : "") + '" data-id="' + t.id + '">' +
-      '<td class="c-id">' + t.id + "</td>" +
+      '<td class="c-id">' + t.id + (editing && t.id > SEED_MAX_ID ? ' <button class="del-btn" data-id="' + t.id + '" title="Delete this task">&times;</button>' : "") + "</td>" +
       '<td class="c-task"><span class="ws">' + esc(t.workstream) + "</span><br />" + esc(t.task) + "</td>" +
       '<td class="c-owner">' + ownerCell(t) + "</td>" +
       '<td class="c-support">' + supportCell(t) + "</td>" +
@@ -531,6 +568,17 @@ function wireEditors() {
       renderTable();
     });
   });
+  document.querySelectorAll("button.del-btn").forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      const id = Number(e.target.dataset.id);
+      const t = TASKS.find((x) => x.id === id);
+      if (!confirm("Delete this task?\n\n" + (t ? t.task : ""))) return;
+      const { error } = await sb.from("gateway_tasks").delete().eq("id", id);
+      if (error) { alert("Could not delete: " + error.message); return; }
+      TASKS = TASKS.filter((x) => x.id !== id);
+      renderAll();
+    });
+  });
 }
 
 async function personChange(e, field, promptLabel) {
@@ -589,12 +637,57 @@ $("#edit-toggle").addEventListener("click", () => {
     editing = true;
     $("#edit-toggle").textContent = "Editing on";
     $("#edit-toggle").classList.add("on");
+    $("#add-toggle").style.display = "";
   } else {
     editing = false;
     $("#edit-toggle").textContent = "Enable editing";
     $("#edit-toggle").classList.remove("on");
+    $("#add-toggle").style.display = "none";
+    $("#add-panel").style.display = "none";
   }
   renderTable();
+});
+
+/* Add-task panel */
+$("#add-toggle").addEventListener("click", () => {
+  const panel = $("#add-panel");
+  const open = panel.style.display !== "none";
+  if (open) { panel.style.display = "none"; return; }
+  const sel = $("#add-owner");
+  sel.innerHTML = TEAM.map((o) => "<option>" + esc(o) + "</option>").join("") + '<option value="__other__">Other...</option>';
+  panel.style.display = "";
+  $("#add-task").focus();
+});
+$("#add-cancel").addEventListener("click", () => { $("#add-panel").style.display = "none"; });
+$("#add-submit").addEventListener("click", async () => {
+  const task = $("#add-task").value.trim();
+  if (!task) { alert("Give the task a description."); $("#add-task").focus(); return; }
+  let owner = $("#add-owner").value;
+  if (owner === "__other__") {
+    owner = prompt("Owner name:", "");
+    if (owner === null) return;
+    owner = owner.trim();
+  }
+  const iso = $("#add-deadline").value;
+  const row = {
+    phase: PHASE_FULL[$("#add-phase").value],
+    workstream: $("#add-workstream").value.trim() || "General",
+    task: task,
+    owner: owner || "Unassigned",
+    support: $("#add-support").value.trim() || null,
+    deadline: iso ? formatDeadline(iso) : "No date",
+    due_date: iso || null,
+    status: "Not Started",
+    notes: $("#add-notes").value.trim() || null,
+  };
+  const btn = $("#add-submit");
+  btn.disabled = true; btn.textContent = "Adding...";
+  const { error } = await sb.from("gateway_tasks").insert(row);
+  btn.disabled = false; btn.textContent = "Add task";
+  if (error) { alert("Could not add task: " + error.message + "\n\nIf this mentions id or permission, re-run supabase_setup.sql."); return; }
+  ["add-workstream", "add-task", "add-support", "add-deadline", "add-notes"].forEach((id) => { $("#" + id).value = ""; });
+  $("#add-panel").style.display = "none";
+  await load();
 });
 
 /* Live-ish refresh: re-pull every 30s and when the tab regains focus, so

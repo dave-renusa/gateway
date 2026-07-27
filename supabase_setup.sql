@@ -58,6 +58,21 @@ drop policy if exists gateway_update on public.gateway_tasks;
 create policy gateway_update on public.gateway_tasks
   for update using (true) with check (true);
 
+-- Allow adding new tasks from the page.
+drop policy if exists gateway_insert on public.gateway_tasks;
+create policy gateway_insert on public.gateway_tasks
+  for insert with check (true);
+
+-- Allow deleting ONLY tasks added later (id > 35). The original seeded 35
+-- can never be deleted from the page.
+drop policy if exists gateway_delete on public.gateway_tasks;
+create policy gateway_delete on public.gateway_tasks
+  for delete using (id > 35);
+
+-- Auto-assign ids to newly added tasks, continuing after the seeded 35.
+create sequence if not exists public.gateway_tasks_id_seq owned by public.gateway_tasks.id;
+alter table public.gateway_tasks alter column id set default nextval('public.gateway_tasks_id_seq');
+
 -- 4. Seed data ---------------------------------------------------------------
 insert into public.gateway_tasks
   (id, phase, workstream, task, owner, support, deadline, due_date, notes)
@@ -98,3 +113,7 @@ values
   (34, '3 - Close (8/17-8/25)',  'Event',    $g$Day-of execution: Jeremy on ground commanding event; Chad floor-managing speakers; Dave on media; Ben with client and labor leads$g$, 'Jeremy', 'All', 'Tue 8/25', '2026-08-25', $g$Pre-rally 5:30, move at 7:00, hearing 7:30.$g$),
   (35, '3 - Close (8/17-8/25)',  'Command',  $g$Post-hearing debrief + client report within 48 hours$g$, 'Dave', 'All', 'Thu 8/27', '2026-08-27', null)
 on conflict (id) do nothing;
+
+-- Resume auto-ids after the highest existing id, so new tasks never collide
+-- with the seeded rows.
+select setval('public.gateway_tasks_id_seq', (select max(id) from public.gateway_tasks));
