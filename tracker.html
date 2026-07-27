@@ -9,23 +9,55 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
 <style>
+  /* ============================================================
+     COLOR CONTROL PANEL
+     This is the ONE place to change colors. Everything below
+     reads from these variables. Edit a value here and it updates
+     everywhere it is used.
+     ============================================================ */
   :root {
-    --navy: #0A2240;
-    --navy-mid: #14345c;
-    --gold: #C8963C;
-    --red: #B03030;
-    --cream: #F5F3EE;
-    --ink: #1f2733;
-    --line: #d9d3c7;
-    --green: #2e7d52;
-    --shadow: 0 1px 3px rgba(10,34,64,.12), 0 6px 20px rgba(10,34,64,.06);
+    /* Page + surfaces */
+    --page:        #eef1f5;   /* page background (cool light gray) */
+    --card:        #ffffff;   /* cards, table, controls fields */
+
+    /* Text (on light backgrounds) */
+    --ink:         #1b2733;   /* main text, high contrast */
+    --muted:       #566270;   /* secondary text */
+    --muted-soft:  #8a94a1;   /* faint text, row numbers */
+    --line:        #e2e7ee;   /* borders and dividers */
+    --track:       #e2e7ee;   /* progress-bar background */
+
+    /* Brand */
+    --navy:        #163a5e;   /* masthead, countdown, phase heads */
+    --navy-mid:    #1e527f;   /* controls bar */
+    --gold:        #b07d24;   /* accent lines, links (readable) */
+    --gold-bright: #e0a63a;   /* active tab / edit-on highlight */
+    --red:         #c0392b;   /* overdue, blocked, top stripe */
+    --green:       #1e7a4d;   /* done, progress */
+
+    /* Text on navy backgrounds */
+    --on-navy:      #eaf1f8;
+    --on-navy-soft: #b7c6d8;
+
+    /* Phase divider band (now light, not solid navy) */
+    --divider-bg:  #dde7f1;
+    --divider-ink: #163a5e;
+
+    /* Status pills */
+    --pill-not-bg:   #e9edf2;  --pill-not-ink:   #4c5865;
+    --pill-prog-bg:  #fdeecb;  --pill-prog-ink:  #8a6410;
+    --pill-block-bg: #fbe0de;  --pill-block-ink: #b02a1e;
+    --pill-done-bg:  #dcf0e5;  --pill-done-ink:  #1a6e45;
+
+    --shadow: 0 1px 3px rgba(22,58,94,.10), 0 6px 18px rgba(22,58,94,.06);
   }
+
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
     font-family: "Source Sans 3", system-ui, sans-serif;
     color: var(--ink);
-    background: var(--cream);
+    background: var(--page);
     line-height: 1.5;
   }
   h1, h2, h3, .bebas, .stat-num {
@@ -39,8 +71,8 @@
   header.masthead { background: var(--navy); color: #fff; padding: 22px 24px 18px; }
   .masthead-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   header.masthead h1 { font-size: 3.1rem; line-height: .95; margin: 0; color: #fff; }
-  header.masthead .sub { font-size: 1rem; color: #cdd6e4; margin-top: 4px; text-transform: uppercase; letter-spacing: .08em; }
-  header.masthead a.backlink { color: var(--gold); font-size: .8rem; text-decoration: none; letter-spacing: .04em; }
+  header.masthead .sub { font-size: 1rem; color: var(--on-navy-soft); margin-top: 4px; text-transform: uppercase; letter-spacing: .08em; }
+  header.masthead a.backlink { color: var(--gold-bright); font-size: .8rem; text-decoration: none; letter-spacing: .04em; }
   header.masthead a.backlink:hover { text-decoration: underline; }
   .goldbar { height: 5px; background: var(--gold); }
 
@@ -54,29 +86,29 @@
     background: var(--navy); color: #fff; border-radius: 10px; padding: 20px;
     box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: center; text-align: center;
   }
-  .countdown .label { text-transform: uppercase; letter-spacing: .1em; font-size: .78rem; color: var(--gold); }
+  .countdown .label { text-transform: uppercase; letter-spacing: .1em; font-size: .78rem; color: var(--gold-bright); }
   .countdown .days { font-family: "Bebas Neue", sans-serif; font-size: 5.2rem; line-height: .9; color: #fff; margin: 6px 0 2px; }
-  .countdown .days small { font-size: 1.1rem; color: #cdd6e4; letter-spacing: .04em; }
-  .countdown .when { font-size: .95rem; color: #e7ecf4; margin-top: 6px; }
-  .countdown .when strong { color: var(--gold); }
+  .countdown .days small { font-size: 1.1rem; color: var(--on-navy-soft); letter-spacing: .04em; }
+  .countdown .when { font-size: .95rem; color: var(--on-navy); margin-top: 6px; }
+  .countdown .when strong { color: var(--gold-bright); }
 
   .phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   @media (max-width: 620px) { .phases { grid-template-columns: 1fr; } }
-  .phase-card { background: #fff; border-radius: 10px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; }
+  .phase-card { background: var(--card); border-radius: 10px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; }
   .phase-card .head { background: var(--navy); color: #fff; padding: 10px 14px; display: flex; align-items: baseline; justify-content: space-between; }
   .phase-card .head .pname { font-family: "Bebas Neue", sans-serif; font-size: 1.5rem; }
-  .phase-card .head .prange { font-size: .74rem; color: #b9c4d6; letter-spacing: .03em; }
+  .phase-card .head .prange { font-size: .74rem; color: var(--on-navy-soft); letter-spacing: .03em; }
   .phase-card .body { padding: 12px 14px 14px; }
-  .phase-card .pcount { font-size: .82rem; color: #55606f; margin-bottom: 8px; }
-  .phase-card .pcount b { color: var(--navy); }
-  .bar { height: 10px; border-radius: 6px; background: #e7e2d7; overflow: hidden; }
+  .phase-card .pcount { font-size: .82rem; color: var(--muted); margin-bottom: 8px; }
+  .phase-card .pcount b { color: var(--ink); }
+  .bar { height: 10px; border-radius: 6px; background: var(--track); overflow: hidden; }
   .bar > span { display: block; height: 100%; background: var(--green); transition: width .4s ease; }
   .phase-card .pct { font-family: "Bebas Neue", sans-serif; font-size: 1.6rem; color: var(--navy); margin-top: 6px; }
 
   /* Stat row */
   .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 22px; }
   @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-  .stat { background: #fff; border-radius: 10px; box-shadow: var(--shadow); padding: 12px 14px; border-left: 5px solid var(--navy); }
+  .stat { background: var(--card); border-radius: 10px; box-shadow: var(--shadow); padding: 12px 14px; border-left: 5px solid var(--navy); }
   .stat.done { border-left-color: var(--green); }
   .stat.prog { border-left-color: var(--gold); }
   .stat.block { border-left-color: var(--red); }
@@ -84,57 +116,65 @@
   .stat-num { font-size: 2.6rem; color: var(--navy); line-height: 1; }
   .stat.done .stat-num { color: var(--green); }
   .stat.block .stat-num, .stat.over .stat-num { color: var(--red); }
-  .stat .stat-label { font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; color: #6b7480; }
+  .stat .stat-label { font-size: .74rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
 
   /* Controls */
   .controls { background: var(--navy-mid); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; box-shadow: var(--shadow); }
-  .controls .tabs { display: flex; gap: 4px; background: rgba(255,255,255,.08); border-radius: 8px; padding: 3px; }
-  .controls .tab { border: none; background: transparent; color: #cdd6e4; font-family: inherit; font-size: .86rem; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
-  .controls .tab.active { background: var(--gold); color: var(--navy); }
-  .controls select, .controls input[type="search"] { font-family: inherit; font-size: .86rem; padding: 7px 10px; border-radius: 7px; border: 1px solid #33517a; background: #fff; color: var(--ink); }
+  .controls .tabs { display: flex; gap: 4px; background: rgba(255,255,255,.12); border-radius: 8px; padding: 3px; }
+  .controls .tab { border: none; background: transparent; color: var(--on-navy); font-family: inherit; font-size: .86rem; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+  .controls .tab.active { background: var(--gold-bright); color: var(--navy); }
+  .controls select, .controls input[type="search"] { font-family: inherit; font-size: .86rem; padding: 7px 10px; border-radius: 7px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
   .controls input[type="search"] { min-width: 190px; }
-  .controls label.chk { color: #dfe6f0; font-size: .84rem; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+  .controls label.chk { color: var(--on-navy); font-size: .84rem; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
   .controls .spacer { flex: 1 1 auto; }
-  .btn-edit { font-family: inherit; font-weight: 700; font-size: .84rem; padding: 7px 14px; border-radius: 7px; border: 1px solid var(--gold); background: transparent; color: var(--gold); cursor: pointer; }
-  .btn-edit.on { background: var(--gold); color: var(--navy); }
+  .btn-edit { font-family: inherit; font-weight: 700; font-size: .84rem; padding: 7px 14px; border-radius: 7px; border: 1px solid var(--gold-bright); background: transparent; color: var(--gold-bright); cursor: pointer; }
+  .btn-edit.on { background: var(--gold-bright); color: var(--navy); }
 
   /* Table */
-  .table-wrap { background: #fff; border-radius: 10px; box-shadow: var(--shadow); overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
-  thead th { background: var(--cream); color: var(--navy); text-align: left; padding: 10px 12px; font-family: "Bebas Neue", sans-serif; font-size: 1.02rem; letter-spacing: .04em; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 2; }
+  .table-wrap { background: var(--card); border-radius: 10px; box-shadow: var(--shadow); overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+  thead th { background: #f2f5f9; color: var(--navy); text-align: left; padding: 10px 12px; font-family: "Bebas Neue", sans-serif; font-size: 1.02rem; letter-spacing: .04em; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 2; }
   tbody td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  tbody tr.phase-divider td { background: var(--navy); color: #fff; font-family: "Bebas Neue", sans-serif; font-size: 1.15rem; letter-spacing: .04em; padding: 8px 12px; }
-  tbody tr:hover:not(.phase-divider) { background: #fbfaf6; }
-  tr.done { opacity: .58; }
+  tbody tr.phase-divider td { background: var(--divider-bg); color: var(--divider-ink); font-family: "Bebas Neue", sans-serif; font-size: 1.15rem; letter-spacing: .04em; padding: 8px 12px; }
+  tbody tr:hover:not(.phase-divider) { background: #f6f8fb; }
+  tr.done { opacity: .6; }
   tr.overdue { box-shadow: inset 4px 0 0 var(--red); }
-  td.c-id { color: #9aa3af; font-variant-numeric: tabular-nums; width: 34px; }
+  td.c-id { color: var(--muted-soft); font-variant-numeric: tabular-nums; width: 34px; }
   td.c-task { min-width: 260px; }
-  td.c-task .ws { display: inline-block; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--navy); background: #eef1f6; border-radius: 4px; padding: 1px 6px; margin-bottom: 4px; }
-  td.c-owner { white-space: nowrap; font-weight: 600; }
-  td.c-support { color: #626b78; font-size: .84rem; min-width: 130px; }
+  td.c-task .ws { display: inline-block; font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; color: var(--navy); background: #eaeff5; border-radius: 4px; padding: 1px 6px; margin-bottom: 4px; }
+  td.c-owner { white-space: nowrap; font-weight: 700; color: var(--ink); }
+  td.c-support { color: var(--muted); font-size: .84rem; min-width: 130px; }
   td.c-deadline { white-space: nowrap; font-size: .84rem; }
   td.c-deadline.late { color: var(--red); font-weight: 700; }
   .hard { color: var(--red); font-weight: 700; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; display: block; }
 
-  .pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: .78rem; font-weight: 700; white-space: nowrap; }
-  .pill.s-not { background: #eceef1; color: #5a6472; }
-  .pill.s-prog { background: #f6ecd2; color: #8a6a12; }
-  .pill.s-block { background: #f6dede; color: var(--red); }
-  .pill.s-done { background: #d9efe2; color: var(--green); }
-  select.status-sel { font-family: inherit; font-size: .82rem; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); }
+  td.c-cd { white-space: nowrap; }
+  .cd-cell { font-variant-numeric: tabular-nums; font-weight: 700; font-size: .84rem; white-space: nowrap; }
+  .cd-far { color: var(--muted); }
+  .cd-soon { color: var(--pill-prog-ink); }
+  .cd-urgent { color: var(--red); }
+  .cd-over { color: var(--red); }
+  .cd-done, .cd-ongoing { color: var(--muted-soft); font-weight: 600; }
 
-  td.c-notes { color: #4a5361; font-size: .84rem; min-width: 200px; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: .78rem; font-weight: 700; white-space: nowrap; }
+  .pill.s-not { background: var(--pill-not-bg); color: var(--pill-not-ink); }
+  .pill.s-prog { background: var(--pill-prog-bg); color: var(--pill-prog-ink); }
+  .pill.s-block { background: var(--pill-block-bg); color: var(--pill-block-ink); }
+  .pill.s-done { background: var(--pill-done-bg); color: var(--pill-done-ink); }
+  select.status-sel { font-family: inherit; font-size: .82rem; padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+
+  td.c-notes { color: var(--muted); font-size: .84rem; min-width: 200px; }
   .notes-edit { width: 100%; min-height: 44px; font-family: inherit; font-size: .84rem; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; resize: vertical; color: var(--ink); }
   .saved-flash { font-size: .72rem; font-weight: 700; margin-left: 6px; }
 
-  .banner { background: #fff6da; border: 1px solid var(--gold); color: #6b520f; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; font-size: .9rem; }
-  .banner.err { background: #fbe9e9; border-color: var(--red); color: #7a1f1f; }
+  .banner { background: #fdf3d6; border: 1px solid var(--gold); color: #6b520f; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; font-size: .9rem; }
+  .banner.err { background: #fbe4e2; border-color: var(--red); color: #7a1f1f; }
 
   /* Footer */
   .amstripe { height: 8px; background: repeating-linear-gradient(90deg, var(--red) 0 40px, #fff 40px 80px, var(--navy) 80px 120px); margin-top: 40px; }
-  footer { background: var(--navy); color: #b9c4d6; text-align: center; padding: 16px; font-size: .82rem; }
+  footer { background: var(--navy); color: var(--on-navy-soft); text-align: center; padding: 16px; font-size: .82rem; }
   footer strong { color: #fff; }
-  .muted { color: #8b93a0; }
+  .muted { color: var(--on-navy-soft); }
 </style>
 </head>
 <body>
@@ -145,7 +185,6 @@
         <h1>1500 Gateway</h1>
         <div class="sub">30-Day Campaign Tracker &nbsp;&bull;&nbsp; Fredericksburg City Council Hearing</div>
       </div>
-      <a class="backlink" href="./index.html">&larr; Stakeholder dashboard</a>
     </div>
   </header>
   <div class="goldbar"></div>
@@ -195,11 +234,12 @@
             <th>Owner</th>
             <th>Support</th>
             <th>Deadline</th>
+            <th>Countdown</th>
             <th>Status</th>
             <th>Notes</th>
           </tr>
         </thead>
-        <tbody id="rows"><tr><td colspan="7" style="padding:24px;text-align:center;color:#8b93a0;">Loading tasks...</td></tr></tbody>
+        <tbody id="rows"><tr><td colspan="8" style="padding:24px;text-align:center;color:#8a94a1;">Loading tasks...</td></tr></tbody>
       </table>
     </div>
   </main>
@@ -216,9 +256,8 @@
    CONFIG  --  the only lines you may need to touch
    ============================================================ */
 const SUPABASE_URL = "https://gnmmpspivkztgcjpfvvd.supabase.co";
-// Paste the "newrentest" project's anon / publishable key between the quotes.
-// Supabase dashboard: Project Settings > API > Project API keys > anon public
-const SUPABASE_ANON_KEY = "PASTE_ANON_KEY_HERE";
+// newrentest anon / publishable key (safe to expose in public client code).
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdubW1wc3Bpdmt6dGdjanBmdnZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5OTAwMTYsImV4cCI6MjA5NTU2NjAxNn0.nI3Jmgjum-mZfx1Oj-5HFuEgCrExIiKREOCICI6s5Rg";
 
 // Word someone types to unlock editing. Viewing is always open; this just
 // keeps a random visitor from flipping statuses. Change it to whatever you like.
@@ -261,10 +300,42 @@ function esc(str) {
   return String(str == null ? "" : str).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 }
 
+// Per-task live countdown. A task is due at the END of its due day (local),
+// so it reads "due today" through that whole day rather than flipping overdue
+// at midnight. Returns display text plus an urgency class for coloring.
+function timeLeft(t) {
+  if (t.status === "Done") return { text: "Complete", cls: "cd-done" };
+  if (!t.due_date) return { text: "Ongoing", cls: "cd-ongoing" };
+  const due = new Date(t.due_date + "T23:59:59");
+  const ms = due - new Date();
+  if (ms < 0) {
+    const d = Math.floor(-ms / 86400000);
+    const h = Math.floor((-ms % 86400000) / 3600000);
+    return { text: (d >= 1 ? d + "d" : h + "h") + " overdue", cls: "cd-over" };
+  }
+  const d = Math.floor(ms / 86400000);
+  const h = Math.floor((ms % 86400000) / 3600000);
+  const m = Math.floor((ms % 3600000) / 60000);
+  if (d >= 2) return { text: d + "d " + h + "h", cls: "cd-far" };
+  if (d >= 1) return { text: d + "d " + h + "h", cls: "cd-soon" };
+  if (ms < 3600000) return { text: m + "m", cls: "cd-urgent" };
+  return { text: h + "h " + m + "m", cls: "cd-urgent" };
+}
+
+function tickCountdowns() {
+  document.querySelectorAll(".cd-cell").forEach((el) => {
+    const t = TASKS.find((x) => x.id === Number(el.dataset.id));
+    if (!t) return;
+    const info = timeLeft(t);
+    el.textContent = info.text;
+    el.className = "cd-cell " + info.cls;
+  });
+}
+
 async function load() {
   const { data, error } = await sb.from("gateway_tasks").select("*").order("id");
   if (error) {
-    showBanner("Could not load tasks: " + esc(error.message) + ". Check the anon key and that supabase_setup.sql has been run.", true);
+    showBanner("Could not load tasks: " + esc(error.message) + ". Check that supabase_setup.sql has been run in the newrentest project.", true);
     return;
   }
   banner.innerHTML = "";
@@ -348,7 +419,7 @@ function renderTable() {
   const rows = $("#rows");
   const visible = TASKS.filter(passesFilters);
   if (!visible.length) {
-    rows.innerHTML = '<tr><td colspan="7" style="padding:24px;text-align:center;color:#8b93a0;">No tasks match these filters.</td></tr>';
+    rows.innerHTML = '<tr><td colspan="8" style="padding:24px;text-align:center;color:#8a94a1;">No tasks match these filters.</td></tr>';
     return;
   }
   let html = "";
@@ -357,11 +428,12 @@ function renderTable() {
     const pk = phaseKey(t.phase);
     if (pk !== lastPhase) {
       const p = PHASES.find((x) => x.key === pk);
-      html += '<tr class="phase-divider"><td colspan="7">Phase ' + pk + " &bull; " + (p ? p.name : "") + " &bull; " + esc(t.phase.replace(/^\d+\s*-\s*/, "")) + "</td></tr>";
+      html += '<tr class="phase-divider"><td colspan="8">Phase ' + pk + " &bull; " + (p ? p.name : "") + " &bull; " + esc(t.phase.replace(/^\d+\s*-\s*/, "")) + "</td></tr>";
       lastPhase = pk;
     }
     const over = isOverdue(t);
     const hard = /HARD DEADLINE/i.test(t.notes || "");
+    const cd = timeLeft(t);
     html +=
       '<tr class="' + (t.status === "Done" ? "done " : "") + (over ? "overdue" : "") + '" data-id="' + t.id + '">' +
       '<td class="c-id">' + t.id + "</td>" +
@@ -369,6 +441,7 @@ function renderTable() {
       '<td class="c-owner">' + esc(t.owner) + "</td>" +
       '<td class="c-support">' + esc(t.support || "") + "</td>" +
       '<td class="c-deadline ' + (over ? "late" : "") + '">' + esc(t.deadline) + (hard ? '<span class="hard">Hard deadline</span>' : "") + "</td>" +
+      '<td class="c-cd"><span class="cd-cell ' + cd.cls + '" data-id="' + t.id + '">' + cd.text + "</span></td>" +
       "<td>" + statusCell(t) + "</td>" +
       '<td class="c-notes">' + notesCell(t) + "</td>" +
       "</tr>";
@@ -469,15 +542,12 @@ function safeRefresh() {
   load();
 }
 setInterval(renderCountdown, 60000);
+setInterval(tickCountdowns, 30000);
 setInterval(safeRefresh, 30000);
 window.addEventListener("focus", safeRefresh);
 
 renderCountdown();
-if (SUPABASE_ANON_KEY === "PASTE_ANON_KEY_HERE") {
-  showBanner("Setup step: paste the newrentest anon key into the SUPABASE_ANON_KEY line near the top of the &lt;script&gt; block, then reload. The tracker cannot load data until then.", true);
-} else {
-  load();
-}
+load();
 </script>
 </body>
 </html>
